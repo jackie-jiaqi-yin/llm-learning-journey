@@ -1,9 +1,11 @@
-# Introduction
+# Notes
 
 These are my reading notes about LLM.
+
 - [Intro to LLM Fundamentals](#intro-to-llm-fundamentals-what-are-llms-and-how-do-they-come-to-be)
 
-## Intro to LLM Fundamentals: What are LLMs and How do they come to be? 
+## Intro to LLM Fundamentals: What are LLMs and How do they come to be?
+
 - Serrano, S., Brumbaugh, Z., & Smith, N. A. (2023). Language Models: A Guide for the Perplexed. http://arxiv.org/abs/2311.17301
 
 This paper provides a comprehensive, non-technical introduction to language models (LMs), including large language models (LLMs). It offers a high-level overview of how language models, including LLMs, are trained, evaluated, and utilized. I found the sections discussing data particularly insightful, and the discussion on practical applications of LLMs thought-provoking.
@@ -16,4 +18,4 @@ The discussion on how to effectively use LLMs is also worth considering. The pap
 
 - [Training Data for the Price of a Sandwich](https://foundation.mozilla.org/en/research/library/generative-ai-training-data/common-crawl/)
 
-This article introduce Common Crawls and its usage in training LLMs. Common Crawl is a non-profit organization that crawls the web and freely provides its data to the public. This data can be used to train LLMs. 
+This article introduce Common Crawls and its usage in training LLMs. Common Crawl is a non-profit organization that crawls the web and freely provides its data to the public. This data can be used to train LLMs.
