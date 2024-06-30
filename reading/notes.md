@@ -1,10 +1,31 @@
 These are my reading notes when I read papers, articles, or books. I will summarize the key points, my personal connections, and any outside connections I can make with the material. I will also include any questions or thoughts that arise while reading.
 
 # Contents
+- [Papers](#papers)
 - [RAG](#RAG)
     - [Papers](#Papers)
     - [Online Articles](#Online-Articles)   
     - [Implementation](#Implementation)
+
+# Papers
+- Wei, Jason, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia, Ed Chi, Quoc Le, and Denny Zhou. “Chain-of-Thought Prompting Elicits Reasoning in Large Language Models.” arXiv, January 10, 2023. http://arxiv.org/abs/2201.11903.
+
+The field of large language models (LLMs) has seen significant advancements, bringing numerous benefits across various applications. Despite these gains, LLMs often struggle with tasks that demand arithmetic, commonsense, and symbolic reasoning. Earlier studies have investigated rationale-augmented training and fine-tuning methods, which rely on extensive sets of high-quality rationales. Moreover, traditional prompting methods typically underperform in scenarios requiring multi-step reasoning.
+
+Addressing this challenge is critical, as robust reasoning capabilities are essential for LLMs to effectively tackle diverse applications from various fields. If LLMs could fully master these abilities, they would be well-equipped to handle more complex reasoning tasks.
+
+In their paper, the authors highlight "chain of thought" prompting as a key innovation. This method introduces intermediate reasoning steps that culminate in a final answer, a departure from the conventional direct input-output pair format. They found that prompts structured as triples—comprising an input, a chain of thought, and an output—markedly improve performance on tasks involving arithmetic, commonsense, and symbolic reasoning.
+
+Previously, state-of-the-art solutions for generating intermediate steps in arithmetic reasoning included training from scratch (Ling et al., 2017), fine-tuning pre-trained models (Cobbe et al., 2021), and employing neuro-symbolic methods (Roy and Roth, 2015; Chiang and Chen, 2019; Amini et al., 2019). The primary alternative technique before this study was in-context few-shot learning via prompting (Brown et al., 2020), which involves providing the model with a few input-output exemplars of the task without needing fine-tuning. However, this approach generally falls short in complex reasoning tasks, with minimal performance gains even as model sizes increase.
+
+The paper presents compelling evidence that chain of thought prompting enhances reasoning capabilities in LLMs by comparing it against standard prompting across various benchmarks and scenarios. This comparative analysis consistently shows that chain of thought prompting outperforms the standard approach. An ablation study further confirmed these findings, demonstrating that alternative prompting techniques like equation-only, variable compute-only, and reasoning after answer did not match the effectiveness of chain of thought prompting. Additionally, robustness tests involving varied few-shot exemplar orders and different annotators' prompts still favored chain of thought in terms of solve rates.
+
+While the paper is comprehensive, it would have been beneficial to explore how the chain of thought performs on content absent from the training data, particularly in commonsense reasoning scenarios. For instance, if the training corpus lacks references to cats, would the model correctly infer that "a cat flies in the sky" is incorrect using chain of thought prompting, even with a large model architecture? The provided examples are relatively simple, and assessing the technique against a broader spectrum of problem difficulties could provide deeper insights into its scalability and limitations.
+
+The paper also discusses several potential limitations of chain of thought prompting. It remains uncertain whether the model truly engages in human-like reasoning or merely mimics the provided syntactic structure. Scaling up chain of thought annotations for fine-tuning is challenging, potentially limiting the approach's applicability to larger datasets or more diverse question sets. Furthermore, there is no assurance that the generated reasoning paths are accurate or logical, posing reliability concerns in critical applications. Finally, the observed improvements in solve rates are primarily noted in large-scale models, which may not be cost-effective for practical applications. Future research should investigate the efficacy of chain of thought prompting in smaller models to broaden its applicability.
+
+
+
 
 # RAG 
 ## Papers
