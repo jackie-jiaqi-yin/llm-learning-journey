@@ -43,7 +43,7 @@ other resource: Youtube video
 - [A Brief Introduction to Retrieval Augmented Generation(RAG)](https://medium.com/ai-in-plain-english/a-brief-introduction-to-retrieval-augmented-generation-rag-b7eb70982891)
 
 RAG stands for Retrieval-Augumented Generation. RAG system works two steps: 1. Retrieve: It retrieves relevant information from a large corpus of text. 2. Generate: It generates a response based on the retrieved information. Common Use-case: question answering, document summarization, content generation.
-![RAG](figs/rag.webp "How rag works")
+![RAG](../../figs/rag.webp "How rag works")
 Why do we need RAG? 1. avoid hallucination 2. timeliness 3. LLMs cannot access private data, feed more internal/user private data to get customized results. 4. Answer constraint. 
 
 ## Implementation
@@ -65,6 +65,4 @@ The discussion on how to effectively use LLMs is also worth considering. The pap
 - [Training Data for the Price of a Sandwich](https://foundation.mozilla.org/en/research/library/generative-ai-training-data/common-crawl/)
 
 This article introduce Common Crawls and its usage in training LLMs. Common Crawl is a non-profit organization that crawls the web and freely provides its data to the public. This data can be used to train LLMs.
-
-# Compressing Large Language Models
 
