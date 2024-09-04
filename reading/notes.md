@@ -66,21 +66,5 @@ The discussion on how to effectively use LLMs is also worth considering. The pap
 
 This article introduce Common Crawls and its usage in training LLMs. Common Crawl is a non-profit organization that crawls the web and freely provides its data to the public. This data can be used to train LLMs.
 
-# Intro to HCI
-- [Human-Computer Interaction (HCI)](https://www.interaction-design.org/literature/topics/human-computer-interaction)
-- Schmager, Stefan; Pappas, Ilias; and Vassilakopoulou, Polyxeni, "Defining Human-Centered AI: A Comprehensive Review of HCAI Literature" (2023). MENACIS 2023. 13.
+# Compressing Large Language Models
 
-# Evaluation Methods of LLMs
-- [EvalLM: Interactive Evaluation of Large Language Model Prompts on User-Defined Criteria](https://arxiv.org/pdf/2309.13633)
-
-**Personal Connection**: The evaluation of large language models is both a current and challenging topic in the field. Historically, I believe that human evaluation was predominantly used due to the lack of objective ground truths and the subjective nature of evaluation criteria. I found the framework and the explanation of the UX/UI design to evaluate prompts, as illustrated in the paper, particularly enlightening. The concept of human and AI collaboration within this framework is very inspiring to me.
-1. **Dual Components of Evaluation**:
-    - The evaluation is driven by two LLM-based components: the automatic evaluation assistant and the criteria review.
-        a). The automatic evaluation features user-defined criteria, allowing users to tailor their own evaluation metrics. The paper leverages two state-of-the-art methods—LLM-as-a-judge and FLASK—to empower the evaluation assistant to assess prompt outputs against these user-defined criteria.
-        b). The criteria review component seeks to ensure that evaluation criteria are comprehensive and fair. It reviews users' criteria and offers revision suggestions, enhancing the overall reliability of the evaluations.
-
-2. **UX/UI Interface Enhancements**:
-    - The interface facilitates straightforward comparisons between previous and current prompts. This comparison is augmented by a scoring system that helps fine-tune prompts based on iterative evaluations.
-
-**Outside Connection**:
-In a recent project, I utilized GPT-4 to summarize customer support tickets to identify the most common questions and support needs. Despite using various prompts, the outputs varied significantly in format and content summary. Due to the vast number of tickets, it was impractical to manually verify the accuracy of these summaries. The methodologies described in the EvalLM paper, such as the evaluation assistant and criteria review components, could potentially refine the way outputs from GPT-4 are evaluated and improve the design of evaluation criteria for better accuracy in summaries.
