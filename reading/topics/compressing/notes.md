@@ -5,6 +5,12 @@
     - [PTQ](#ptq)
     - [QAT](#qat)
   - [Pruning](#pruning)
+    - [Unstructured Pruning](#unstructured-pruning)
+    - [Structured Pruning](#structured-pruning)
+- [Knowledge Distillation](#knowledge-distillation)
+- [Reference](#reference)
+  - [Papers](#papers)
+  - [Online Articles](#online-articles)
 
 
 # Compressing Large Language Models
