@@ -9,3 +9,5 @@ Please note that these Markdown learning notes are a collection of my personal t
 - [RAG](topics/RAG/notes.md)
 - [Compressing Large Language Models](topics/compressing/notes.md)
 - [AI Agents](topics/AI-Agent/notes.md)
+- [Explainable AI](topics/XAI/notes.md)
+- [Others](topics/Others/notes.md)
