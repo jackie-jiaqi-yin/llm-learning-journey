@@ -8,3 +8,5 @@ An "agent" is an automated reasoning and decision engine. The key agent componen
 - Planning out a set of tasks
 - Storing previosuly completed tasks in a memory module. 
 ![alt text](figs/image.png)
+
+test
