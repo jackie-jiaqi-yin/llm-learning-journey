@@ -24,6 +24,9 @@ other resource: Youtube video
 - https://www.youtube.com/watch?v=dzChvuZI6D4 (explanation of the paper)
 2. Wang, Xiaohua, Zhenghua Wang, Xuan Gao, Feiran Zhang, Yixin Wu, Zhibo Xu, Tianyuan Shi, et al. “Searching for Best Practices in Retrieval-Augmented Generation.” arXiv, July 1, 2024. http://arxiv.org/abs/2407.01219.
 > it gives an overview of current practice of RAG. A good tech blog to explain the paper is [this] (https://pub.towardsai.net/the-best-practices-of-rag-300e313322e6)
+
+3. Shi, Yunxiao, Xing Zi, Zijing Shi, Haimin Zhang, Qiang Wu, and Min Xu. “Enhancing Retrieval and Managing Retrieval: A Four-Module Synergy for Improved Quality and Efficiency in RAG Systems.” arXiv, July 15, 2024. http://arxiv.org/abs/2407.10670.
+> This paper introduces 4 modules to solving serveral key challenges with RAG.  
 ## Online Articles
 ### Introduction
 - [Introduction to RAG — GenAI Systems for Knowledge](https://medium.com/curiosity-ai/introduction-to-rag-genai-systems-for-knowledge-918a34054228)
