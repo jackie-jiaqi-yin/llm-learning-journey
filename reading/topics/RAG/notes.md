@@ -11,10 +11,16 @@ RAG stands for Retrieval-Augumented Generation. RAG system works two steps: 1. R
 ![RAG](../../figs/rag.webp "How rag works")
 Why do we need RAG? 1. avoid hallucination 2. timeliness 3. LLMs cannot access private data, feed more internal/user private data to get customized results. 4. Answer constraint. 
 
-A naive RAG mainly consists of the followint steps:
+A naive RAG mainly consists of the following steps:
 1. **Indexing**: Cleaning and extracting the raw text into standardized plain text -> Chunking -> transformed into vector via embedding -> create (key, value) pairs, which is (index, vector) pairs.
 2. **Retrieval**: users query processed by an encoding model -> query embedding -> similarity search on a vector database -> top-k results are retrieved.
 3. **Generation**: user query and retrieved documents are fed into a prompt template -> generate the response.
+
+## Best practices of RAG
+In Paper [2]:
+> A typical RAG workflow usually contains multiple intervening processing steps: query classification (determining whether retrieval is necessary for a given input query), retrieval (efficiently obtaining relevant documents for the query), reranking (refining the order of retrieved documents based on their relevance to the query), repacking (organizing the retrieved documents into a structured one for better generation), summarization (extracting key information for response generation from the repacked document and eliminating redundancies) modules. Implementing RAG also requires decisions on the ways to properly split documents into chunks, the types of embeddings to use for semantically representing these chunks, the choice of vector databases to efficiently store feature representations, and the methods for effectively fine-tuning LLMs
+
+![img.png](figs/rag-workflow.png)
 
 ## Papers
 1.  Lewis, Patrick, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich Küttler, et al. “Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.” arXiv, April 12, 2021. http://arxiv.org/abs/2005.11401.
@@ -37,5 +43,6 @@ other resource: Youtube video
 ## Implementation
 - https://scriv.ai/guides/retrieval-augmented-generation-overview/
 - https://towardsdatascience.com/a-beginners-guide-to-building-a-retrieval-augmented-generation-rag-application-from-scratch-e52921953a5d
+- [Retrieval-Augmented Generation (RAG): From Theory to LangChain Implementation](https://towardsdatascience.com/retrieval-augmented-generation-rag-from-theory-to-langchain-implementation-4e9bd5f6a4f2)
 
 
