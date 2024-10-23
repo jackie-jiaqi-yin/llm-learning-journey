@@ -74,4 +74,5 @@ other resource: Youtube video
 
 **Retrieval**
 - [Power of Hypothetical Document Embeddings: An In-Depth Exploration of HyDE](https://medium.com/ai-insights-cobet/power-of-hypothetical-document-embeddings-an-in-depth-exploration-of-hyde-92601a335e5f)
+- [Exploring Query Rewriting](https://medium.com/@florian_algo/advanced-rag-06-exploring-query-rewriting-23997297f2d1). This blog uses `LlamaIndex` and `LangChain` to demostrate several techniques for query rewriting: Hypothetical Document Embeddings (HyDE), Rewrite-Retrieve-Read, Step-Back Prompting, and etc..
 
