@@ -38,7 +38,8 @@ Three prominent frameworks for building AI agents are:
 - [JARVIS](https://github.com/microsoft/JARVIS)
 - [OpenAGI](https://github.com/agiresearch/OpenAGI)
 
-## Papers
+## Papers/Books
+- [Agent AI: Surveying The Horizons of Multimodal Interaction](https://arxiv.org/pdf/2401.03568). Nice overview (book) on AI agents.
 
 ## Online Articles
 1. [Navigating the New Types of LLM Agents and Architectures](https://medium.com/towards-data-science/navigating-the-new-types-of-llm-agents-and-architectures-309382ce9f88) 
