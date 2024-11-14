@@ -1,0 +1,20 @@
+name: llm
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - openai
+      - llama-index
+      - llama-index-llms-azure-openai
+      - llama-index-embeddings-azure-openai
+      - llama-index-retrievers-bm25
+      - llama-parse
+      - numpy
+      - pandas
+      - scikit-learn
+      - python-dotenv
+      - gradio
+      - jupyter
