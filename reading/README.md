@@ -1,4 +1,4 @@
-# Learning Notes.
+# Learning Notes
 
 Welcome to my LLMs learning notes!
 
@@ -11,4 +11,5 @@ Please note that these Markdown learning notes are a collection of my personal t
 - [Compressing Large Language Models](topics/compressing/notes.md)
 - [AI Agents](topics/AI-Agent/notes.md)
 - [Explainable AI](topics/XAI/notes.md)
+- [RecSys](topics/RecSys)
 - [Others](topics/Others/notes.md)
