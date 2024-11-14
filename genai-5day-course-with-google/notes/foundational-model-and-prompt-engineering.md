@@ -6,4 +6,4 @@
 2. Complete Unit 1 – “Prompt Engineering”, which is:
    - [Optional] Listen to the [summary podcast](https://www.youtube.com/watch?v=F_hJ2Ey4BNc) episode for this unit (created by NotebookLM).
    - Read the "[Prompt Engineering](../reference/Newwhitepaper_Prompt%20Engineering_v4.pdf)" whitepaper.
-   - Complete this code lab on Kaggle where you’ll learn prompting fundamentals. Make sure you phone verify your account before starting, it's necessary for the code labs.
+   - Code proctice. See my codes [here](../codes/day-1-prompting.ipynb).
