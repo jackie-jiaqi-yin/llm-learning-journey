@@ -13,3 +13,6 @@ Please note that these Markdown learning notes are a collection of my personal t
 - [Explainable AI](topics/XAI/notes.md)
 - [RecSys](topics/RecSys)
 - [Others](topics/Others/notes.md)
+
+## 📚 Online Courses
+- [GenAI 5-Day Course with Google](../genai-5day-course-with-google/README.md)
