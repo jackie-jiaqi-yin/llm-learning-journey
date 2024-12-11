@@ -5,7 +5,7 @@ Complete Unit 2: “Embeddings and Vector Stores/Databases”, which is:
 - Read the “[Embeddings and Vector Stores/Databases](../reference/Newwhitepaper_Embeddings%20%26%20vector%20stores.pdf)” whitepaper.
 - Complete these code labs on Kaggle:
   1. [Build](../codes/day-2-documentQA-with-rag.ipynb) a RAG question-answering system over custom documents 
-  2. Explore text similarity with embeddings 
+  2. [Explore](../codes/day-2-embeddings-and-simmilarity-scores.ipynb) text similarity with embeddings 
   3. Build a neural classification network with Keras using embeddings
 
 
