@@ -12,7 +12,7 @@ An "agent" is an automated reasoning and decision engine. The key agent componen
 
 ### When to Use Agents
 Agents are highly beneficial when tasks require complex decision-making, autonomy, and adaptability. They excel in environments where the workflow is dynamic and involves multiple steps or interactions that can benefit from automation.
-### When Not to Uss Agents
+### When Not to Use Agents
 - Tasks that are straightforward, infrequent, or require minimal automation.
 - Tasks that require deep domain-specific knowledge and expertise, e.g., legal or medical advice.
 - Tasks that require a high level of human empathy, creativity, or subjective judgement, e.g., psychotherapy.
