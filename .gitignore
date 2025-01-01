@@ -162,4 +162,4 @@ cython_debug/
 .idea/
 codes/data/
 .DS_Store
-.db
+*.db
