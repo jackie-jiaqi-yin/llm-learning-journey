@@ -6,7 +6,7 @@
    - [Optional] Read [a case study](https://cloud.google.com/blog/products/ai-machine-learning/regnology-automates-ticket-to-code-with-genai-on-vertex-ai?e=48754805) which talks about how a leading technology regulatory reporting solutions provider used an agentic generative AI system to automate ticket-to-code creation in software development, achieving a 2.5x productivity boost.
    - Complete these code labs:
         1. [Talk](../codes/day-3-function-calling-with-llamaIndex.ipynb) to a database with function calling
-        2. [Build](https://www.kaggle.com/code/markishere/day-3-building-an-agent-with-langgraph/) an agentic ordering system in LangGraph
+        2. [Build](../codes/day-3-building-an-agent-with-LangGraph.ipynb) an agentic ordering system in LangGraph
 
 2. Watch the [YouTube livestream recording](https://www.youtube.com/watch?v=HQUtMWoTAD4&list=PLqFaTIg4myu-b1PlxitQdY0UYIbys-2es&index=4). Paige Bailey will be joined by expert speakers from Google - Steven Johnson, Julia Wiesinger, Alan Blount, Patrick Marlow, Wes Dyer, Anant Nawalgaria to discuss generative AI agents.
 
