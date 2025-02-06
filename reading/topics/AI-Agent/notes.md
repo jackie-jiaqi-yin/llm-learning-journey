@@ -39,6 +39,7 @@ Three prominent frameworks for building AI agents are:
 - [OpenAGI](https://github.com/agiresearch/OpenAGI)
 
 ## Papers/Books
+- My own [literature review](paper-review.md) on AI agents
 - [Agent AI: Surveying The Horizons of Multimodal Interaction](https://arxiv.org/pdf/2401.03568). Nice overview (book) on AI agents.
 
 ## Online Articles
