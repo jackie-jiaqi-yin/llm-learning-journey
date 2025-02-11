@@ -155,3 +155,10 @@ The CE handles code execution by:
 #### Resource
 - [Research Paper](https://arxiv.org/pdf/2311.17541)
 - [Source Code](https://github.com/microsoft/TaskWeaver)
+
+### TradingAgents: Multi-Agents LLM Financial Trading Framework
+
+#### Resource
+- [Resource Paper](https://arxiv.org/pdf/2412.20138)
+
+
