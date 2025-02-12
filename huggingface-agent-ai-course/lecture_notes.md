@@ -18,6 +18,7 @@
   - [AI Agent](#ai-agent)
   - [Large Language Models (LLMs)](#large-language-models-llms)
   - [Messages and Special Tokens](#messages-and-special-tokens)
+  - [Tools](#tools)
 
 ## Unit 1: Introduction to Agents
 
@@ -157,4 +158,49 @@ system_message = {
 }
 ```
 
-### Tools
+### Tools: Extending LLM Capabilities
+
+Tools are functions that enable LLMs to interact with the external world and perform specific tasks. Think of them as the "hands" that allow an AI to take actual actions.
+
+**Core Types of Tools:**
+1. **Information Gathering**
+   - Web Search: Finding real-time information
+   - Retrievers: Accessing specific documents or knowledge bases
+   - API Calls: Fetching data from external services
+
+2. **Content Generation**
+   - Image Generation: Creating visuals from text descriptions
+   - Code Execution: Running and testing code
+   - Document Processing: Working with various file formats
+
+**Anatomy of a Tool:**
+Every tool requires four key components:
+1. **Description**: Clear explanation of the tool's purpose
+2. **Callable Function**: The actual code that performs the action
+3. **Input Arguments**: Clearly typed parameters
+4. **Output Specification**: Expected return value and type
+
+Here's a practical example:
+
+```python
+@tool
+def calculator(a: int, b: int) -> int:
+    """Multiply two integers and return their product."""
+    return a * b
+
+# Tool specification that the LLM sees:
+print(calculator.to_string())
+# Output: Tool Name: calculator, Description: Multiply two integers., 
+#        Arguments: a: int, b: int, Outputs: int
+```
+The return is text suitable to be used as a tool description for an LLM
+
+
+### Understanding AI Agents through the Thought-Action-Observation Cycle
+In this section, we’ll explore the complete AI Agent Workflow, a cycle we defined as Thought-Action-Observation.
+
+**Core Components**. Agents work in a continuous cycle of: thinking (Thoughts) -> acting (Act) -> observing (Observation)
+
+1. **Thought**: LLM part of the agent decides the next step.
+2. **Action**: The agent takes an action, by calling tools with associated arguments.
+3. **Observation**: the model reflects on the response from the tool.
