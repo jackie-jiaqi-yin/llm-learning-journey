@@ -19,6 +19,8 @@
   - [Large Language Models (LLMs)](#large-language-models-llms)
   - [Messages and Special Tokens](#messages-and-special-tokens)
   - [Tools](#tools)
+  - [Thought-Action-Observation Cycle](#understanding-ai-agents-through-the-thought-action-observation-cycle)
+  - [Dummy Agent Library](#dummy-agent-library)
 
 ## Unit 1: Introduction to Agents
 
@@ -147,10 +149,64 @@ The return is text suitable to be used as a tool description for an LLM
 
 
 ### Understanding AI Agents through the Thought-Action-Observation Cycle
-In this section, we'll explore the complete AI Agent Workflow, a cycle we defined as Thought-Action-Observation.
+In this section, we'll explore the Thought-Action-Observation cycle - the fundamental workflow that powers AI Agents.
 
-**Core Components**. Agents work in a continuous cycle of: thinking (Thoughts) -> acting (Act) -> observing (Observation)
+**Core Components of the Agent Loop**
+AI Agents operate in a continuous cycle that mirrors human decision-making:
 
-1. **Thought**: LLM part of the agent decides the next step.
-2. **Action**: The agent takes an action, by calling tools with associated arguments.
-3. **Observation**: the model reflects on the response from the tool.
+1. **Thought**: The LLM analyzes the current state and plans the next step
+   - Evaluates available information and context
+   - Reasons about the best approach to achieve the goal
+   - Decides which tool (if any) would be most effective
+
+2. **Action**: The agent executes its planned action
+   - Calls specific tools with carefully chosen parameters
+   - Formats requests according to tool specifications
+   - Can include API calls, calculations, or information retrieval
+
+3. **Observation**: The agent processes the results
+   - Analyzes the outcome of its action
+   - Updates its understanding of the situation
+   - Determines if the goal has been achieved
+
+This cycle continues in a while loop until the agent determines the objective has been met or requires human intervention.
+
+**System Message Configuration**
+The agent's behavior is carefully controlled through the system message, which must specify:
+- Core personality and behavioral traits
+- Complete list of available tools and their specifications
+- Explicit instructions for following the Thought-Action-Observation format
+- Success criteria and stopping conditions
+- Error handling and edge case protocols
+
+#### Thought: Internal Reasoning and the Re-Act Approach
+
+Agent breaks down complex problems into smaller, more manageable steps, reflect on past experiences, and continuously adjust its plans based on new information.
+
+**ReAct Framework**: A powerful prompting technique that combines:
+- Reasoning: Explicit step-by-step thinking process
+- Acting: Executing planned actions based on reasoning
+This framework significantly improves the agent's problem-solving capabilities by enforcing structured thinking.
+
+
+#### Actions: Enabling the Agent to Engage with Its Environment
+Actions are the concrete steps an AI agent takes to interact with its environment.
+
+**Types of Agents by Action Format:**
+
+| Type of Agent | Description |
+|--------------|-------------|
+| JSON Agent | The Action to take is specified as in JSON format |
+| Code Agent | The Agent writes a code block that is interpreted externally |
+| Function-calling Agent | It is a subcategory of the JSON Agent which has been fine-tuned to generate a new message for each action |
+
+#### Observe: Integrating Feedback to Reflect and Adapt
+In observation phase, the agent:
+- collects feedbacks: receives data or confirmation that its action was successful (or not)
+- Appends results: integrates the new information into existing context, effectively updating its memory
+- Adapts its strategy: uses this updated context to refine  subsequent thoughts and actions
+
+### Dummy Agent Library
+
+This section focuses on the concepts and it can be applied to any agent framework. Check my implementation by following the instructions [here](notebook/dummy_agent_library.ipynb)
+
