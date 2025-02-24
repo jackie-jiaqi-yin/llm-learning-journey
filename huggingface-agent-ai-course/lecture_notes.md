@@ -21,6 +21,7 @@
   - [Tools](#tools)
   - [Thought-Action-Observation Cycle](#understanding-ai-agents-through-the-thought-action-observation-cycle)
   - [Dummy Agent Library](#dummy-agent-library)
+   - [Create First Agent Using smolagents](#create-first-agent-using-smolagents)
 
 ## Unit 1: Introduction to Agents
 
@@ -210,3 +211,6 @@ In observation phase, the agent:
 
 This section focuses on the concepts and it can be applied to any agent framework. Check my implementation by following the instructions [here](notebook/dummy_agent_library.ipynb)
 
+### Create First Agent Using smolagents
+
+`smolagents` is a library that focuses on codeAgent, a kind of agent that performs “Actions” through code blocks, and then “Observes” results by executing the code.
