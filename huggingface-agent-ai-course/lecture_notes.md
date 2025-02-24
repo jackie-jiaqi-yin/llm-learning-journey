@@ -214,3 +214,13 @@ This section focuses on the concepts and it can be applied to any agent framewor
 ### Create First Agent Using smolagents
 
 `smolagents` is a library that focuses on codeAgent, a kind of agent that performs “Actions” through code blocks, and then “Observes” results by executing the code.
+
+I have git clone the repo `First_agent_template` from the course repo, saved [here](code/First_agent_template).
+You can also find it in the course [website](https://huggingface.co/spaces/agents-course/First_agent_template).
+
+In this section, we only need to modify the `tools` in [app.py](code/First_agent_template/app.py). 
+
+Read through the code and get familiar with the structure. You can also run the code to see how the agent behaves.
+
+
+
