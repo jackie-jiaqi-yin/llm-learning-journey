@@ -161,4 +161,16 @@ The CE handles code execution by:
 #### Resource
 - [Resource Paper](https://arxiv.org/pdf/2412.20138)
 
+### SciAgents: Automating Scientific Discovery through Multi-Agent Intelligent Graph Reasoning
+*publish date: 2024-09-09*
+Objective: Developing AI systems that can not only explore and exploit existing knowledge to make significant scientific discoveries but also automate and replicate the broader research process, including acquiring relevant knowledge and data.
+SciAgents, an approach that leverages three core concepts: (1) the use of large-scale ontological knowledge graphs to organize and interconnect diverse scientific concepts, (2) a suite of large language models (LLMs) and data retrieval tools, and (3) multi-agent systems with in-situ learning capabilities.
+
+#### Resource
+- [Resource Paper](https://arxiv.org/abs/2409.05556)
+- [Source Code](https://github.com/lamm-mit/SciAgentsDiscovery)
+
+
+
+
 
