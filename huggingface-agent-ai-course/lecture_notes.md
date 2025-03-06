@@ -22,7 +22,8 @@
   - [Thought-Action-Observation Cycle](#understanding-ai-agents-through-the-thought-action-observation-cycle)
   - [Dummy Agent Library](#dummy-agent-library)
    - [Create First Agent Using smolagents](#create-first-agent-using-smolagents)
-
+- [Unit 2: Introduction to Agentic Frameworks](#unit-2-introduction-to-agentic-frameworks)
+  - [2.1 `smolagents`](#21-smolagents)
 ## Unit 1: Introduction to Agents
 
 ### AI Agent
@@ -222,5 +223,166 @@ In this section, we only need to modify the `tools` in [app.py](code/First_agent
 
 Read through the code and get familiar with the structure. You can also run the code to see how the agent behaves.
 
+## Unit 2: Introduction to Agentic Frameworks
+
+An agentic framework is not always needed when building an application around LLM. However, when it becomes complex, such as needing tools, need to interacti with environment, and multiple tasks, an agentic framework becomes necessary.
+
+### 2.1 `smolagents`
+
+`smolagents` is one of the many open-source agent frameworks available for application development. 
+
+**Features**
+- `CodeAgents`: primary type of agent in `smolagents`. It produces `Python` code to perform actions.
+- `ToolCallingAgents`: Second type of agent. Those agents rely on JSON/text blobs to execute actions.
+- Tools: tools are functions that an LLM can use within an agentic system in [Tools](#tools) section.
+- Retriever Agents: Allow models access to knowledge bases, making it possible to search, synthesize, and retrieve information from multiple sources. These agents are particularly useful for integrating web search with custom knowledge bases while maintaining conversation context through memory systems.
+- Multi-Agent Systems: Combine agents with different capabilities—such as a web search agent with a code execution agent.
+- Vision and Browser agents:  Incorporate Vision-Language Models (VLMs), enabling them to process and interpret visual information.
+
+**When should you use `smolagents` over other frameworks?**
+
+- need a lightweight and minimal solution.
+- experiment quickly wihtout complex configurations.
+- application logis is straightforward.
+
+Agents in `smolagents` operates as multi-step agents: one thought, one tool call and execution.
+
+#### Building agents That use Code
+
+**Why Code Agents?**
+
+Writing actions in code rather than JSON offers several key advantages:
+
+- **Composability**: Easily combine and reuse actions
+- **Object Management**: Work directly with complex structures like images
+- **Generality**: Express any computationally possible task
+- **Natural for LLMs**: High-quality code is already present in LLM training data
+
+Example: Use `DuckDuckGoSearchTool` to search the web and use `HfApiModel` to generate a response.
+```python
+from huggingface_hub import login
+from smolagents import CodeAgent, DuckDickGoSearchTool, HfApiModel
+
+login()
+
+agent = CodeAgent(
+   tools=[DuckDickGoSearchTool()], 
+   model=HfApiModel()
+   )
+
+agent.run("Search for the best music recommendations for a party at the Wayne's mansion.")
+```
+For customized tool, use `@tool` decorator.
+
+```python
+@tool
+# Tool to suggest a menu based on the occasion
+
+def suggest_menu(occasion: str) -> str:
+    """
+    Suggests a menu based on the occasion.
+    Args:
+        occasion: The type of occasion for the party.
+    """
+    if occasion == "casual":
+        return "Pizza, snacks, and drinks."
+    elif occasion == "formal":
+        return "3-course dinner with wine and dessert."
+    elif occasion == "superhero":
+        return "Buffet with high-energy and healthy food."
+    else:
+        return "Custom menu for the butler."
+
+# Alfred, the butler, preparing the menu for the party
+agent = CodeAgent(tools=[suggest_menu], model=HfApiModel())
+
+# Preparing the menu for the party
+agent.run("Prepare a formal menu for the party.")
+```
+
+#### Writing actions as code snippets or JSON blobs
+These agents use the built-in tool-calling capabilities of LLM providers to generate tool calls as JSON structures, used by OpenAI, Anthropic, and many other providers.
+
+Tool Calling Agents generates JSON objects that specify tool names and arguments. The system then parses these instructions to execute the appropriate tools.
+
+#### Tools
+
+Tools are treated as functions that an LLM can call within an agent system.
+
+To interact with a tool, the LLM needs an interface description with these key components:
+
+- Name: What the tool is called
+- Tool description: What the tool does
+- Input types and descriptions: What arguments the tool accepts
+- Output type: What the tool returns
+
+To create tools, there are two ways:
+
+1. Use the `@tool` for simple function-based tools
+2. Create a subclass of `Tool` for more complex functionality
+
+
+Example of using `@tool` decorator:
+
+```python
+@tool
+ def catering_service_tool(query: str) -> str:
+    """
+    This tool returns the highest-rated catering service in Gotham City.
+    
+    Args:
+        query: A search term for finding catering services.
+    """
+    # Example list of catering services and their ratings
+    services = {
+        "Gotham Catering Co.": 4.9,
+        "Wayne Manor Catering": 4.8,
+        "Gotham City Events": 4.7,
+    }
+    
+    # Find the highest rated catering service (simulating search query filtering)
+    best_service = max(services, key=services.get)
+    
+    return best_service
+
+
+agent = CodeAgent(tools=[catering_service_tool], model=HfApiModel())
+
+# Run the agent to find the best catering service
+result = agent.run(
+    "Can you give me the name of the highest-rated catering service in Gotham City?"
+)
+```
+
+`smolagents` provide prebuilt tools:
+
+- `PythonInterpreterTool`
+- `FinalAnswerTool`
+- `UserInputTool`
+- `DuckDuckGoSearchTool`
+- `GoogleSearchTool`
+- `VisitWebpageTool`
+
+It can share and import tools from HF spaces. It can also import a LangChain Tool.
+
+
+
+
+
+
+
+
+
+
+
+
+#### Reference
+- [smolagents Blog](https://huggingface.co/learn/agents-course/unit2/smolagents/code_agents#:~:text=smolagents%20Blog,-%2D%20Introduction%20to%20smolagents) - Introduction to smolagents and code interactions
+- [smolagents: Building Good Agents](https://huggingface.co/docs/smolagents/tutorials/building_good_agents) - Best practices for reliable agents
+- [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) - Anthropic - Agent design principles
+- [Sharing runs with OpenTelemetry](https://huggingface.co/docs/smolagents/tutorials/inspect_runs) - Details about how to setup OpenTelemetry for tracking your agents.
+- [Multi-Agent Systems](https://huggingface.co/docs/smolagents/main/en/examples/multiagents) – Overview of multi-agent systems.
+- [What is Agentic RAG?](https://weaviate.io/blog/what-is-agentic-rag) - Introduction to Agentic RAG
+- [Multi-Agent RAG System Recipe](https://huggingface.co/learn/cookbook/multiagent_rag_system) - Step-by-step guide to building a multi-agent RAG system
 
 
