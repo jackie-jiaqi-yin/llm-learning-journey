@@ -16,3 +16,4 @@ Please note that these Markdown learning notes are a collection of my personal t
 
 ## 📚 Online Courses
 - [GenAI 5-Day Course with Google](../genai-5day-course-with-google/README.md)
+- [Hugging Face AI Agent Course](../huggingface-agent-ai-course/lecture_notes.md)
