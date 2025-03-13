@@ -36,11 +36,35 @@ In Paper [2]:
    6. Document repacking. The performance of subsequent processes, such as LLM response generation, may be affected by the order documents are provided.
    7. Summarization. Extractive or abstractive. 
 
-
 ![img.png](figs/rag-workflow.png)
 
+## Graph RAG
+
+Why RAG is not enough? 
+
+Traditional RAG systems, while powerful, have several limitations:
+
+1. **Loss of Structural Information**: Standard RAG treats documents as independent chunks, losing important relationships and connections between pieces of information. Real-world knowledge often has inherent graph-like structures (e.g., relationships between entities, hierarchical information, or causal chains).
+
+2. **Limited Context Understanding**: When retrieving information, traditional RAG looks at chunks in isolation. This can miss broader context that might be spread across multiple related documents or sections.
+
+3. **Inability to Handle Complex Queries**: Questions that require connecting multiple pieces of information or understanding relationships between entities are difficult for traditional RAG to handle effectively.
+
+4. **Static Document View**: Traditional RAG typically treats documents as static pieces of text, without capturing how information evolves or relates to other pieces of knowledge over time.
+
+Graph RAG addresses these limitations by:
+- Representing knowledge as a graph structure where nodes contain information and edges represent relationships
+- Preserving structural information during retrieval
+- Enabling multi-hop reasoning across connected pieces of information
+- Supporting more complex query patterns that require traversing relationships
+
+
+**Useful videos**
+- [GraphRAG: The Marriage of Knowledge Graphs and RAG: Emil Eifrem](https://www.youtube.com/watch?v=knDDGYHnnSI)
+
+
 ## Papers
--  My literature review: [RAG](./paper-review.md)
+>  My literature review: [RAG](./paper-review.md)
 1.  Lewis, Patrick, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich Küttler, et al. “Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.” arXiv, April 12, 2021. http://arxiv.org/abs/2005.11401.
 > The first paper talks about RAG - models which combine pre-trained parametric and non-parametric memory for language generation. RAG models, the parametric memory is a pre-trained seq2seq transformer and the non-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural retriever.
 other resource: Youtube video
@@ -54,6 +78,9 @@ other resource: Youtube video
 
 4. Luyu Gao, Xueguang Ma, Jimmy Lin, and Jamie Callan. Precise zero-shot dense retrieval without relevance labels. arXiv preprint arXiv:2212.10496, 2022.
 > this is the paper talks about HYDE method.  
+
+**Graph RAG**
+- [A Benchmark to Understand the Role of Knowledge Graphs on Large Language Model's Accuracy for Question Answering on Enterprise SQL Databases](https://arxiv.org/abs/2311.07509)
 ## Online Articles
 ### Introduction
 - [Introduction to RAG — GenAI Systems for Knowledge](https://medium.com/curiosity-ai/introduction-to-rag-genai-systems-for-knowledge-918a34054228)
@@ -76,4 +103,7 @@ other resource: Youtube video
 **Retrieval**
 - [Power of Hypothetical Document Embeddings: An In-Depth Exploration of HyDE](https://medium.com/ai-insights-cobet/power-of-hypothetical-document-embeddings-an-in-depth-exploration-of-hyde-92601a335e5f)
 - [Exploring Query Rewriting](https://medium.com/@florian_algo/advanced-rag-06-exploring-query-rewriting-23997297f2d1). This blog uses `LlamaIndex` and `LangChain` to demostrate several techniques for query rewriting: Hypothetical Document Embeddings (HyDE), Rewrite-Retrieve-Read, Step-Back Prompting, and etc..
+
+**Graph RAG**
+- [Enhancing RAG with Graph](https://github.com/tomasonjo/blogs/blob/master/llm/enhancing_rag_with_graph.ipynb)
 
