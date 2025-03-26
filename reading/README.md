@@ -10,7 +10,7 @@ Please note that these Markdown learning notes are a collection of my personal t
 - [RAG](topics/RAG/notes.md)
 - [Compressing Large Language Models](topics/compressing/notes.md)
 - [AI Agents](topics/AI-Agent/notes.md)
-- [LLM with Reinforcement Learning](topics/slm-finetune/notes.md)
+- [LLM with Reinforcement Learning](topics/RFT/notes.md)
 - [Explainable AI](topics/XAI/notes.md)
 - [RecSys](topics/RecSys)
 - [Others](topics/Others/notes.md)
