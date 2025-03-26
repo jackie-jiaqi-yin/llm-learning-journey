@@ -30,6 +30,11 @@ RLHF specifically integrates RL with human feedback, aiming to align model outpu
 
 This methodology has been pivotal in developing models like ChatGPT, which rely on RLHF for producing helpful and safe responses ([AssemblyAI Blog](https://www.assemblyai.com/blog/the-full-story-of-large-language-models-and-rlhf)).
 
+
+![rlm](figs/base-rlm.png)
+
+*Figure 1. A preference (or reward) model could be used to further train the baseline model to prioritize responses with higher preference scores.*
+
 #### Key Research on RLHF for Language Models
 The development of RLHF for language models has been marked by several seminal works, primarily focused on LLMs. Below is a table summarizing key papers and their contributions:
 
