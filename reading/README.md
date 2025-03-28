@@ -12,6 +12,7 @@ Please note that these Markdown learning notes are a collection of my personal t
 - [AI Agents](topics/AI-Agent/notes.md)
 - [LLM with Reinforcement Learning](topics/RFT/notes.md)
 - [Explainable AI](topics/XAI/notes.md)
+- [Evaluation](topics/evaluation/notes.md)
 - [RecSys](topics/RecSys)
 - [Others](topics/Others/notes.md)
 
