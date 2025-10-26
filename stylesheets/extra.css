@@ -1,0 +1,64 @@
+/* Custom styles for LLM Learning Journey documentation */
+
+/* Improve code block readability */
+.highlight {
+  border-radius: 0.2rem;
+}
+
+/* Add some spacing to admonitions */
+.admonition {
+  margin: 1.5625em 0;
+}
+
+/* Style for topic cards on index pages */
+.topic-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.2rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.topic-card:hover {
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+/* Improve table styling */
+table {
+  border-radius: 0.2rem;
+  overflow: hidden;
+}
+
+/* Add visual hierarchy to headings */
+h1 {
+  border-bottom: 2px solid var(--md-primary-fg-color);
+  padding-bottom: 0.3em;
+}
+
+h2 {
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  padding-bottom: 0.2em;
+}
+
+/* Improve tag styling */
+.md-tag {
+  margin: 0.2rem;
+}
+
+/* Custom styling for paper review sections */
+.paper-title {
+  font-weight: bold;
+  color: var(--md-primary-fg-color);
+}
+
+/* Image captions */
+figure {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+figcaption {
+  font-style: italic;
+  color: var(--md-default-fg-color--light);
+  margin-top: 0.5rem;
+}
