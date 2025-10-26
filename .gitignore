@@ -1,3 +1,6 @@
+# MkDocs setup guide (local reference only)
+reading/README-MKDOCS.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -139,6 +142,7 @@ venv.bak/
 
 # mkdocs documentation
 /site
+reading/site/
 
 # mypy
 .mypy_cache/
@@ -163,3 +167,4 @@ cython_debug/
 codes/data/
 .DS_Store
 *.db
+

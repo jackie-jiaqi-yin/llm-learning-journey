@@ -1,0 +1,207 @@
+site_name: LLM Learning Journey
+site_description: Personal learning notes on Large Language Models, AI Agents, RAG, and more
+site_author: Your Name
+site_url: https://yourusername.github.io/llm-learning-journey/
+
+# Repository
+repo_name: llm-learning-journey
+repo_url: https://github.com/yourusername/llm-learning-journey
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2024 - Learning Notes Collection
+
+# Configuration
+theme:
+  name: material
+  language: en
+  features:
+    # Navigation
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+
+    # Table of contents
+    - toc.follow
+    - toc.integrate
+
+    # Search
+    - search.suggest
+    - search.highlight
+    - search.share
+
+    # Content
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+  # Uncomment and add your own favicon and logo
+  # favicon: assets/favicon.png
+  # logo: assets/logo.png
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+  - minify:
+      minify_html: true
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra CSS and JavaScript
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Extra
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/yourusername
+
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: This page was helpful
+          data: 1
+          note: Thanks for your feedback!
+        - icon: material/emoticon-sad-outline
+          name: This page could be improved
+          data: 0
+          note: Thanks for your feedback!
+
+  tags:
+    AI Agent: ai-agent
+    RAG: rag
+    RLHF: rlhf
+    Prompt Engineering: prompt
+    Evaluation: evaluation
+    Model Compression: compression
+    RecSys: recsys
+
+# Page tree
+nav:
+  - Home: index.md
+  - Topics:
+    - topics/index.md
+    - AI Agents:
+      - topics/AI-Agent/index.md
+      - Overview & Frameworks: topics/AI-Agent/notes.md
+      - Paper Reviews: topics/AI-Agent/paper-review.md
+    - RAG (Retrieval-Augmented Generation):
+      - topics/RAG/index.md
+      - RAG Guide & Best Practices: topics/RAG/notes.md
+      - Paper Reviews: topics/RAG/paper-review.md
+    - Reinforcement Learning & Fine-Tuning:
+      - topics/RFT/index.md
+      - RLHF Overview: topics/RFT/notes.md
+      - Paper Reviews: topics/RFT/paper-review.md
+    - Prompt Engineering:
+      - topics/Prompt/index.md
+      - Prompt Engineering Guide: topics/Prompt/notes.md
+    - Evaluation:
+      - topics/evaluation/index.md
+      - Evaluation Methods & Metrics: topics/evaluation/notes.md
+    - Model Compression:
+      - topics/compressing/index.md
+      - Compression Techniques: topics/compressing/notes.md
+    - Recommendation Systems:
+      - topics/RecSys/index.md
+      - RecSys Notes: topics/RecSys/notes.md
+    - Others:
+      - topics/Others/index.md
+      - Miscellaneous Notes: topics/Others/notes.md
+  - Online Courses:
+    - courses/index.md
+  - Tags: tags.md
+  - About: about.md
