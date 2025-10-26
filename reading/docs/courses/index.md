@@ -4,15 +4,15 @@ Notes and insights from various online courses on AI and Large Language Models.
 
 ## Available Courses
 
-### GenAI 5-Day Course with Google
+### [GenAI 5-Day Course with Google](https://github.com/jackie-jiaqi-yin/llm-learning-journey/tree/main/genai-5day-course-with-google)
 Comprehensive 5-day course covering generative AI fundamentals and applications.
 
-*Note: Course materials are located in the parent repository.*
+[View course notes →](https://github.com/jackie-jiaqi-yin/llm-learning-journey/tree/main/genai-5day-course-with-google)
 
-### Hugging Face AI Agent Course
+### [Hugging Face AI Agent Course](https://github.com/jackie-jiaqi-yin/llm-learning-journey/tree/main/huggingface-agent-ai-course)
 Deep dive into building AI agents using Hugging Face tools and frameworks.
 
-*Note: Course materials are located in the parent repository.*
+[View course notes →](https://github.com/jackie-jiaqi-yin/llm-learning-journey/tree/main/huggingface-agent-ai-course)
 
 ---
 

@@ -31,10 +31,8 @@ While these notes help me in my LLMs learning journey, they may not directly ali
 
 I've also documented notes from various online courses:
 
-- GenAI 5-Day Course with Google
-- Hugging Face AI Agent Course
-
-[Explore course notes →](courses/index.md)
+- [GenAI 5-Day Course with Google](https://github.com/jackie-jiaqi-yin/llm-learning-journey/tree/main/genai-5day-course-with-google)
+- [Hugging Face AI Agent Course](https://github.com/jackie-jiaqi-yin/llm-learning-journey/tree/main/huggingface-agent-ai-course)
 
 ## Navigation Tips
 

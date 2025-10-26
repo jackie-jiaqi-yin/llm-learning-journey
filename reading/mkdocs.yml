@@ -1,12 +1,12 @@
 site_name: LLM Learning Journey
 site_description: Personal learning notes on Large Language Models, AI Agents, RAG, and more
-site_author: Your Name
-site_url: https://yourusername.github.io/llm-learning-journey/
+site_author: Jackie Yin
+site_url: https://jackie-jiaqi-yin.github.io/llm-learning-journey/
 
 # Repository
 repo_name: llm-learning-journey
-repo_url: https://github.com/yourusername/llm-learning-journey
-edit_uri: edit/main/docs/
+repo_url: https://github.com/jackie-jiaqi-yin/llm-learning-journey
+edit_uri: edit/main/reading/docs/
 
 # Copyright
 copyright: Copyright &copy; 2024 - Learning Notes Collection
@@ -71,10 +71,10 @@ theme:
     repo: fontawesome/brands/github
     edit: material/pencil
     view: material/eye
+    logo: material/robot
 
-  # Uncomment and add your own favicon and logo
+  # Uncomment and add your own custom favicon if desired
   # favicon: assets/favicon.png
-  # logo: assets/logo.png
 
 # Plugins
 plugins:
@@ -140,25 +140,28 @@ extra_javascript:
 # Extra
 extra:
   social:
+    - icon: fontawesome/solid/house
+      link: https://jackie-jiaqi-yin.github.io
+      name: Personal Website
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/yourusername
+      link: https://github.com/jackie-jiaqi-yin
+      name: GitHub Profile
 
-  analytics:
-    provider: google
-    property: G-XXXXXXXXXX
-    feedback:
-      title: Was this page helpful?
-      ratings:
-        - icon: material/emoticon-happy-outline
-          name: This page was helpful
-          data: 1
-          note: Thanks for your feedback!
-        - icon: material/emoticon-sad-outline
-          name: This page could be improved
-          data: 0
-          note: Thanks for your feedback!
+  # Uncomment and add your Google Analytics ID to enable tracking
+  # analytics:
+  #   provider: google
+  #   property: G-XXXXXXXXXX
+  #   feedback:
+  #     title: Was this page helpful?
+  #     ratings:
+  #       - icon: material/emoticon-happy-outline
+  #         name: This page was helpful
+  #         data: 1
+  #         note: Thanks for your feedback!
+  #       - icon: material/emoticon-sad-outline
+  #         name: This page could be improved
+  #         data: 0
+  #         note: Thanks for your feedback!
 
   tags:
     AI Agent: ai-agent
