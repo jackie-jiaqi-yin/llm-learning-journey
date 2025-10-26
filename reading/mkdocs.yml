@@ -9,7 +9,7 @@ repo_url: https://github.com/jackie-jiaqi-yin/llm-learning-journey
 edit_uri: edit/main/reading/docs/
 
 # Copyright
-copyright: Copyright &copy; 2024 - Learning Notes Collection
+copyright: Copyright &copy; 2025 Jackie Yin | Shared for educational purposes
 
 # Configuration
 theme:
@@ -139,6 +139,8 @@ extra_javascript:
 
 # Extra
 extra:
+  generator: false  # Removes "Made with Material for MkDocs" from footer
+
   social:
     - icon: fontawesome/solid/house
       link: https://jackie-jiaqi-yin.github.io
