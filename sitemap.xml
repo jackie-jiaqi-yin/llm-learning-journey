@@ -2,98 +2,166 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/about/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/tags/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/courses/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/Invited-talk-problem-finding-in-ai/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/agentic-development-frontier/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/invited-talk-ai-reasoning/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/invited-talk-cognitive-capability-evaluation/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/invited-talk-wrong-nightmares-ai/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/multimodal-oral/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/rai-pannel/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/workshop-dl4c/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/talks/neurips-2025/xAI/</loc>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/AI-Agent/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/AI-Agent/notes/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/AI-Agent/paper-review/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/Others/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/Others/notes/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/Prompt/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/Prompt/notes/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/RAG/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/RAG/notes/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/RAG/paper-review/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/RFT/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/RFT/notes/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/RFT/paper-review/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/RecSys/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/RecSys/notes/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/_TEMPLATE/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/_TEMPLATE/notes/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/_TEMPLATE/paper-review/</loc>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/compressing/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/compressing/notes/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/evaluation/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
     </url>
     <url>
          <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/evaluation/notes/</loc>
-         <lastmod>2025-10-26</lastmod>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/llm-as-judges/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/llm-as-judges/notes/</loc>
+         <lastmod>2025-12-10</lastmod>
+    </url>
+    <url>
+         <loc>https://jackie-jiaqi-yin.github.io/llm-learning-journey/topics/llm-as-judges/paper-review/</loc>
+         <lastmod>2025-12-10</lastmod>
     </url>
 </urlset>
