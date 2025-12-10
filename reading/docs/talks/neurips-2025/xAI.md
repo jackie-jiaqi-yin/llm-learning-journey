@@ -153,7 +153,7 @@
 - Additional methods exist beyond these three categories
 - Mechanistic interpretability includes: sparse autoencoders, logit lens, linear probing
 
-# **XAI - Deep Dive 2**
+## **XAI - Deep Dive 2**
 
 **Inherent Interpretability Framework**
 
