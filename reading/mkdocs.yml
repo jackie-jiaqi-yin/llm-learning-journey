@@ -206,6 +206,23 @@ nav:
     - Others:
       - topics/Others/index.md
       - Miscellaneous Notes: topics/Others/notes.md
+  - Talks & Seminars:
+    - talks/index.md
+    - NeurIPS 2025:
+      - talks/neurips-2025/index.md
+      - Invited Talks:
+        - Cognitive Capability Evaluation: talks/neurips-2025/invited-talk-cognitive-capability-evaluation.md
+        - The Art of Reasoning: talks/neurips-2025/invited-talk-ai-reasoning.md
+        - Problem Finding in AI: talks/neurips-2025/Invited-talk-problem-finding-in-ai.md
+        - Wrong Nightmares About AI: talks/neurips-2025/invited-talk-wrong-nightmares-ai.md
+      - Tutorials:
+        - Explainable AI (xAI): talks/neurips-2025/xAI.md
+      - Panels & Workshops:
+        - Responsible AI & Unlearning: talks/neurips-2025/rai-pannel.md
+        - Agentic Development: talks/neurips-2025/agentic-development-frontier.md
+        - Deep Learning for Coding: talks/neurips-2025/workshop-dl4c.md
+      - Oral Presentations:
+        - Multimodal Oral Session: talks/neurips-2025/multimodal-oral.md
   - Online Courses:
     - courses/index.md
   - Tags: tags.md
