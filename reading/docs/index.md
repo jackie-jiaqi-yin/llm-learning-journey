@@ -27,6 +27,12 @@ While these notes help me in my LLMs learning journey, they may not directly ali
 - **[Recommendation Systems](topics/RecSys/index.md)** - LLMs in recommendation systems
 - **[Miscellaneous](topics/Others/index.md)** - Other interesting topics and findings
 
+## Talks & Seminars
+
+Conference notes from talks, tutorials, panels, and workshops:
+
+- **[NeurIPS 2025](talks/neurips-2025/index.md)** - AI evaluation, reasoning models, explainability, coding agents, and responsible AI
+
 ## Online Courses
 
 I've also documented notes from various online courses:
