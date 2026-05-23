@@ -8,7 +8,7 @@ It is a practice with a set of guidelines to craft precise, concise, creative wo
 
 ## Prompt Principles and Guides
 Refer to Paper [1]
-1. **Prompt Structure and Clarity**: Integrate the intended audience in teh prompt. e.g., integrate the intended audience in the prompt such as the audience is an expert in the field.
+1. **Prompt Structure and Clarity**: Integrate the intended audience in the prompt. e.g., integrate the intended audience in the prompt such as the audience is an expert in the field.
 2. **Specificity and Information**: Implement example-driven prompting. E.g., Add to your prompt the following phrase “Ensure that your answer is unbiased and does not rely on stereotypes.”;
 3. **User Interaction and Engagement**: Allow the model to ask precise details and requirements until it has enough information to provide the needed response. E.g. "From now on, I would like you to ask me questions to..."
 4. **Content and Language Stype**: Instruct the tone and style of response.
