@@ -7,7 +7,7 @@
 - [Implementation](#Implementation)
 
 ## Introduction
-RAG stands for Retrieval-Augumented Generation. RAG system works two steps: 1. Retrieve: It retrieves relevant information from a large corpus of text. 2. Generate: It generates a response based on the retrieved information. Common Use-case: question answering, document summarization, content generation.
+RAG stands for Retrieval-Augmented Generation. RAG system works two steps: 1. Retrieve: It retrieves relevant information from a large corpus of text. 2. Generate: It generates a response based on the retrieved information. Common Use-case: question answering, document summarization, content generation.
 ![RAG](../../figs/rag.webp "How rag works")
 Why do we need RAG? 1. avoid hallucination 2. timeliness 3. LLMs cannot access private data, feed more internal/user private data to get customized results. 4. Answer constraint. 
 
@@ -26,7 +26,7 @@ In Paper [2]:
    - Token-level chunking: split the text into tokens, usually with a fixed length.
    - Sentence-level chunking: split the text into sentences.
    - Semantic-level chunking: take the embeddings of every sentence in the document, comparing the similarity of all sentences with each other, and then grouping sentences with the most similar embeddings together.
-3. Vector databases. Store embedding vectors with their metadata, enabling efficient retrival of documents relevant to queries through various indexing and approximate nearest neighbor search. 
+3. Vector databases. Store embedding vectors with their metadata, enabling efficient retrieval of documents relevant to queries through various indexing and approximate nearest neighbor search.
 4. Retrieval Method. The recommended steps:  
    1. query rewriting.
    2. query decomposition.
