@@ -22,7 +22,7 @@ Model compression aims to reduce the size of machine learning models without sac
 3. **Knowledge Distillation**: Training a smaller model to mimic the behavior of a larger model. 
 
 ## Quantization
-Lowering the precision of model paramters. Two common classes of quantization techniques:
+Lowering the precision of model parameters. Two common classes of quantization techniques:
 - Post-training quantization (PTQ)
 - Quantization-aware training (QAT)
 

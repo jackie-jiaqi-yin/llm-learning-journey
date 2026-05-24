@@ -42,10 +42,10 @@ This page provides a step-by-step guide to fine-tuning the [deepseek-ai/DeepSeek
 
 SFT involves significant computational resources and engineering effort. When to use SFT?
 - need additional performance beyond the base model + prompt.
-- cost of llm outweights the cost of FT a small model.
-- require specialized formats or domain-sepcific knowledge.
+- cost of llm outweighs the cost of FT a small model.
+- require specialized formats or domain-specific knowledge.
 
-The datesets for fine-tuning should contain input prompt, expected model repsonse, and any additional metadata. 
+The datasets for fine-tuning should contain input prompt, expected model response, and any additional metadata.
 
 The Hugging Face tutorial provides sample codes by using the `SFTTrainer` class to fine-tune the model on a dataset. 
 

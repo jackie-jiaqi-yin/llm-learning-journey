@@ -25,7 +25,7 @@ $$(Y, E, F) = f(T, C, X, R)$$
     - **Pointwise**: Evaluates each output independently based on specific criteria.
     - **Pairwise**: Compares two candidates to determine which one performs better according to the specified criteria. 
     - **Listwise**: Evaluates the entire list of candidate items, evaluating and ranking them based on the specific criteria, e.g. ranking tasks,
-- $C$ denotes the evaluation criteria, defining the specific standards that determine which aspects of the output should be assessed. Typically, teh criteria encompass the following aspects:
+- $C$ denotes the evaluation criteria, defining the specific standards that determine which aspects of the output should be assessed. Typically, the criteria encompass the following aspects:
     - **Linguistic Quality**: Language related of the output, e.g. fluency, grammatical accuracy, coherence, and conciseness.
     - **Content Relevance**: Focuses on correctness and relevance of the content. 
     - **Task-Specifc Criteria**: Customized criteria tailored to the specific task, e.g. creativity for story generation.
