@@ -15,12 +15,14 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import socket
 import subprocess
 import sys
 import time
 from dataclasses import dataclass
+from html import escape
 from pathlib import Path
 from typing import Iterable
 from urllib.error import HTTPError, URLError
@@ -39,6 +41,69 @@ FORBIDDEN_PAGE_TERMS = [
     "Key Themes",
     "Practical Takeaways",
 ]
+REPORT_NAV_STYLE_START = "/* arxiv-report-nav-style:start */"
+REPORT_NAV_STYLE_END = "/* arxiv-report-nav-style:end */"
+REPORT_NAV_START = "<!-- arxiv-report-nav:start -->"
+REPORT_NAV_END = "<!-- arxiv-report-nav:end -->"
+REPORT_NAV_STYLE = f"""{REPORT_NAV_STYLE_START}
+.report-nav {{
+  max-width: 1020px;
+  margin: 0 auto 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+}}
+
+.report-nav__link {{
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.9);
+  color: #254b6d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(53, 47, 39, 0.08);
+}}
+
+.report-nav__link:hover {{
+  border-color: rgba(55, 107, 93, 0.4);
+  color: #376b5d;
+}}
+
+.report-nav__link--primary {{
+  background: #254b6d;
+  color: #ffffff;
+}}
+
+.report-nav__link--primary:hover {{
+  color: #ffffff;
+}}
+
+@media (max-width: 800px) {{
+  .report-nav {{
+    margin-bottom: 10px;
+  }}
+
+  .report-nav__link {{
+    flex: 1 1 100%;
+    justify-content: center;
+  }}
+}}
+
+@media print {{
+  .report-nav {{
+    display: none;
+  }}
+}}
+{REPORT_NAV_STYLE_END}"""
 
 
 class AutomationError(RuntimeError):
@@ -177,13 +242,101 @@ def _update_topic_page(config: TopicConfig) -> tuple[str, bool]:
     return updated, changed
 
 
+def _remove_marked_block(content: str, start_marker: str, end_marker: str) -> str:
+    while start_marker in content and end_marker in content:
+        before, remainder = content.split(start_marker, 1)
+        _, after = remainder.split(end_marker, 1)
+        content = before.rstrip() + "\n" + after.lstrip("\n")
+    return content
+
+
+def _topic_title(config: TopicConfig) -> str:
+    for line in config.topic_page.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if stripped.startswith("# "):
+            return stripped[2:].strip()
+    return config.report_slug.replace("-", " ").title()
+
+
+def _report_navigation_html(config: TopicConfig) -> str:
+    topic_href = f"../../{config.topic_page.stem}/"
+    topic_title = escape(_topic_title(config), quote=True)
+    return f"""{REPORT_NAV_START}
+  <nav class="report-nav" aria-label="Report navigation">
+    <a class="report-nav__link report-nav__link--primary" href="{topic_href}">&larr; Back to {topic_title}</a>
+    <a class="report-nav__link" href="../../">All arXiv digests</a>
+  </nav>
+{REPORT_NAV_END}"""
+
+
+def _insert_report_navigation_style(content: str) -> str:
+    style = "\n" + REPORT_NAV_STYLE + "\n"
+    match = re.search(r"</style>", content, flags=re.IGNORECASE)
+    if match:
+        return content[: match.start()] + style + content[match.start() :]
+
+    match = re.search(r"</head>", content, flags=re.IGNORECASE)
+    if match:
+        style_tag = "<style>\n" + REPORT_NAV_STYLE + "\n</style>\n"
+        return content[: match.start()] + style_tag + content[match.start() :]
+
+    return "<style>\n" + REPORT_NAV_STYLE + "\n</style>\n" + content
+
+
+def _insert_report_navigation(content: str, navigation_html: str) -> str:
+    match = re.search(r"<body\b[^>]*>", content, flags=re.IGNORECASE)
+    if match:
+        return content[: match.end()] + "\n" + navigation_html + content[match.end() :]
+    return navigation_html + "\n" + content
+
+
+def _ensure_report_navigation(config: TopicConfig) -> bool:
+    content = config.report_path.read_text(encoding="utf-8")
+    updated = _remove_marked_block(content, REPORT_NAV_STYLE_START, REPORT_NAV_STYLE_END)
+    updated = _remove_marked_block(updated, REPORT_NAV_START, REPORT_NAV_END)
+    updated = _insert_report_navigation_style(updated)
+    updated = _insert_report_navigation(updated, _report_navigation_html(config))
+    changed = updated != content
+    if changed:
+        config.report_path.write_text(updated, encoding="utf-8")
+    return changed
+
+
+def _parse_status_paths(status_output: str) -> list[str]:
+    paths: list[str] = []
+    for line in status_output.splitlines():
+        if len(line) < 4:
+            continue
+        path_part = line[3:]
+        if " -> " in path_part:
+            path_part = path_part.split(" -> ", 1)[1]
+        stripped = path_part.strip()
+        if stripped:
+            paths.append(stripped)
+    return paths
+
+
+def _relevant_dirty_paths(config: TopicConfig, status_output: str) -> list[str]:
+    topic_rel = config.topic_page.relative_to(config.repo_root).as_posix()
+    report_rel = config.report_path.relative_to(config.repo_root).as_posix()
+    report_dir_rel = config.report_path.parent.relative_to(config.repo_root).as_posix().rstrip("/") + "/"
+
+    relevant: list[str] = []
+    for path in _parse_status_paths(status_output):
+        normalized = path.replace(os.sep, "/")
+        if normalized == topic_rel or normalized == report_rel or normalized.startswith(report_dir_rel):
+            relevant.append(path)
+    return relevant
+
+
 def cmd_preflight(args: argparse.Namespace) -> int:
     config = _load_topic_config(args)
     repo_root = config.repo_root
 
     status = _run(["git", "status", "--short"], cwd=repo_root, step="preflight:status")
-    if status.stdout.strip():
-        raise AutomationError("preflight:status", status.stdout.strip())
+    relevant_dirty = _relevant_dirty_paths(config, status.stdout)
+    if relevant_dirty:
+        raise AutomationError("preflight:status", "\n".join(relevant_dirty))
 
     branch = _run(["git", "branch", "--show-current"], cwd=repo_root, step="preflight:branch").stdout.strip()
     if branch != "main":
@@ -202,6 +355,8 @@ def cmd_preflight(args: argparse.Namespace) -> int:
     report_exists = config.report_path.exists()
     link_exists = config.expected_link in topic_text
 
+    verification_only = bool(args.verification_only_if_exists and link_exists and report_exists)
+
     payload = {
         "branch": branch,
         "repo_root": str(repo_root),
@@ -210,7 +365,7 @@ def cmd_preflight(args: argparse.Namespace) -> int:
         "report_path": str(config.report_path),
         "link_exists": link_exists,
         "report_exists": report_exists,
-        "verification_only": link_exists and report_exists,
+        "verification_only": verification_only,
         "reachability": reachability,
     }
     return _json_print(payload)
@@ -224,6 +379,7 @@ def cmd_publish_local(args: argparse.Namespace) -> int:
 
     config.report_path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source_report, config.report_path)
+    report_navigation_changed = _ensure_report_navigation(config)
     _, page_changed = _update_topic_page(config)
 
     return _json_print(
@@ -233,6 +389,7 @@ def cmd_publish_local(args: argparse.Namespace) -> int:
             "report_path": str(config.report_path),
             "page_changed": page_changed,
             "report_copied": True,
+            "report_navigation_changed": report_navigation_changed,
         }
     )
 
@@ -256,6 +413,11 @@ def cmd_verify_local(args: argparse.Namespace) -> int:
     page_text = config.topic_page.read_text(encoding="utf-8")
     _assert(config.expected_link in page_text, "verify-local:topic-link", f"Missing topic link {config.expected_link}")
     _assert(config.report_path.exists(), "verify-local:report-exists", f"Missing report {config.report_path}")
+    report_text = config.report_path.read_text(encoding="utf-8")
+    topic_href = f'href="../../{config.topic_page.stem}/"'
+    _assert(REPORT_NAV_START in report_text, "verify-local:report-navigation", "Missing report navigation block")
+    _assert(topic_href in report_text, "verify-local:report-navigation", f"Missing topic return link {topic_href}")
+    _assert('href="../../"' in report_text, "verify-local:report-navigation", "Missing digest home link")
     for term in FORBIDDEN_PAGE_TERMS:
         _assert(term not in page_text, "verify-local:forbidden-text", f"Found forbidden text {term!r} in {config.topic_page}")
 
@@ -268,6 +430,7 @@ def cmd_verify_local(args: argparse.Namespace) -> int:
             "report_path": str(config.report_path),
             "topic_link_verified": True,
             "report_verified": True,
+            "report_navigation_verified": True,
             "forbidden_text_verified": True,
             "unittest_stdout": tests.stdout.strip(),
             "mkdocs_stdout": mkdocs.stdout.strip(),
@@ -414,6 +577,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     preflight = sub.add_parser("preflight", parents=[common_parent])
     preflight.add_argument("--timeout-sec", type=int, default=20)
+    preflight.add_argument(
+        "--verification-only-if-exists",
+        action="store_true",
+        help="If today's topic link and report already exist, skip regeneration and verify only.",
+    )
     preflight.set_defaults(func=cmd_preflight)
 
     publish_local = sub.add_parser("publish-local", parents=[common_parent])

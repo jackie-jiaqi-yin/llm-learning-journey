@@ -91,6 +91,20 @@ class ArxivLearningDocsTest(unittest.TestCase):
         )
         self.assertIn("2026-05-24", post_train_links)
 
+    def test_arxiv_report_html_links_back_to_digest_pages(self):
+        for topic, report_slug in EXPECTED_TOPIC_REPORTS.items():
+            with self.subTest(topic=topic):
+                report_dir = DOCS / "arxiv-learning" / "reports" / report_slug
+                reports = sorted(report_dir.glob("*.html"))
+
+                self.assertTrue(reports, f"{report_slug} should have at least one report")
+                for report in reports:
+                    html = report.read_text(encoding="utf-8")
+
+                    self.assertIn("arxiv-report-nav:start", html)
+                    self.assertIn(f'href="../../{report_slug}/"', html)
+                    self.assertIn('href="../../"', html)
+
 
 if __name__ == "__main__":
     unittest.main()
