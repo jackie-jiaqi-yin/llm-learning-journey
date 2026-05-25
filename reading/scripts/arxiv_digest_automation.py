@@ -327,8 +327,6 @@ def _gh_run_list(repo_root: Path) -> list[dict]:
             "gh",
             "run",
             "list",
-            "--branch",
-            "main",
             "--limit",
             "30",
             "--json",
@@ -350,10 +348,17 @@ def cmd_wait_workflows(args: argparse.Namespace) -> int:
         runs = _gh_run_list(repo_root)
         matched = {}
         for workflow in wanted:
+            fallback = None
             for run in runs:
-                if run["workflowName"] == workflow and run["headSha"] == args.commit:
+                if run["workflowName"] != workflow:
+                    continue
+                if fallback is None:
+                    fallback = run
+                if run["headSha"] == args.commit:
                     matched[workflow] = run
                     break
+            if workflow not in matched and workflow == "pages-build-deployment" and fallback is not None:
+                matched[workflow] = fallback
 
         if matched.keys() == wanted:
             unfinished = [run for run in matched.values() if run["status"] != "completed"]
