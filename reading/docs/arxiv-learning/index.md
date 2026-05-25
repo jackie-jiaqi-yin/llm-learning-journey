@@ -1,37 +1,34 @@
 # arXiv Research Digest
 
-Up-to-date arXiv paper summaries organized by topic.
+Weekly automation-assisted research digests for AI topics I am actively following.
 
-This section is for recurring arXiv paper digests generated from my Codex `arxiv-latest-summary` workflow. Each topic page is designed as an append-only research log, so future automation can add a new dated update without changing the rest of the site.
+I use Codex automations to scan recent arXiv papers, synthesize recurring themes, and publish concise HTML reports by topic. The goal is to make it easier to keep up with fast-moving research areas and decide which papers are worth reading more deeply.
 
-## Topics
+## Current Topics
 
-- **[Agent](agent.md)** - agent architectures, planning, tool use, workflow orchestration, and multi-agent systems.
-- **[LLM Post-Train](llm-post-train.md)** - instruction tuning, alignment, preference optimization, reinforcement learning, evaluation, and data quality after pretraining.
+<div class="topic-card" markdown>
 
-## Update Format
+### [AI Agents](agent.md)
 
-Automation should write each run under the target topic page between the `arxiv-runs` markers. Newest runs should appear first, and each run title should use the run date:
+Agent architectures, tool use, planning, memory, workflow automation, browser/software agents, multi-agent systems, evaluation, and safety.
 
-```markdown
-## YYYY-MM-DD
+</div>
 
-Summary content for that run.
-```
+<div class="topic-card" markdown>
 
-Suggested fields for each run:
+### [LLM Post-Training](llm-post-train.md)
 
-- Run window and query scope
-- Key research themes
+Instruction tuning, alignment, preference optimization, reinforcement learning, evaluation, data quality, and post-training infrastructure.
+
+</div>
+
+## What Each Digest Includes
+
+- Key research themes from the latest arXiv window
 - Notable papers to read first
-- Practical takeaways
-- Links to generated reports or source paper URLs
+- Practical takeaways and open questions
+- Direct links to source papers
 
-## Website Artifact Policy
+## How To Read This
 
-Weekly automation should keep only the artifacts that are useful on the website:
-
-- The updated topic Markdown page
-- The copied HTML report under `reports/<topic-slug>/YYYY-MM-DD.html`
-
-Generated run directories, PDFs, catalogs, recursive chunk files, and other intermediate artifacts should be deleted after the website update is verified and published.
+Each topic page is an append-only date index. Open a topic, then choose the weekly digest by date.
