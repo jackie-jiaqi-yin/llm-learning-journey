@@ -17,6 +17,11 @@ EXPECTED_TOPIC_PAGES = {
     "LLM Post-Train": "arxiv-learning/llm-post-train.md",
 }
 
+EXPECTED_TOPIC_REPORTS = {
+    "Agent": "agent",
+    "LLM Post-Train": "llm-post-train",
+}
+
 
 class ArxivLearningDocsTest(unittest.TestCase):
     def test_mkdocs_nav_exposes_arxiv_research_digest_top_level_tab(self):
@@ -49,34 +54,42 @@ class ArxivLearningDocsTest(unittest.TestCase):
                 self.assertIn("<!-- arxiv-topic:", content)
                 self.assertIn("<!-- arxiv-runs:start -->", content)
                 self.assertIn("<!-- arxiv-runs:end -->", content)
-                if topic == "LLM Post-Train":
-                    self.assertIn(
-                        "[YYYY-MM-DD](reports/llm-post-train/YYYY-MM-DD.html)",
-                        content,
-                    )
-                else:
-                    self.assertIn("## YYYY-MM-DD", content)
+                report_slug = EXPECTED_TOPIC_REPORTS[topic]
+                self.assertIn(
+                    f"[YYYY-MM-DD](reports/{report_slug}/YYYY-MM-DD.html)",
+                    content,
+                )
 
-    def test_post_train_page_is_date_index_with_direct_report_links(self):
-        content = POST_TRAIN_PAGE.read_text()
+    def test_arxiv_topic_pages_are_date_indexes_with_direct_report_links(self):
+        for topic, relative_path in EXPECTED_TOPIC_PAGES.items():
+            with self.subTest(topic=topic):
+                report_slug = EXPECTED_TOPIC_REPORTS[topic]
+                page_path = DOCS / relative_path
+                report_dir = DOCS / "arxiv-learning" / "reports" / report_slug
+                content = page_path.read_text()
 
-        self.assertTrue(POST_TRAIN_REPORTS.exists())
-        self.assertTrue((POST_TRAIN_REPORTS / ".gitkeep").exists())
-        self.assertNotIn("Automation Contract", content)
-        self.assertNotIn("Topic Scope", content)
-        self.assertNotIn("Papers summarized", content)
-        self.assertNotIn("Key Themes", content)
-        self.assertNotIn("Practical Takeaways", content)
+                self.assertTrue(report_dir.exists())
+                self.assertTrue((report_dir / ".gitkeep").exists())
+                self.assertNotIn("Automation Contract", content)
+                self.assertNotIn("Topic Scope", content)
+                self.assertNotIn("Papers summarized", content)
+                self.assertNotIn("Key Themes", content)
+                self.assertNotIn("Practical Takeaways", content)
 
-        run_links = re.findall(
+                run_links = re.findall(
+                    rf"- \[(\d{{4}}-\d{{2}}-\d{{2}})\]\(reports/{report_slug}/\1\.html\)",
+                    content,
+                )
+                self.assertEqual(run_links, sorted(run_links, reverse=True))
+
+                for run_date in run_links:
+                    self.assertTrue((report_dir / f"{run_date}.html").exists())
+
+        post_train_links = re.findall(
             r"- \[(\d{4}-\d{2}-\d{2})\]\(reports/llm-post-train/\1\.html\)",
-            content,
+            POST_TRAIN_PAGE.read_text(),
         )
-        self.assertEqual(run_links, sorted(run_links, reverse=True))
-        self.assertIn("2026-05-24", run_links)
-
-        for run_date in run_links:
-            self.assertTrue((POST_TRAIN_REPORTS / f"{run_date}.html").exists())
+        self.assertIn("2026-05-24", post_train_links)
 
 
 if __name__ == "__main__":
