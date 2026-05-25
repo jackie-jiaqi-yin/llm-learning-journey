@@ -36,7 +36,7 @@ _No automated arXiv summary runs have been added yet._
             self.assertTrue(changed)
             self.assertIn("- [2026-05-24](reports/agent/2026-05-24.html)", updated)
             self.assertNotIn("_No automated arXiv summary runs have been added yet._", updated)
-            self.assertNotIn("<!-- Future automation:", updated)
+            self.assertIn('[YYYY-MM-DD](reports/agent/YYYY-MM-DD.html)', updated)
 
     def test_update_topic_page_dedupes_same_date_and_keeps_existing_order_after_newest(self):
         with TemporaryDirectory() as tmpdir:

@@ -31,6 +31,7 @@ from datetime import datetime
 
 LA_TZ = ZoneInfo("America/Los_Angeles")
 PLACEHOLDER_PREFIX = "<!-- Future automation:"
+PLACEHOLDER_LINE = '<!-- Future automation: insert the newest run below as "- [YYYY-MM-DD](reports/{slug}/YYYY-MM-DD.html)" and keep runs in reverse chronological order. -->'
 FORBIDDEN_PAGE_TERMS = [
     "Automation Contract",
     "Topic Scope",
@@ -150,6 +151,7 @@ def _update_topic_page(config: TopicConfig) -> tuple[str, bool]:
     middle, after = remainder.split(end_marker, 1)
 
     existing = []
+    placeholder_line = PLACEHOLDER_LINE.format(slug=config.report_slug)
     for line in middle.splitlines():
         stripped = line.strip()
         if not stripped:
@@ -166,7 +168,8 @@ def _update_topic_page(config: TopicConfig) -> tuple[str, bool]:
         if line != config.expected_link and line not in deduped:
             deduped.append(line)
 
-    rebuilt_middle = "\n" + "\n".join(deduped) + "\n"
+    rebuilt_middle_lines = deduped + [placeholder_line]
+    rebuilt_middle = "\n" + "\n".join(rebuilt_middle_lines) + "\n"
     updated = before + start_marker + rebuilt_middle + end_marker + after
     changed = updated != content
     if changed:
