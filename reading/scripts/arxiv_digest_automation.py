@@ -188,7 +188,7 @@ def cmd_preflight(args: argparse.Namespace) -> int:
         branch = "main"
 
     _run(["git", "fetch", "origin"], cwd=repo_root, retries=3, backoff_sec=1, step="preflight:fetch")
-    _run(["git", "pull", "--ff-only", "origin", "main"], cwd=repo_root, step="preflight:pull")
+    _run(["git", "merge", "--ff-only", "origin/main"], cwd=repo_root, step="preflight:pull")
 
     reachability = [
         _check_dns_and_https("github.com", "https://github.com", args.timeout_sec),
