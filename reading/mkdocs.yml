@@ -206,6 +206,10 @@ nav:
     - Others:
       - topics/Others/index.md
       - Miscellaneous Notes: topics/Others/notes.md
+  - arXiv Research Digest:
+    - arxiv-learning/index.md
+    - Agent: arxiv-learning/agent.md
+    - LLM Post-Train: arxiv-learning/llm-post-train.md
   - Talks & Seminars:
     - talks/index.md
     - NeurIPS 2025:
