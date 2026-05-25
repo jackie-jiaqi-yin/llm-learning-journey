@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import unittest
 
 import yaml
@@ -48,17 +49,34 @@ class ArxivLearningDocsTest(unittest.TestCase):
                 self.assertIn("<!-- arxiv-topic:", content)
                 self.assertIn("<!-- arxiv-runs:start -->", content)
                 self.assertIn("<!-- arxiv-runs:end -->", content)
-                self.assertIn("## YYYY-MM-DD", content)
+                if topic == "LLM Post-Train":
+                    self.assertIn(
+                        "[YYYY-MM-DD](reports/llm-post-train/YYYY-MM-DD.html)",
+                        content,
+                    )
+                else:
+                    self.assertIn("## YYYY-MM-DD", content)
 
-    def test_post_train_weekly_automation_contract_is_documented(self):
+    def test_post_train_page_is_date_index_with_direct_report_links(self):
         content = POST_TRAIN_PAGE.read_text()
 
         self.assertTrue(POST_TRAIN_REPORTS.exists())
         self.assertTrue((POST_TRAIN_REPORTS / ".gitkeep").exists())
-        self.assertIn("Weekly cadence: Wednesday 19:00 America/Los_Angeles", content)
-        self.assertIn("Window: last 7 days", content)
-        self.assertIn("reports/llm-post-train/YYYY-MM-DD.html", content)
-        self.assertIn("Only the Markdown entry and copied HTML report are retained", content)
+        self.assertNotIn("Automation Contract", content)
+        self.assertNotIn("Topic Scope", content)
+        self.assertNotIn("Papers summarized", content)
+        self.assertNotIn("Key Themes", content)
+        self.assertNotIn("Practical Takeaways", content)
+
+        run_links = re.findall(
+            r"- \[(\d{4}-\d{2}-\d{2})\]\(reports/llm-post-train/\1\.html\)",
+            content,
+        )
+        self.assertEqual(run_links, sorted(run_links, reverse=True))
+        self.assertIn("2026-05-24", run_links)
+
+        for run_date in run_links:
+            self.assertTrue((POST_TRAIN_REPORTS / f"{run_date}.html").exists())
 
 
 if __name__ == "__main__":
