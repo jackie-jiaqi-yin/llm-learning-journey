@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLM Post-Train: Latest arXiv Summary</title>
+  <style>:root {
+  color-scheme: light;
+  --ink: #17202a;
+  --muted: #5a6673;
+  --faint: #7b8794;
+  --line: #d8d1c4;
+  --paper: #fffdf8;
+  --page: #f4f1eb;
+  --blue: #254b6d;
+  --blue-soft: #e7eef5;
+  --green: #376b5d;
+  --gold: #b8842f;
+  --rust: #9f4638;
+  --shadow: 0 24px 64px rgba(53, 47, 39, 0.14);
+}
+
+@page {
+  size: A4;
+  margin: 17mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(37, 75, 109, 0.09), transparent 32%),
+    linear-gradient(180deg, #f9f8f4 0%, var(--page) 100%);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.65;
+}
+
+body {
+  padding: 32px 20px;
+}
+
+.report-shell {
+  max-width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.report-header {
+  position: relative;
+  padding: 34px 42px 30px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(184, 132, 47, 0.18), transparent 34%),
+    linear-gradient(135deg, #fffdf8 0%, #f3eee4 100%);
+}
+
+.report-header::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6px;
+  content: "";
+  background: linear-gradient(90deg, var(--blue), var(--green), var(--gold), var(--rust));
+}
+
+.masthead {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.kicker,
+.generated-at span {
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: var(--blue);
+}
+
+.source-note {
+  max-width: 520px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.generated-at {
+  min-width: 164px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--faint);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  text-align: right;
+}
+
+.generated-at span {
+  color: var(--faint);
+}
+
+.generated-at strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.report-header h1 {
+  max-width: 820px;
+  margin: 0;
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.report-body {
+  counter-reset: section;
+  padding: 34px 44px 40px;
+}
+
+.report-body h1,
+.report-body h2,
+.report-body h3,
+.report-body h4 {
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  line-height: 1.22;
+  page-break-after: avoid;
+}
+
+.report-body h1 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+  font-size: 28px;
+}
+
+.report-body h2 {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  margin: 34px 0 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 23px;
+  counter-increment: section;
+}
+
+.report-body h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body h2::before {
+  content: counter(section, decimal-leading-zero);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.report-body h2 strong,
+.report-body h3 strong,
+.report-body h4 strong {
+  font-weight: inherit;
+}
+
+.report-body h3 {
+  margin: 24px 0 8px;
+  color: var(--blue);
+  font-size: 18px;
+}
+
+.report-body h4 {
+  margin: 20px 0 8px;
+  color: var(--green);
+  font-size: 16px;
+}
+
+.report-body p,
+.report-body li,
+.report-body td,
+.report-body th {
+  font-size: 15.5px;
+}
+
+.report-body p {
+  max-width: 78ch;
+  margin: 0 0 14px;
+}
+
+.report-body ul,
+.report-body ol {
+  max-width: 82ch;
+  margin: 10px 0 18px;
+  padding-left: 24px;
+}
+
+.report-body li {
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.report-body li::marker {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.report-body ol li::marker {
+  color: var(--gold);
+}
+
+.report-body a {
+  color: #125f8f;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(18, 95, 143, 0.3);
+}
+
+.report-body a:hover {
+  color: #0f766e;
+  border-bottom-color: rgba(15, 118, 110, 0.45);
+}
+
+.report-body strong {
+  color: #111827;
+}
+
+.report-body code {
+  padding: 2px 5px;
+  border: 1px solid #dbe3eb;
+  border-radius: 5px;
+  background: #f3f6f9;
+  color: #263445;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+}
+
+.report-body pre {
+  margin: 14px 0 20px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid #d9e2ea;
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.report-body pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.report-body blockquote {
+  max-width: 82ch;
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--rust);
+  border-radius: 0 8px 8px 0;
+  background: #fff5ed;
+  color: #5f3a31;
+}
+
+.report-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.report-body hr {
+  height: 1px;
+  margin: 28px 0;
+  border: 0;
+  background: var(--line);
+}
+
+.report-body hr + h2 {
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body table {
+  display: block;
+  width: 100%;
+  margin: 18px 0 24px;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid #d8e1e8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.report-body thead,
+.report-body tbody,
+.report-body tr {
+  width: 100%;
+}
+
+.report-body th,
+.report-body td {
+  padding: 9px 11px;
+  border-bottom: 1px solid #d8e1e8;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-body th {
+  background: var(--blue-soft);
+  color: #122e45;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-body tr:nth-child(even) td {
+  background: #fbfcfd;
+}
+
+.report-body tr:last-child td {
+  border-bottom: 0;
+}
+
+.report-footer {
+  border-top: 1px solid var(--line);
+  padding: 16px 42px 20px;
+  background: #f8f4ec;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-footer p {
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 14px;
+  }
+
+  .report-shell {
+    border-radius: 8px;
+  }
+
+  .report-header {
+    padding: 24px 20px 22px;
+  }
+
+  .masthead {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .generated-at {
+    margin-top: 14px;
+    text-align: left;
+  }
+
+  .report-header h1 {
+    font-size: 26px;
+  }
+
+  .report-body {
+    padding: 24px 20px 28px;
+  }
+
+  .report-body h2 {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    font-size: 20px;
+  }
+
+  .report-footer {
+    padding: 14px 20px 18px;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .report-shell {
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .report-header {
+    padding: 0 0 18px;
+  }
+
+  .report-body {
+    padding: 24px 0 0;
+  }
+
+  .report-footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+/* arxiv-report-nav-style:start */
+.report-nav {
+  max-width: 1020px;
+  margin: 0 auto 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+}
+
+.report-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.9);
+  color: #254b6d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(53, 47, 39, 0.08);
+}
+
+.report-nav__link:hover {
+  border-color: rgba(55, 107, 93, 0.4);
+  color: #376b5d;
+}
+
+.report-nav__link--primary {
+  background: #254b6d;
+  color: #ffffff;
+}
+
+.report-nav__link--primary:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 800px) {
+  .report-nav {
+    margin-bottom: 10px;
+  }
+
+  .report-nav__link {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+@media print {
+  .report-nav {
+    display: none;
+  }
+}
+/* arxiv-report-nav-style:end */
+</style>
+</head>
+<body>
+<!-- arxiv-report-nav:start -->
+  <nav class="report-nav" aria-label="Report navigation">
+    <a class="report-nav__link report-nav__link--primary" href="../../llm-post-train/">&larr; Back to LLM Post-Train</a>
+    <a class="report-nav__link" href="../../">All arXiv digests</a>
+  </nav>
+<!-- arxiv-report-nav:end -->
+  <article class="report-shell">
+    <header class="report-header">
+      <div class="masthead">
+        <div>
+          <div class="kicker">ArXiv Education Brief</div>
+          <p class="source-note">Recent-paper synthesis for fast technical orientation.</p>
+        </div>
+        <p class="generated-at">
+          <span>Generated</span>
+          <strong>2026-05-27 20:50</strong>
+        </p>
+      </div>
+      <h1>LLM Post-Train: Latest arXiv Summary</h1>
+    </header>
+
+    <section class="report-body" aria-label="Report content">
+      <h2><strong>Paper Catalog</strong></h2>
+<p><strong>Date Range</strong>: 2026-05-21 to 2026-05-27</p>
+<p><strong>Total Papers Analyzed</strong>: 123</p>
+<hr/>
+<h2><strong>Key Research Themes</strong></h2>
+<ol>
+<li><strong>Post-training as control of side effects, not just capability gain:</strong> The most consistent signal across the 123-paper set is that researchers are no longer satisfied with raw benchmark improvements from SFT, DPO, or GRPO-style RL. Papers such as <a href="https://arxiv.org/abs/2605.28819v1" target="_blank" rel="noopener noreferrer">PEFT-Arena</a>, <a href="https://arxiv.org/abs/2605.22731v1" target="_blank" rel="noopener noreferrer">Post-Training About</a>, and <a href="https://arxiv.org/abs/2605.27996v1" target="_blank" rel="noopener noreferrer">Reward Bias</a> explicitly argue that post-training should be evaluated by how it shapes retention, state visitation, and optimization pressure, not merely by final task reward. This is a meaningful shift from older “recipe comparison” work toward mechanism-aware post-training. For practitioners, the implication is concrete: every gain in instruction following or reasoning should now be audited for what it erased, over-sharpened, or rerouted.</li>
+</ol>
+<ol>
+<li><strong>Credit assignment is the main bottleneck in modern RLVR pipelines:</strong> A large fraction of this week’s papers try to recover signal from sparse, delayed, or misleading rewards rather than proposing radically new RL objectives. <a href="https://arxiv.org/abs/2605.28109v1" target="_blank" rel="noopener noreferrer">IB-TPO</a>, <a href="https://arxiv.org/abs/2605.22703v1" target="_blank" rel="noopener noreferrer">Clipping Bottleneck</a>, <a href="https://arxiv.org/abs/2605.22074v1" target="_blank" rel="noopener noreferrer">SCRL</a>, <a href="https://arxiv.org/abs/2605.26606v1" target="_blank" rel="noopener noreferrer">Pilot-Commit</a>, and <a href="https://arxiv.org/abs/2605.28247v1" target="_blank" rel="noopener noreferrer">IRDS</a> all improve learning by deciding where gradients should land, which prompts deserve rollout budget, or how partial progress can become verifiable. Compared with earlier RL-for-LLMs work that centered on whether RL beats SFT, the question now is where the useful training signal is actually located. This matters because rollout cost is rapidly becoming the limiting resource, especially for reasoning and agent settings.</li>
+</ol>
+<ol>
+<li><strong>Post-training is becoming increasingly environment-specific:</strong> Many strong papers are not about generic chat behavior at all, but about installing behavior for structured deployment contexts. <a href="https://arxiv.org/abs/2605.28629v1" target="_blank" rel="noopener noreferrer">Mobile-Aptus</a>, <a href="https://arxiv.org/abs/2605.28534v1" target="_blank" rel="noopener noreferrer">GUI-CIDER</a>, <a href="https://arxiv.org/abs/2605.28354v1" target="_blank" rel="noopener noreferrer">Plan Before Search</a>, <a href="https://arxiv.org/abs/2605.25447v1" target="_blank" rel="noopener noreferrer">GeoSVG-RL</a>, and <a href="https://arxiv.org/abs/2605.22240v1" target="_blank" rel="noopener noreferrer">Unlocking Proactivity</a> all exploit task structure that ordinary instruction tuning does not internalize well. The change from past weeks is that these papers do not treat post-training as a single universal stage after pretraining; they treat it as a domain adaptation layer for search, GUI navigation, mobile use, or persuasion. That makes post-training look more like systems engineering around a model core.</li>
+</ol>
+<ol>
+<li><strong>Data design is overtaking optimizer design as the dominant lever:</strong> Several of the most actionable contributions are about which data to collect, select, or synthesize. <a href="https://arxiv.org/abs/2605.22389v1" target="_blank" rel="noopener noreferrer">Unified Data</a>, <a href="https://arxiv.org/abs/2605.27354v1" target="_blank" rel="noopener noreferrer">Guiding LLM</a>, <a href="https://arxiv.org/abs/2605.23454v2" target="_blank" rel="noopener noreferrer">ARES</a>, <a href="https://arxiv.org/abs/2605.25549v1" target="_blank" rel="noopener noreferrer">BC Protocol</a>, and <a href="https://arxiv.org/abs/2605.26567v1" target="_blank" rel="noopener noreferrer">MedGuideX</a> all show different ways to turn weak, costly, or heterogeneous supervision into more learnable post-training data. The practical consequence is that “alignment quality” is increasingly a data-pipeline question rather than a loss-function question. For someone building internal post-training stacks, dataset curation and curriculum logic now deserve as much attention as the optimizer.</li>
+</ol>
+<ol>
+<li><strong>Evaluation is broadening to include diversity collapse, multilingual gaps, and commitment failures:</strong> This week includes several papers that treat post-training as a source of behavioral pathology. <a href="https://arxiv.org/abs/2605.26492v1" target="_blank" rel="noopener noreferrer">Elias Lighthouse</a> and <a href="https://arxiv.org/abs/2605.27878v1" target="_blank" rel="noopener noreferrer">Narrative Flattening</a> point to reduced stylistic diversity after alignment. <a href="https://arxiv.org/abs/2605.25420v1" target="_blank" rel="noopener noreferrer">SomaliBench Eval</a> and <a href="https://arxiv.org/abs/2605.23825v1" target="_blank" rel="noopener noreferrer">It s</a> show cross-lingual and geopolitical distortions linked to post-training. <a href="https://arxiv.org/abs/2605.22007v1" target="_blank" rel="noopener noreferrer">Hallucination Commitment</a> suggests many hallucinations arise not from absent knowledge but from sharpened answer commitment. Together these papers push the field toward richer evaluation of the behaviors post-training amplifies.</li>
+</ol>
+<h2><strong>Methodological Approaches</strong></h2>
+<ol>
+<li><strong>Loss-level repairs for preference optimization:</strong> <a href="https://arxiv.org/abs/2605.28440v1" target="_blank" rel="noopener noreferrer">AdaDPO</a>, <a href="https://arxiv.org/abs/2605.23244v1" target="_blank" rel="noopener noreferrer">COALA</a>, and related preference papers pursue a relatively conservative strategy: keep the pairwise alignment pipeline, but fix known pathologies in gradient geometry, reference dependence, or compute cost. This family is attractive because it is easy to insert into production training loops. Its strength is high leverage for low engineering effort. Its weakness is that loss surgery cannot correct mis-specified preferences or poor response candidates; it only changes how existing pairwise supervision is consumed.</li>
+</ol>
+<ol>
+<li><strong>Signal routing in RLVR and on-policy learning:</strong> <a href="https://arxiv.org/abs/2605.22703v1" target="_blank" rel="noopener noreferrer">Clipping Bottleneck</a>, <a href="https://arxiv.org/abs/2605.28109v1" target="_blank" rel="noopener noreferrer">IB-TPO</a>, <a href="https://arxiv.org/abs/2605.27293v1" target="_blank" rel="noopener noreferrer">BASIS</a>, <a href="https://arxiv.org/abs/2605.25850v1" target="_blank" rel="noopener noreferrer">TIAR</a>, and <a href="https://arxiv.org/abs/2605.22537v1" target="_blank" rel="noopener noreferrer">F-TIS</a> all modify how on-policy information is aggregated, normalized, or filtered. Mechanistically, these methods assume that useful signal is present but discarded by current estimators, clipping rules, or sampling inefficiency. The strength of this approach is that it often preserves the overall RL recipe while improving stability or sample efficiency. The caveat is that these methods can be brittle across different verifier regimes, rollout group sizes, or policy entropy levels.</li>
+</ol>
+<ol>
+<li><strong>Privileged-information distillation with selective transfer:</strong> Distillation papers in this set do not simply copy a better teacher. <a href="https://arxiv.org/abs/2605.28791v1" target="_blank" rel="noopener noreferrer">Skill-Conditioned Gated</a>, <a href="https://arxiv.org/abs/2605.23493v1" target="_blank" rel="noopener noreferrer">EDGE-OPD</a>, <a href="https://arxiv.org/abs/2605.22263v1" target="_blank" rel="noopener noreferrer">DASD</a>, <a href="https://arxiv.org/abs/2605.27765v1" target="_blank" rel="noopener noreferrer">Restoring Sweet</a>, and <a href="https://arxiv.org/abs/2605.27115v1" target="_blank" rel="noopener noreferrer">Counteraction-Aware Multi-Teacher</a> all try to decide where teacher-side privileged context should help and where it should not. The main advantage is better retention of exploration and general capability than naïve imitation. The main risk is that every selective-transfer design adds another dependency on teacher reliability, evidence masks, or uncertainty estimates.</li>
+</ol>
+<ol>
+<li><strong>Structured supervision through decomposition, executability, or simulation:</strong> <a href="https://arxiv.org/abs/2605.22074v1" target="_blank" rel="noopener noreferrer">SCRL</a>, <a href="https://arxiv.org/abs/2605.25954v1" target="_blank" rel="noopener noreferrer">Step-TP</a>, <a href="https://arxiv.org/abs/2605.26567v1" target="_blank" rel="noopener noreferrer">MedGuideX</a>, <a href="https://arxiv.org/abs/2605.25447v1" target="_blank" rel="noopener noreferrer">GeoSVG-RL</a>, and <a href="https://arxiv.org/abs/2605.23454v2" target="_blank" rel="noopener noreferrer">ARES</a> all create more learnable supervision by exposing intermediate structure: subproblems, executable guidelines, geometric constraints, or question-specific rubrics. This is one of the most promising directions in the digest because it directly attacks the credit-assignment problem. The tradeoff is portability: highly structured supervision often requires domain knowledge or tooling that does not generalize across tasks.</li>
+</ol>
+<ol>
+<li><strong>Behavior-shaping beyond pure correctness:</strong> <a href="https://arxiv.org/abs/2605.22817v1" target="_blank" rel="noopener noreferrer">Vector Policy</a>, <a href="https://arxiv.org/abs/2605.22211v1" target="_blank" rel="noopener noreferrer">CLORE</a>, <a href="https://arxiv.org/abs/2605.26958v1" target="_blank" rel="noopener noreferrer">Tournament-GRPO</a>, and <a href="https://arxiv.org/abs/2605.27971v1" target="_blank" rel="noopener noreferrer">Semantic Flow</a> explicitly optimize response diversity, concision, or coherence rather than only task success. This is important because many modern deployments rely on test-time search, agent loops, or user-facing style quality. The strength is that these methods target real product pain points that benchmark accuracy misses. The caveat is that optimizing behavior shape can easily become another proxy objective unless paired with broader evaluation.</li>
+</ol>
+<h2><strong>Notable Papers to Read First</strong></h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2605.28819v1" target="_blank" rel="noopener noreferrer">PEFT-Arena</a> — The clearest retention-oriented paper in the set. Read it first if you want a better evaluation frame for SFT and PEFT than “did the task score go up?” Its main value is diagnostic, but that diagnostic is urgently needed.</li>
+<li><a href="https://arxiv.org/abs/2605.26606v1" target="_blank" rel="noopener noreferrer">Pilot-Commit</a> — A strong practical read for anyone spending too much on GRPO-style rollouts. It reframes compute allocation as an online decision problem; the caveat is that its benefits are tied to reward-variance estimation quality.</li>
+<li><a href="https://arxiv.org/abs/2605.28440v1" target="_blank" rel="noopener noreferrer">AdaDPO</a> — This is one of the more deployable preference-learning papers because the change is local to the loss. It is a good read if your alignment stack already uses DPO or SimPO-like objectives.</li>
+<li><a href="https://arxiv.org/abs/2605.22731v1" target="_blank" rel="noopener noreferrer">Post-Training About</a> — The best conceptual paper in the digest. It gives a useful lens for understanding why similar losses can produce very different retention and reasoning behavior.</li>
+<li><a href="https://arxiv.org/abs/2605.26567v1" target="_blank" rel="noopener noreferrer">MedGuideX</a> — Read this as an example of turning domain procedure into scalable supervision. It is especially relevant if you care about post-training in high-stakes verticals.</li>
+<li><a href="https://arxiv.org/abs/2605.22007v1" target="_blank" rel="noopener noreferrer">Hallucination Commitment</a> — Worth reading for the claim that many instruct failures happen despite latent knowledge being present. It is a powerful reminder that post-training modifies answer selection, not just knowledge access.</li>
+</ul>
+<h2><strong>What Is New in This Window</strong></h2>
+<ul>
+<li><strong>From objective wars to signal placement:</strong> Earlier post-training discussions often revolved around which top-level algorithm wins: SFT, RLHF, DPO, or GRPO. This week’s papers instead ask where the learning signal should live, whether in specific token regions, subproblems, rollout budgets, or uncertainty bands, as seen in <a href="https://arxiv.org/abs/2605.22703v1" target="_blank" rel="noopener noreferrer">Clipping Bottleneck</a>, <a href="https://arxiv.org/abs/2605.22074v1" target="_blank" rel="noopener noreferrer">SCRL</a>, and <a href="https://arxiv.org/abs/2605.26606v1" target="_blank" rel="noopener noreferrer">Pilot-Commit</a>.</li>
+</ul>
+<ul>
+<li><strong>From generic instruction tuning to environment-aware post-training:</strong> Compared with older “assistant” framing, this week’s agent papers bake in mobile interaction, GUI causality, search plans, or dialogue concerns. <a href="https://arxiv.org/abs/2605.28629v1" target="_blank" rel="noopener noreferrer">Mobile-Aptus</a>, <a href="https://arxiv.org/abs/2605.28534v1" target="_blank" rel="noopener noreferrer">GUI-CIDER</a>, and <a href="https://arxiv.org/abs/2605.22240v1" target="_blank" rel="noopener noreferrer">Unlocking Proactivity</a> show post-training becoming explicitly task-environment aware.</li>
+</ul>
+<ul>
+<li><strong>From more data to better data geometry:</strong> Instead of only scaling reasoning corpora, papers such as <a href="https://arxiv.org/abs/2605.22389v1" target="_blank" rel="noopener noreferrer">Unified Data</a>, <a href="https://arxiv.org/abs/2605.28247v1" target="_blank" rel="noopener noreferrer">IRDS</a>, <a href="https://arxiv.org/abs/2605.23454v2" target="_blank" rel="noopener noreferrer">ARES</a>, and <a href="https://arxiv.org/abs/2605.25549v1" target="_blank" rel="noopener noreferrer">BC Protocol</a> focus on ranking, filtering, or structurally generating better examples. The field appears to be shifting from data volume obsession to data topology and coverage.</li>
+</ul>
+<ul>
+<li><strong>From hidden alignment tradeoffs to directly measured side effects:</strong> The new evaluation papers are unusually explicit about failure modes: diversity collapse, multilingual refusal gaps, reward hacking, bias substitution, and commitment-induced hallucination. That is a meaningful progression from generic capability-retention language because it gives concrete things to test and mitigate.</li>
+</ul>
+<ul>
+<li><strong>From parameter updates only to mixed adaptation surfaces:</strong> A notable thread this week blurs the line between post-training and deployment-time control. <a href="https://arxiv.org/abs/2605.28020v1" target="_blank" rel="noopener noreferrer">Reward-Guided Decoding</a>, quantization papers such as <a href="https://arxiv.org/abs/2605.26175v1" target="_blank" rel="noopener noreferrer">InfoQuant</a>, and sparsity work such as <a href="https://arxiv.org/abs/2605.28283v1" target="_blank" rel="noopener noreferrer">PrunePath</a> suggest that behavior, efficiency, and capability are now being co-optimized across training, architecture, and decoding.</li>
+</ul>
+<h2><strong>Challenges and Future Directions</strong></h2>
+<ol>
+<li><strong>Retention auditing is still behind optimization speed:</strong> Even when papers care about forgetting, they often evaluate it narrowly. <a href="https://arxiv.org/abs/2605.28819v1" target="_blank" rel="noopener noreferrer">PEFT-Arena</a> makes a strong case that post-training methods need a standard way to report adaptation-retention Pareto fronts rather than single-task wins.</li>
+<li><strong>Verifier quality remains a hidden single point of failure:</strong> <a href="https://arxiv.org/abs/2605.25988v1" target="_blank" rel="noopener noreferrer">Makes Medical</a>, <a href="https://arxiv.org/abs/2605.28247v1" target="_blank" rel="noopener noreferrer">IRDS</a>, and many RLVR papers depend on verifier behavior that can collapse, over-dominate, or create reward hacking. Near-term work should focus on verifier diagnostics as seriously as policy optimization.</li>
+<li><strong>Selective-transfer methods need more robust uncertainty estimates:</strong> Distillation and curriculum methods increasingly route updates by entropy, pass rate, or evidence support. That is promising, but methods like <a href="https://arxiv.org/abs/2605.22263v1" target="_blank" rel="noopener noreferrer">DASD</a> and <a href="https://arxiv.org/abs/2605.26606v1" target="_blank" rel="noopener noreferrer">Pilot-Commit</a> will only generalize if these routing signals stay meaningful as models and tasks change.</li>
+<li><strong>Diversity, multilinguality, and safety are still weakly integrated into mainstream post-training evaluation:</strong> <a href="https://arxiv.org/abs/2605.25420v1" target="_blank" rel="noopener noreferrer">SomaliBench Eval</a>, <a href="https://arxiv.org/abs/2605.26492v1" target="_blank" rel="noopener noreferrer">Elias Lighthouse</a>, and <a href="https://arxiv.org/abs/2605.22007v1" target="_blank" rel="noopener noreferrer">Hallucination Commitment</a> show real behavioral costs that most alignment pipelines still do not optimize for jointly.</li>
+<li><strong>Structured supervision scales unevenly across domains:</strong> Methods like <a href="https://arxiv.org/abs/2605.26567v1" target="_blank" rel="noopener noreferrer">MedGuideX</a>, <a href="https://arxiv.org/abs/2605.25954v1" target="_blank" rel="noopener noreferrer">Step-TP</a>, and <a href="https://arxiv.org/abs/2605.25447v1" target="_blank" rel="noopener noreferrer">GeoSVG-RL</a> are compelling because they expose intermediate structure, but the broader challenge is how to extract equally good structure in messy open-ended tasks.</li>
+<li><strong>Security should be treated as a post-training property, not an external audit:</strong> <a href="https://arxiv.org/abs/2605.23168v1" target="_blank" rel="noopener noreferrer">PoisonForge</a>, <a href="https://arxiv.org/abs/2605.27355v1" target="_blank" rel="noopener noreferrer">Alignment Tampering</a>, and lifecycle threat surveys suggest that fine-tuning and alignment can directly introduce exploitable behaviors. Future work should put poisoning and tampering checks inside ordinary post-training pipelines.</li>
+</ol>
+<h2><strong>Concluding Overview</strong></h2>
+<p>This week’s post-training literature is unusually coherent. Across preference learning, RLVR, distillation, agent training, and efficiency work, the strongest papers share one idea: performance depends on where optimization pressure is applied and what collateral behavior it induces. That idea appears in different forms, such as state distributions, boundary-local gradients, structured subproblems, evidence masks, rollout allocation, and diversity-aware objectives. The field is moving away from viewing post-training as a single cleanup stage after pretraining and toward viewing it as a programmable control surface over behavior, capability retention, and deployment cost. Another clear trend is that data design is rising in importance relative to optimizer novelty. Many of the most actionable contributions are about selecting better trajectories, generating rubric-grounded or executable supervision, and diagnosing where reward signals become misleading. At the same time, the evaluation bar is rising: papers increasingly measure story flattening, multilingual refusal gaps, reward hacking, and commitment failures rather than only aggregate wins. That is a healthy shift because many real deployment failures come from the shape of behavior, not the average score. For practitioners, the most reusable lessons are to spend rollouts selectively, audit retention explicitly, distrust single-axis bias fixes, and treat structured supervision as a high-leverage asset when the domain allows it. For researchers, the open problem is how to generalize these gains without building a bespoke pipeline for every environment. The overall impression is not that one post-training recipe has won, but that the field is getting better at isolating where current recipes break.</p>
+<p>For newcomers, a good reading order is: start with <a href="https://arxiv.org/abs/2605.22731v1" target="_blank" rel="noopener noreferrer">Post-Training About</a> for the framing, then read <a href="https://arxiv.org/abs/2605.28819v1" target="_blank" rel="noopener noreferrer">PEFT-Arena</a> and <a href="https://arxiv.org/abs/2605.28440v1" target="_blank" rel="noopener noreferrer">AdaDPO</a> for evaluation and preference optimization, followed by <a href="https://arxiv.org/abs/2605.26606v1" target="_blank" rel="noopener noreferrer">Pilot-Commit</a> and <a href="https://arxiv.org/abs/2605.22074v1" target="_blank" rel="noopener noreferrer">SCRL</a> for RL signal placement. Finish with <a href="https://arxiv.org/abs/2605.26567v1" target="_blank" rel="noopener noreferrer">MedGuideX</a> and <a href="https://arxiv.org/abs/2605.22007v1" target="_blank" rel="noopener noreferrer">Hallucination Commitment</a> to see how domain structure and behavioral diagnostics reshape the post-training agenda.</p>
+<hr/>
+<h2><strong>Run Metadata</strong></h2>
+<ul>
+<li><strong>Topic</strong>: LLM Post-Train</li>
+<li><strong>Generated On</strong>: 2026-05-27</li>
+<li><strong>Time Window</strong>: Last 7 days</li>
+<li><strong>Report Style</strong>: technical learning digest</li>
+<li><strong>Publication Range</strong>: 2026-05-21 to 2026-05-27</li>
+<li><strong>arXiv Query</strong>: <code>(cat:cs.CL OR cat:cs.AI OR cat:cs.LG) AND ((ti:&quot;llm&quot; OR abs:&quot;llm&quot; OR ti:&quot;large language model&quot; OR abs:&quot;large language model&quot; OR ti:&quot;large language models&quot; OR abs:&quot;large language models&quot;) AND (ti:&quot;post-training&quot; OR abs:&quot;post-training&quot; OR ti:&quot;post training&quot; OR abs:&quot;post training&quot; OR ti:&quot;instruction tuning&quot; OR abs:&quot;instruction tuning&quot; OR ti:&quot;supervised fine-tuning&quot; OR abs:&quot;supervised fine-tuning&quot; OR ti:&quot;sft&quot; OR abs:&quot;sft&quot; OR ti:&quot;preference optimization&quot; OR abs:&quot;preference optimization&quot; OR ti:&quot;direct preference optimization&quot; OR abs:&quot;direct preference optimization&quot; OR ti:&quot;dpo&quot; OR abs:&quot;dpo&quot; OR ti:&quot;rlhf&quot; OR abs:&quot;rlhf&quot; OR ti:&quot;rlaif&quot; OR abs:&quot;rlaif&quot; OR ti:&quot;grpo&quot; OR abs:&quot;grpo&quot; OR ti:&quot;reward model&quot; OR abs:&quot;reward model&quot; OR ti:&quot;reward modeling&quot; OR abs:&quot;reward modeling&quot;))</code></li>
+</ul>
+    </section>
+
+    <footer class="report-footer">
+      <p>Source metadata from arXiv. Follow paper links for primary details.</p>
+    </footer>
+  </article>
+</body>
+</html>
