@@ -2,6 +2,7 @@
 
 <!-- arxiv-topic: llm-post-train -->
 <!-- arxiv-runs:start -->
+- [2026-06-05](reports/llm-post-train/2026-06-05.html)
 - [2026-05-27](reports/llm-post-train/2026-05-27.html)
 - [2026-05-25](reports/llm-post-train/2026-05-25.html)
 - [2026-05-24](reports/llm-post-train/2026-05-24.html)
