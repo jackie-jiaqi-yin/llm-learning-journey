@@ -1,6 +1,8 @@
 # LLM Learning Journey
 
-Welcome to my Large Language Models learning notes! This documentation site serves as a comprehensive collection of my personal insights, research notes, and explorations in the field of LLMs and AI.
+LLM Learning Journey is Jackie Yin's public knowledge base for studying large language models, AI agents, retrieval-augmented generation, post-training, prompt engineering, evaluation, and applied generative AI systems.
+
+The site combines long-form learning notes, paper reviews, conference notes, online course write-ups, and weekly arXiv research digests. It is meant to be useful for people who want practical, research-grounded notes on how modern LLM systems are built, evaluated, and improved.
 
 ## About These Notes
 
@@ -9,6 +11,8 @@ These Markdown learning notes are a collection of my personal thoughts and insig
 While these notes help me in my LLMs learning journey, they may not directly align with your needs or be as structured as you'd prefer. Feel free to explore topics that interest you!
 
 ## Topics Covered
+
+These are the main research and engineering areas covered on this site.
 
 ### Core LLM Topics
 
@@ -26,6 +30,13 @@ While these notes help me in my LLMs learning journey, they may not directly ali
 
 - **[Recommendation Systems](topics/RecSys/index.md)** - LLMs in recommendation systems
 - **[Miscellaneous](topics/Others/index.md)** - Other interesting topics and findings
+
+## Weekly arXiv Research Digests
+
+The [arXiv Research Digest](arxiv-learning/index.md) section tracks recent papers in areas I follow closely. Current digests cover:
+
+- **[AI Agents](arxiv-learning/agent.md)** - agent architectures, tool use, planning, memory, workflow automation, browser agents, software agents, multi-agent systems, evaluation, and safety
+- **[LLM Post-Training](arxiv-learning/llm-post-train.md)** - instruction tuning, preference optimization, reinforcement learning from feedback, alignment, data quality, reward modeling, evaluation, and post-training infrastructure
 
 ## Talks & Seminars
 

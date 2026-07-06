@@ -1,8 +1,10 @@
 # arXiv Research Digest
 
-Weekly automation-assisted research digests for AI topics I am actively following.
+Weekly automation-assisted research digests for AI topics I am actively following, including AI agents, tool use, multi-agent systems, LLM post-training, alignment, preference optimization, reinforcement learning, and model evaluation.
 
 I use Codex automations to scan recent arXiv papers, synthesize recurring themes, and publish concise HTML reports by topic. The goal is to make it easier to keep up with fast-moving research areas and decide which papers are worth reading more deeply.
+
+These pages are written for readers who want a searchable, date-organized view of recent large language model research. Each weekly report summarizes paper-level evidence, highlights practical takeaways, and links back to the original arXiv sources.
 
 ## Current Topics
 

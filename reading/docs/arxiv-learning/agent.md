@@ -1,5 +1,9 @@
 # Agent
 
+This page indexes weekly arXiv research digests on AI agents and agentic AI systems. The reports track recent papers on tool use, planning, memory, workflow automation, browser agents, software engineering agents, multi-agent collaboration, long-horizon task solving, evaluation, reliability, and safety.
+
+Use this index to follow how research on large language model agents changes over time. Each dated report summarizes current themes, notable papers, practical engineering lessons, and open questions for building and evaluating AI agent systems.
+
 <!-- arxiv-topic: agent -->
 <!-- arxiv-runs:start -->
 - [2026-07-05](reports/agent/2026-07-05.html)

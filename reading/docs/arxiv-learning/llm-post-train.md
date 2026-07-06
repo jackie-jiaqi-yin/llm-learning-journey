@@ -1,5 +1,9 @@
 # LLM Post-Train
 
+This page indexes weekly arXiv research digests on LLM post-training. The reports track recent papers on instruction tuning, supervised fine-tuning, preference optimization, reinforcement learning from human or AI feedback, reward modeling, alignment, data quality, synthetic data, evaluation, and scalable post-training infrastructure.
+
+Use this index to follow how post-training methods for large language models evolve over time. Each dated report summarizes current themes, notable papers, practical takeaways, and open questions for improving model behavior after pretraining.
+
 <!-- arxiv-topic: llm-post-train -->
 <!-- arxiv-runs:start -->
 - [2026-07-05](reports/llm-post-train/2026-07-05.html)

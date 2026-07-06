@@ -8,6 +8,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "reading" / "docs"
 MKDOCS_CONFIG = ROOT / "reading" / "mkdocs.yml"
+ROBOTS = DOCS / "robots.txt"
 POST_TRAIN_PAGE = DOCS / "arxiv-learning" / "llm-post-train.md"
 POST_TRAIN_REPORTS = DOCS / "arxiv-learning" / "reports" / "llm-post-train"
 
@@ -43,6 +44,29 @@ class ArxivLearningDocsTest(unittest.TestCase):
                 topic_links.update(item)
 
         self.assertEqual(topic_links, EXPECTED_TOPIC_PAGES)
+
+    def test_site_exposes_search_engine_discovery_hints(self):
+        config = yaml.load(MKDOCS_CONFIG.read_text(), Loader=yaml.BaseLoader)
+        robots = ROBOTS.read_text()
+
+        self.assertIn("site_url", config)
+        self.assertIn("large language models", config["site_description"].lower())
+        self.assertIn("ai agents", config["site_description"].lower())
+        self.assertIn("post-training", config["site_description"].lower())
+        self.assertIn("User-agent: *", robots)
+        self.assertIn(f"Sitemap: {config['site_url']}sitemap.xml", robots)
+
+    def test_arxiv_index_pages_include_descriptive_searchable_copy(self):
+        index = (DOCS / "arxiv-learning" / "index.md").read_text()
+        agent = (DOCS / "arxiv-learning" / "agent.md").read_text()
+        post_train = POST_TRAIN_PAGE.read_text()
+
+        self.assertIn("AI agents", index)
+        self.assertIn("LLM post-training", index)
+        self.assertIn("tool use", agent)
+        self.assertIn("multi-agent collaboration", agent)
+        self.assertIn("preference optimization", post_train)
+        self.assertIn("reward modeling", post_train)
 
     def test_topic_pages_define_stable_automation_markers(self):
         for topic, relative_path in EXPECTED_TOPIC_PAGES.items():
