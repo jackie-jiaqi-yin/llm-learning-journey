@@ -2,6 +2,7 @@
 
 <!-- arxiv-topic: agent -->
 <!-- arxiv-runs:start -->
+- [2026-07-05](reports/agent/2026-07-05.html)
 - [2026-06-17](reports/agent/2026-06-17.html)
 - [2026-06-11](reports/agent/2026-06-11.html)
 - [2026-06-05](reports/agent/2026-06-05.html)
