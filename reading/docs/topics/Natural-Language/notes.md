@@ -46,8 +46,8 @@ RNNs are neural networks designed to process sequential data by maintaining an i
 
 - The hidden state acts as a memory mechanism, encoding useful information about previous tokens in the sequence
 - At each time step, the RNN combines the previous hidden state with the current input token to produce:
-  1. A new hidden state for the next time step
-  2. A prediction distribution for the next token
+    1. A new hidden state for the next time step
+    2. A prediction distribution for the next token
 
 The process can be visualized in the following diagram:
 
@@ -74,19 +74,19 @@ Forward Pass:
 Text generation follows these steps:
 
 1. Initialization:
-   - Start with a seed word ($word_t$)
-   - Initialize hidden state to zeros
+    - Start with a seed word ($word_t$)
+    - Initialize hidden state to zeros
 
 2. Generation Loop:
-   - Network produces probability distribution over vocabulary: $(P(w_1), ..., P(w_i), ..., P(w_{|v|}))$
-   - Apply temperature scaling to logits before sampling: $(\frac{\log P(w_1)}{T}, ..., \frac{\log P(w_i)}{T}, ..., \frac{\log P(w_{|v|})}{T})$
-     - $T > 0$
-     - $T < 1$ sharpens the distribution and makes sampling more deterministic
-     - $T = 1$ leaves the distribution unchanged
-     - $T > 1$ flattens the distribution and increases randomness
-   - Sample next token ($word_{t+1}$) from scaled distribution
-   - Feed generated token and updated hidden state back as input
-   - Repeat process for desired length of text
+    - Network produces probability distribution over vocabulary: $(P(w_1), ..., P(w_i), ..., P(w_{|v|}))$
+    - Apply temperature scaling to logits before sampling: $(\frac{\log P(w_1)}{T}, ..., \frac{\log P(w_i)}{T}, ..., \frac{\log P(w_{|v|})}{T})$
+        - $T > 0$
+        - $T < 1$ sharpens the distribution and makes sampling more deterministic
+        - $T = 1$ leaves the distribution unchanged
+        - $T > 1$ flattens the distribution and increases randomness
+    - Sample next token ($word_{t+1}$) from scaled distribution
+    - Feed generated token and updated hidden state back as input
+    - Repeat process for desired length of text
 
 #### Recap
 Key points about RNN language models:
@@ -96,15 +96,15 @@ Language models express the probability of sequences:
 $$P(w_1, ..., w_n) = \prod_{i=1}^{n} P(w_i | w_1, ..., w_{i-1}; \theta)$$
 
 - Advantages:
-  - Can handle variable-length sequences
-  - Theoretically able to capture arbitrary-length dependencies
-  - More flexible than fixed n-gram models
+    - Can handle variable-length sequences
+    - Theoretically able to capture arbitrary-length dependencies
+    - More flexible than fixed n-gram models
 
 - Limitations:
-  - In practice, struggle to maintain long-term dependencies
-  - Information gradually "fades" as it's repeatedly compressed into fixed-size hidden state
-  - Training can be unstable due to vanishing/exploding gradients
-  - Sequential nature makes parallelization difficult
+    - In practice, struggle to maintain long-term dependencies
+    - Information gradually "fades" as it's repeatedly compressed into fixed-size hidden state
+    - Training can be unstable due to vanishing/exploding gradients
+    - Sequential nature makes parallelization difficult
 
 ### Long Short-Term Memory (LSTM)
 Long Short-Term Memory (LSTM) networks are a specialized type of RNN designed to better handle long-term dependencies in sequential data. LSTMs replace the simple neural network layer in traditional RNNs with a more sophisticated memory cell structure.
@@ -159,14 +159,14 @@ This is the key reason LSTMs help with long-term dependencies: the cell state gi
 #### Advantages and Limitations
 
 - **Advantages**:
-  - Better at capturing long-term dependencies compared to standard RNNs
-  - More stable gradient flow during training
-  - Explicit control over memory retention and updates
+    - Better at capturing long-term dependencies compared to standard RNNs
+    - More stable gradient flow during training
+    - Explicit control over memory retention and updates
   
 - **Limitations**:
-  - Still faces challenges with very long sequences
-  - More complex architecture requires more computational resources
-  - May struggle with context windows beyond certain lengths
+    - Still faces challenges with very long sequences
+    - More complex architecture requires more computational resources
+    - May struggle with context windows beyond certain lengths
 
 
 ### Sequence-to-Sequence Models
@@ -191,20 +191,20 @@ The model consists of two main components:
 #### Processing Steps
 
 1. **Encoding Phase**
-   - The encoder processes the input sequence token by token
-   - In vanilla seq2seq, creates a fixed-length context vector that attempts to summarize the entire input
-   - This representation should capture:
-     - Negations
-     - Adjective ordering
-     - Syntactic relationships
-     - Long-range dependencies
-   - The fixed-vector bottleneck is also a limitation: long or information-dense inputs can be hard to compress into one vector
+    - The encoder processes the input sequence token by token
+    - In vanilla seq2seq, creates a fixed-length context vector that attempts to summarize the entire input
+    - This representation should capture:
+        - Negations
+        - Adjective ordering
+        - Syntactic relationships
+        - Long-range dependencies
+    - The fixed-vector bottleneck is also a limitation: long or information-dense inputs can be hard to compress into one vector
 
 2. **Decoding Phase**
-   - Starts with the context vector from the encoder
-   - Generates output tokens one at a time
-   - Each generated token influences the next token's prediction
-   - Continues until a special End-of-Sequence (EOS) token is generated
+    - Starts with the context vector from the encoder
+    - Generates output tokens one at a time
+    - Each generated token influences the next token's prediction
+    - Continues until a special End-of-Sequence (EOS) token is generated
 
 ![Sequence-to-sequence overview](figs/seq2seq.png)
 
@@ -213,17 +213,17 @@ The model consists of two main components:
 #### Key Innovations
 
 1. **Separate Encoder-Decoder Architecture**
-   - Allows processing of input and output sequences independently
-   - Can handle different vocabularies and lengths for input/output
+    - Allows processing of input and output sequences independently
+    - Can handle different vocabularies and lengths for input/output
 
 2. **Modified Decoder**
-   - Takes both the previous output token and hidden state as input
-   - Enables more contextual and coherent sequence generation
+    - Takes both the previous output token and hidden state as input
+    - Enables more contextual and coherent sequence generation
 
 3. **Foundation for Attention**
-   - This architecture laid the groundwork for attention mechanisms
-   - Attention allows the decoder to focus on different parts of the input sequence
-   - Critical development for modern language models
+    - This architecture laid the groundwork for attention mechanisms
+    - Attention allows the decoder to focus on different parts of the input sequence
+    - Critical development for modern language models
 
 #### Seq2Seq Training
 The training process for sequence-to-sequence models involves carefully coordinating the encoder and decoder components to learn how to transform input sequences into desired output sequences.
@@ -245,19 +245,19 @@ Output sequence: $y = \text{SOS}, y_1, ..., y_m, \text{EOS}$
 
 1. Initialize encoder hidden state $h_0^{enc}$ as a zero vector
 2. For each input token $x_j$ until EOS is reached:
-   - Feed token $x_j$ and previous hidden state $h_j^{enc}$ into encoder
-   - Get next hidden state $h_{j+1}^{enc}$
+    - Feed token $x_j$ and previous hidden state $h_j^{enc}$ into encoder
+    - Get next hidden state $h_{j+1}^{enc}$
 
 **Decoding Phase:**
 
 1. Initialize decoder:
-   - First input token $x_0^{dec} = \text{SOS}$
-   - Initial hidden state $h_0^{dec} = h_n^{enc}$ (final encoder state)
+    - First input token $x_0^{dec} = \text{SOS}$
+    - Initial hidden state $h_0^{dec} = h_n^{enc}$ (final encoder state)
 2. For each time step $k$ until EOS or max length:
-   - Feed $x_k^{dec}$ and $h_k^{dec}$ into decoder
-   - Get prediction $\hat{y}_{k+1}^{dec}$ and next hidden state $h_{k+1}^{dec}$
-   - Use prediction as next input: $x_{k+1}^{dec} = \hat{y}_{k+1}^{dec}$
-   - Calculate loss between prediction and true label: $\text{loss} += loss\_fn(y_{k+1}, \hat{y}_{k+1}^{dec})$
+    - Feed $x_k^{dec}$ and $h_k^{dec}$ into decoder
+    - Get prediction $\hat{y}_{k+1}^{dec}$ and next hidden state $h_{k+1}^{dec}$
+    - Use prediction as next input: $x_{k+1}^{dec} = \hat{y}_{k+1}^{dec}$
+    - Calculate loss between prediction and true label: $\text{loss} += loss\_fn(y_{k+1}, \hat{y}_{k+1}^{dec})$
 3. Backpropagate the accumulated loss to update model parameters
 
 ##### Teacher Forcing: Accelerating Training
@@ -607,28 +607,28 @@ Common GPT-style uses:
 Modern large language models (LLMs) like GPT-style, LLaMA-style, and PaLM-style systems predominantly use decoder-only architectures rather than full encoder-decoder designs for several key reasons:
 
 1. **Computational Efficiency**
-   - Decoder-only models are more parameter-efficient since they do not need separate encoder parameters
-   - Training and inference can be optimized more effectively with a single unified architecture
-   - Reduced memory footprint compared to maintaining both encoder and decoder components
+    - Decoder-only models are more parameter-efficient since they do not need separate encoder parameters
+    - Training and inference can be optimized more effectively with a single unified architecture
+    - Reduced memory footprint compared to maintaining both encoder and decoder components
 
 2. **Natural Language Generation Focus**
-   - LLMs primarily focus on text generation tasks rather than translation/reconstruction
-   - Decoder architecture is well-suited for autoregressive generation of text
-   - No need for explicit encoding of input when the goal is primarily generating coherent continuations
+    - LLMs primarily focus on text generation tasks rather than translation/reconstruction
+    - Decoder architecture is well-suited for autoregressive generation of text
+    - No need for explicit encoding of input when the goal is primarily generating coherent continuations
 
 3. **Self-Attention Mechanics**
-   - Decoder's masked self-attention naturally fits the left-to-right language modeling objective
-   - Allows the model to effectively learn dependencies and patterns in sequential text data
-   - Causal masking prevents looking at future tokens, matching the next-token prediction training setup
+    - Decoder's masked self-attention naturally fits the left-to-right language modeling objective
+    - Allows the model to effectively learn dependencies and patterns in sequential text data
+    - Causal masking prevents looking at future tokens, matching the next-token prediction training setup
 
 4. **Scalability Benefits**
-   - Simpler architecture makes it easier to scale to massive model sizes
-   - Fewer architectural components to optimize during training
-   - More straightforward to parallelize across multiple accelerators
+    - Simpler architecture makes it easier to scale to massive model sizes
+    - Fewer architectural components to optimize during training
+    - More straightforward to parallelize across multiple accelerators
 
 5. **Empirical Success**
-   - Decoder-only models have demonstrated strong performance across many NLP tasks through prompting
-   - Proven highly effective at few-shot and zero-shot learning
-   - Strong results in both general language understanding and specialized domains
+    - Decoder-only models have demonstrated strong performance across many NLP tasks through prompting
+    - Proven highly effective at few-shot and zero-shot learning
+    - Strong results in both general language understanding and specialized domains
 
 The success of decoder-only architectures has made them the de facto standard for general-purpose generative LLMs, though encoder-decoder models remain valuable for tasks where there is a clear source sequence and target sequence, such as machine translation and some summarization systems.
