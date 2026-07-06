@@ -4,6 +4,9 @@ This section contains detailed notes and research on various topics related to L
 
 ## Major Topics
 
+### [General Knowledge of Natural Language](Natural-Language/index.md)
+Preliminary natural language and language-model foundations, including encoder-decoder models, RNNs, LSTMs, seq2seq, attention, perplexity, Transformers, BERT, GPT, and decoder-only architectures.
+
 ### [AI Agents](AI-Agent/index.md)
 Learn about AI agent frameworks like AutoGen, CrewAI, and LangGraph. Includes paper reviews on LAMBDA, TaskWeaver, and more.
 
@@ -36,7 +39,7 @@ Other interesting topics including LLM fundamentals and hallucination phenomena.
 
 ## Browse by Content Type
 
-- **Overview & Frameworks**: AI-Agent, Prompt, Evaluation
+- **Overview & Frameworks**: Natural Language, AI-Agent, Prompt, Evaluation
 - **Paper Reviews**: AI-Agent, RAG, RFT
 - **Implementation Guides**: RAG, Model Compression
 - **Research Notes**: All topics

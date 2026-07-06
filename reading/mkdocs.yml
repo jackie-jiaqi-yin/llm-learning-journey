@@ -167,6 +167,7 @@ extra:
 
   tags:
     AI Agent: ai-agent
+    Natural Language: natural-language
     RAG: rag
     RLHF: rlhf
     Prompt Engineering: prompt
@@ -179,6 +180,9 @@ nav:
   - Home: index.md
   - Topics:
     - topics/index.md
+    - General Knowledge of Natural Language:
+      - topics/Natural-Language/index.md
+      - Language Model Fundamentals: topics/Natural-Language/notes.md
     - AI Agents:
       - topics/AI-Agent/index.md
       - Overview & Frameworks: topics/AI-Agent/notes.md
