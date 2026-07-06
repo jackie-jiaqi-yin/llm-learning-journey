@@ -4,6 +4,17 @@ LLM Learning Journey is Jackie Yin's public knowledge base for studying large la
 
 The site combines long-form learning notes, paper reviews, conference notes, online course write-ups, and weekly arXiv research digests. It is meant to be useful for people who want practical, research-grounded notes on how modern LLM systems are built, evaluated, and improved.
 
+## Searchable Coverage
+
+The notes span the full LLM learning stack, from model foundations to applied agent systems:
+
+- **Language model fundamentals**: natural language modeling, encoder-decoder architectures, RNNs, LSTMs, sequence-to-sequence models, teacher forcing, perplexity, attention, self-attention, multi-head attention, Transformers, BERT, GPT, and decoder-only language models
+- **AI agents and agentic systems**: tool use, planning, memory, ReAct-style thought-action-observation loops, browser agents, coding agents, workflow automation, multi-agent collaboration, AutoGen, CrewAI, LangGraph, smolagents, LAMBDA, TaskWeaver, TradingAgents, and scientific discovery agents
+- **Retrieval and embeddings**: RAG, retrieval-augmented generation, Graph RAG, agentic retrieval, chunking strategies, vector search, vector databases, text embeddings, image embeddings, multimodal embeddings, and LlamaIndex workflows
+- **Post-training and alignment**: instruction tuning, supervised fine-tuning, RLHF, reinforcement learning for language models, preference optimization, reward modeling, alignment evaluation, data quality, LIMA, SFTTrainer, LoRA, and chat templates
+- **Evaluation and optimization**: LLM evaluation methods, benchmark design, capability evaluation, safety evaluation, LLM-as-judges, model compression, quantization, pruning, knowledge distillation, and recommendation systems
+- **Conference and course notes**: NeurIPS 2025 notes on reasoning, cognitive evaluation, responsible AI, unlearning, explainable AI, multimodal learning, visual question answering, 3D scene retrieval, deep learning for coding, Qwen3-Coder, Google GenAI, Hugging Face agents, and fine-tuning LLMs
+
 ## About These Notes
 
 These Markdown learning notes are a collection of my personal thoughts and insights gathered from various sources. The content may not be perfectly organized, as I take notes whenever I come across something interesting and use a "topic online clustering" approach to group them. This method allows me to capture ideas in real-time but may result in notes that are not in a strict order.
@@ -20,11 +31,13 @@ These are the main research and engineering areas covered on this site.
 - **[RAG (Retrieval-Augmented Generation)](topics/RAG/index.md)** - Best practices and workflows for RAG systems
 - **[Reinforcement Learning & Fine-Tuning](topics/RFT/index.md)** - RLHF, alignment, and fine-tuning techniques
 - **[Prompt Engineering](topics/Prompt/index.md)** - Crafting effective prompts for LLMs
+- **Language Model Fundamentals** - Encoder-decoder models, RNN/LSTM sequence modeling, seq2seq, attention, Transformers, BERT, GPT, and perplexity
 
 ### Evaluation & Optimization
 
 - **[Evaluation](topics/evaluation/index.md)** - Metrics, benchmarks, and evaluation methodologies
 - **[Model Compression](topics/compressing/index.md)** - Quantization, pruning, and distillation techniques
+- **LLM-as-Judges** - Notes on using language models as evaluators for reasoning, quality, preference, and rubric-based assessment
 
 ### Specialized Topics
 

@@ -1,5 +1,5 @@
 site_name: LLM Learning Journey
-site_description: Jackie Yin's public learning notes and research digests on large language models, AI agents, RAG, post-training, evaluation, prompt engineering, and applied generative AI.
+site_description: Jackie Yin's large language models and LLM learning notes on AI agents, RAG, post-training, RLHF, evaluation, prompt engineering, embeddings, Transformers, model compression, multimodal AI, and NeurIPS talks.
 site_author: Jackie Yin
 site_url: https://jackie-jiaqi-yin.github.io/llm-learning-journey/
 

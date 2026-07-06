@@ -2,6 +2,8 @@
 
 My notes from conferences, seminars, and workshops in AI/ML research.
 
+These conference notes cover AI reasoning, cognitive capability evaluation, explainable AI, responsible AI, AI unlearning, multimodal learning, coding agents, LLM evaluation, and agentic development.
+
 ## Recent Conferences
 
 ### [NeurIPS 2025](neurips-2025/index.md)
@@ -26,4 +28,9 @@ These notes capture key insights, technical details, and personal reflections fr
 
 ## Browse by Topic
 
-Use the [Tags](../tags.md) page to find talks by topic area (AI Agents, Explainability, Multimodal, etc.).
+Use the [Tags](../tags.md) page to find talks by topic area. Current talk notes include:
+
+- **AI reasoning and evaluation**: artificial reasoning, problem finding in AI, cognitive capability evaluation, benchmark limitations, LLM evaluation uncertainty, and error bars
+- **Agentic development and coding agents**: agentic software development, usable coding agents, deep learning for coding, Qwen3-Coder, and agentic engineering workflows
+- **Responsible AI and unlearning**: consent, compliance, critique, research integrity, responsible AI ecosystems, and machine unlearning
+- **Explainable AI and multimodal learning**: xAI tutorials, visual embeddings, text-3D scene retrieval, visual question answering, hand-object interaction synthesis, and multimodal large language models
