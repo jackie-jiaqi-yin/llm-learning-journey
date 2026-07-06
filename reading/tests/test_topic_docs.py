@@ -135,6 +135,17 @@ class TopicDocsTest(unittest.TestCase):
 
         self.assertEqual(missing_separators, [])
 
+    def test_natural_language_nested_lists_use_python_markdown_indentation(self):
+        lines = (TOPIC_DIR / "notes.md").read_text().splitlines()
+        uneven_nested_markers = []
+
+        for index, line in enumerate(lines, start=1):
+            match = re.match(r"( +)(?:[-*+]|\d+\.) ", line)
+            if match and len(match.group(1)) % 4 != 0:
+                uneven_nested_markers.append(f"{index}: {line}")
+
+        self.assertEqual(uneven_nested_markers, [])
+
 
 if __name__ == "__main__":
     unittest.main()
