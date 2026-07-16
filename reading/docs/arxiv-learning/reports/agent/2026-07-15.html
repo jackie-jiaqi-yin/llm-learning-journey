@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agent: Latest arXiv Summary</title>
+  <style>:root {
+  color-scheme: light;
+  --ink: #17202a;
+  --muted: #5a6673;
+  --faint: #7b8794;
+  --line: #d8d1c4;
+  --paper: #fffdf8;
+  --page: #f4f1eb;
+  --blue: #254b6d;
+  --blue-soft: #e7eef5;
+  --green: #376b5d;
+  --gold: #b8842f;
+  --rust: #9f4638;
+  --shadow: 0 24px 64px rgba(53, 47, 39, 0.14);
+}
+
+@page {
+  size: A4;
+  margin: 17mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(37, 75, 109, 0.09), transparent 32%),
+    linear-gradient(180deg, #f9f8f4 0%, var(--page) 100%);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.65;
+}
+
+body {
+  padding: 32px 20px;
+}
+
+.report-shell {
+  max-width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.report-header {
+  position: relative;
+  padding: 34px 42px 30px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(184, 132, 47, 0.18), transparent 34%),
+    linear-gradient(135deg, #fffdf8 0%, #f3eee4 100%);
+}
+
+.report-header::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6px;
+  content: "";
+  background: linear-gradient(90deg, var(--blue), var(--green), var(--gold), var(--rust));
+}
+
+.masthead {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.kicker,
+.generated-at span {
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: var(--blue);
+}
+
+.source-note {
+  max-width: 520px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.generated-at {
+  min-width: 164px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--faint);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  text-align: right;
+}
+
+.generated-at span {
+  color: var(--faint);
+}
+
+.generated-at strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.report-header h1 {
+  max-width: 820px;
+  margin: 0;
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.report-body {
+  counter-reset: section;
+  padding: 34px 44px 40px;
+}
+
+.report-body h1,
+.report-body h2,
+.report-body h3,
+.report-body h4 {
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  line-height: 1.22;
+  page-break-after: avoid;
+}
+
+.report-body h1 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+  font-size: 28px;
+}
+
+.report-body h2 {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  margin: 34px 0 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 23px;
+  counter-increment: section;
+}
+
+.report-body h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body h2::before {
+  content: counter(section, decimal-leading-zero);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.report-body h2 strong,
+.report-body h3 strong,
+.report-body h4 strong {
+  font-weight: inherit;
+}
+
+.report-body h3 {
+  margin: 24px 0 8px;
+  color: var(--blue);
+  font-size: 18px;
+}
+
+.report-body h4 {
+  margin: 20px 0 8px;
+  color: var(--green);
+  font-size: 16px;
+}
+
+.report-body p,
+.report-body li,
+.report-body td,
+.report-body th {
+  font-size: 15.5px;
+}
+
+.report-body p {
+  max-width: 78ch;
+  margin: 0 0 14px;
+}
+
+.report-body ul,
+.report-body ol {
+  max-width: 82ch;
+  margin: 10px 0 18px;
+  padding-left: 24px;
+}
+
+.report-body li {
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.report-body li::marker {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.report-body ol li::marker {
+  color: var(--gold);
+}
+
+.report-body a {
+  color: #125f8f;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(18, 95, 143, 0.3);
+}
+
+.report-body a:hover {
+  color: #0f766e;
+  border-bottom-color: rgba(15, 118, 110, 0.45);
+}
+
+.report-body strong {
+  color: #111827;
+}
+
+.report-body code {
+  padding: 2px 5px;
+  border: 1px solid #dbe3eb;
+  border-radius: 5px;
+  background: #f3f6f9;
+  color: #263445;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+}
+
+.report-body pre {
+  margin: 14px 0 20px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid #d9e2ea;
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.report-body pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.report-body blockquote {
+  max-width: 82ch;
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--rust);
+  border-radius: 0 8px 8px 0;
+  background: #fff5ed;
+  color: #5f3a31;
+}
+
+.report-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.report-body hr {
+  height: 1px;
+  margin: 28px 0;
+  border: 0;
+  background: var(--line);
+}
+
+.report-body hr + h2 {
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body table {
+  display: block;
+  width: 100%;
+  margin: 18px 0 24px;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid #d8e1e8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.report-body thead,
+.report-body tbody,
+.report-body tr {
+  width: 100%;
+}
+
+.report-body th,
+.report-body td {
+  padding: 9px 11px;
+  border-bottom: 1px solid #d8e1e8;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-body th {
+  background: var(--blue-soft);
+  color: #122e45;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-body tr:nth-child(even) td {
+  background: #fbfcfd;
+}
+
+.report-body tr:last-child td {
+  border-bottom: 0;
+}
+
+.report-footer {
+  border-top: 1px solid var(--line);
+  padding: 16px 42px 20px;
+  background: #f8f4ec;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-footer p {
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 14px;
+  }
+
+  .report-shell {
+    border-radius: 8px;
+  }
+
+  .report-header {
+    padding: 24px 20px 22px;
+  }
+
+  .masthead {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .generated-at {
+    margin-top: 14px;
+    text-align: left;
+  }
+
+  .report-header h1 {
+    font-size: 26px;
+  }
+
+  .report-body {
+    padding: 24px 20px 28px;
+  }
+
+  .report-body h2 {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    font-size: 20px;
+  }
+
+  .report-footer {
+    padding: 14px 20px 18px;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .report-shell {
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .report-header {
+    padding: 0 0 18px;
+  }
+
+  .report-body {
+    padding: 24px 0 0;
+  }
+
+  .report-footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+/* arxiv-report-nav-style:start */
+.report-nav {
+  max-width: 1020px;
+  margin: 0 auto 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+}
+
+.report-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.9);
+  color: #254b6d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(53, 47, 39, 0.08);
+}
+
+.report-nav__link:hover {
+  border-color: rgba(55, 107, 93, 0.4);
+  color: #376b5d;
+}
+
+.report-nav__link--primary {
+  background: #254b6d;
+  color: #ffffff;
+}
+
+.report-nav__link--primary:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 800px) {
+  .report-nav {
+    margin-bottom: 10px;
+  }
+
+  .report-nav__link {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+@media print {
+  .report-nav {
+    display: none;
+  }
+}
+/* arxiv-report-nav-style:end */
+</style>
+</head>
+<body>
+<!-- arxiv-report-nav:start -->
+  <nav class="report-nav" aria-label="Report navigation">
+    <a class="report-nav__link report-nav__link--primary" href="../../agent/">&larr; Back to Agent</a>
+    <a class="report-nav__link" href="../../">All arXiv digests</a>
+  </nav>
+<!-- arxiv-report-nav:end -->
+  <article class="report-shell">
+    <header class="report-header">
+      <div class="masthead">
+        <div>
+          <div class="kicker">ArXiv Education Brief</div>
+          <p class="source-note">Recent-paper synthesis for fast technical orientation.</p>
+        </div>
+        <p class="generated-at">
+          <span>Generated</span>
+          <strong>2026-07-16 00:43</strong>
+        </p>
+      </div>
+      <h1>AI Agent: Latest arXiv Summary</h1>
+    </header>
+
+    <section class="report-body" aria-label="Report content">
+      <h2><strong>Paper Catalog</strong></h2>
+<p><strong>Date Range</strong>: 2026-07-09 to 2026-07-15</p>
+<p><strong>Total Papers Analyzed</strong>: 200</p>
+<hr/>
+<h2><strong>Key Research Themes</strong></h2>
+<ol>
+<li><strong>Agent research is moving from prompt-level tricks to runtime control systems:</strong> Across the week, the strongest papers model agents as systems with explicit state, boundaries, and control policies rather than chat models with more tools attached. Memory papers such as <a href="https://arxiv.org/abs/2607.13884v1" target="_blank" rel="noopener noreferrer">Experience Memory</a>, <a href="https://arxiv.org/abs/2607.13591v1" target="_blank" rel="noopener noreferrer">Memory Controlled</a>, and <a href="https://arxiv.org/abs/2607.09493v1" target="_blank" rel="noopener noreferrer">Shared Selective</a> all turn stored experience into an operational decision about retrieval, editing, consolidation, or reuse. Harness-oriented work including <a href="https://arxiv.org/abs/2607.13683v1" target="_blank" rel="noopener noreferrer">Self-Evolving Agent</a>, <a href="https://arxiv.org/abs/2607.11388v1" target="_blank" rel="noopener noreferrer">StructAgent</a>, and <a href="https://arxiv.org/abs/2607.11323v1" target="_blank" rel="noopener noreferrer">Compile, Then Page</a> similarly treats runtime structure as a learnable or optimizable component. The practical implication is clear: the next tranche of agent gains is likely to come from better control loops and state abstractions, not only larger base models.</li>
+<li><strong>Evaluation is becoming more diagnostic, capability-factored, and deployment-shaped:</strong> The week contains a notable cluster of papers that reject aggregate success as the main evaluation lens. <a href="https://arxiv.org/abs/2607.13705v1" target="_blank" rel="noopener noreferrer">AgentCompass</a> provides reusable infrastructure for benchmark, harness, and environment composition. <a href="https://arxiv.org/abs/2607.13618v1" target="_blank" rel="noopener noreferrer">STOCKTAKE</a> separates hidden-state perception from action quality and shows that some agents know what is wrong yet still act badly. <a href="https://arxiv.org/abs/2607.12893v1" target="_blank" rel="noopener noreferrer">MemOps</a>, <a href="https://arxiv.org/abs/2607.13465v1" target="_blank" rel="noopener noreferrer">DevicesWorld</a>, <a href="https://arxiv.org/abs/2607.08768v1" target="_blank" rel="noopener noreferrer">UniClawBench</a>, and <a href="https://arxiv.org/abs/2607.10059v1" target="_blank" rel="noopener noreferrer">AgentAbstain</a> each isolate a different competence: lifecycle memory operations, cross-device coordination, proactive capability mix, and calibrated refusal. Even the software-engineering papers such as <a href="https://arxiv.org/abs/2607.09510v1" target="_blank" rel="noopener noreferrer">Failure as a Process</a> and <a href="https://arxiv.org/abs/2607.10856v1" target="_blank" rel="noopener noreferrer">Do Practitioners</a> fit this pattern by focusing on where failures emerge, not only whether the final patch passed.</li>
+<li><strong>Safety work is increasingly about execution boundaries and authorization semantics:</strong> Rather than treating safety as a generic classifier problem, several papers focus on where real systems lose control. <a href="https://arxiv.org/abs/2607.13594v1" target="_blank" rel="noopener noreferrer">Safety Sentry</a> reframes intervention as a three-way execute-ask-refuse decision. <a href="https://arxiv.org/abs/2607.12406v1" target="_blank" rel="noopener noreferrer">Isolation First-Class</a> offers a boundary-centric taxonomy spanning user, tool, execution, inter-agent, and environment interfaces. <a href="https://arxiv.org/abs/2607.10490v1" target="_blank" rel="noopener noreferrer">NetInjectBench</a> shows metadata-aware policy gates can outperform prompt-only defenses for tool-using network agents, while <a href="https://arxiv.org/abs/2607.10487v1" target="_blank" rel="noopener noreferrer">Temporary Authority</a> identifies commit time as the key moment where earlier authorization can go stale. <a href="https://arxiv.org/abs/2607.10059v1" target="_blank" rel="noopener noreferrer">AgentAbstain</a> and <a href="https://arxiv.org/abs/2607.09175v1" target="_blank" rel="noopener noreferrer">Scoped Verification</a> reinforce the same point: safe autonomy depends on runtime checks about whether acting is still justified.</li>
+<li><strong>Coding, terminal, browser, and workflow agents are converging on the same bottlenecks:</strong> Although the applications differ, the most convincing papers in software engineering, web agents, and workflow automation all point to similar failure sources: brittle progress tracking, poor recovery, stale context, and weak verification. <a href="https://arxiv.org/abs/2607.11098v3" target="_blank" rel="noopener noreferrer">AgentCheck</a> makes stale or poisoned tool outputs reproducible over MCP. <a href="https://arxiv.org/abs/2607.10867v1" target="_blank" rel="noopener noreferrer">SETA</a> invests in verifiable terminal environments because agent learning is limited by environment quality. <a href="https://arxiv.org/abs/2607.10079v2" target="_blank" rel="noopener noreferrer">MAG</a> and <a href="https://arxiv.org/abs/2607.08662v1" target="_blank" rel="noopener noreferrer">WebSwarm</a> show that richer browser and research tasks benefit from joint action-plus-guidance or recursive delegation, but strong models are still far from robust. <a href="https://arxiv.org/abs/2607.08740v1" target="_blank" rel="noopener noreferrer">Workflow Knowledge</a> makes the broader conceptual point: workflows themselves should become persistent, inspectable objects rather than disposable execution traces.</li>
+<li><strong>Planning and orchestration are being decomposed into explicit competencies and search structures:</strong> This week’s planning papers are unusually sober about what “planning” means. <a href="https://arxiv.org/abs/2607.11197v1" target="_blank" rel="noopener noreferrer">We Talk</a> argues that planning consists of at least two different abilities: operational reasoning and structural enumeration. <a href="https://arxiv.org/abs/2607.08894v1" target="_blank" rel="noopener noreferrer">GATS</a> replaces repeated LLM search-time reasoning with a layered world model plus deterministic tree search. <a href="https://arxiv.org/abs/2607.09600v1" target="_blank" rel="noopener noreferrer">Agora</a> uses auction-based allocation to route work across tools and expert models with a visible cost-quality tradeoff. Together with <a href="https://arxiv.org/abs/2607.11138v1" target="_blank" rel="noopener noreferrer">Formal Hierarchical</a>, these papers point toward orchestration mechanisms that bound decision space and make execution more analyzable.</li>
+</ol>
+<h2><strong>Methodological Approaches</strong></h2>
+<ol>
+<li><strong>Explicit memory-operation policies instead of passive retrieval:</strong> <a href="https://arxiv.org/abs/2607.13591v1" target="_blank" rel="noopener noreferrer">MemCon</a>, <a href="https://arxiv.org/abs/2607.13884v1" target="_blank" rel="noopener noreferrer">EMG</a>, <a href="https://arxiv.org/abs/2607.12366v1" target="_blank" rel="noopener noreferrer">Speculate Memory</a>, and <a href="https://arxiv.org/abs/2607.11126v1" target="_blank" rel="noopener noreferrer">ToolAtlas</a> all assign memory to a specific operational role: recovery edits, adaptive retrieval, speculative acceleration, or provider-side capability storage. This is a stronger framing than generic “long-term memory” because it asks what decision the memory is helping make. The main tradeoff is systems complexity: multi-memory or policy-driven memory stacks are harder to debug and benchmark than a single retrieval component.</li>
+<li><strong>Reproducible failure injection and process-level diagnosis:</strong> <a href="https://arxiv.org/abs/2607.11098v3" target="_blank" rel="noopener noreferrer">AgentCheck</a>, <a href="https://arxiv.org/abs/2607.09996v1" target="_blank" rel="noopener noreferrer">Who&amp;When Pro</a>, <a href="https://arxiv.org/abs/2607.12747v1" target="_blank" rel="noopener noreferrer">Tracing Agentic</a>, and <a href="https://arxiv.org/abs/2607.09510v1" target="_blank" rel="noopener noreferrer">Failure as a Process</a> all build around failure localization rather than final-score comparison. Some use replay plus perturbation; others learn anomaly structure from successful traces or inject failures after replaying a successful prefix. The strength of this direction is obvious practical value for debugging. The weakness is evaluation cost and the possibility that synthetic interventions miss naturally emerging compound failures.</li>
+<li><strong>Deterministic or verifier-backed control around LLM proposals:</strong> <a href="https://arxiv.org/abs/2607.13683v1" target="_blank" rel="noopener noreferrer">Self-Evolving Agent</a>, <a href="https://arxiv.org/abs/2607.11323v1" target="_blank" rel="noopener noreferrer">Compile, Then Page</a>, <a href="https://arxiv.org/abs/2607.11388v1" target="_blank" rel="noopener noreferrer">StructAgent</a>, and <a href="https://arxiv.org/abs/2607.08894v1" target="_blank" rel="noopener noreferrer">GATS</a> all constrain free-form generation with deterministic scoring, stack machines, verifier-backed state transitions, or world-model search. These systems reduce hidden drift and make improvements easier to trust. The cost is that they assume enough environmental structure exists to instrument the runtime meaningfully.</li>
+<li><strong>Capability-factorized benchmark design:</strong> <a href="https://arxiv.org/abs/2607.13618v1" target="_blank" rel="noopener noreferrer">STOCKTAKE</a>, <a href="https://arxiv.org/abs/2607.12893v1" target="_blank" rel="noopener noreferrer">MemOps</a>, <a href="https://arxiv.org/abs/2607.10059v1" target="_blank" rel="noopener noreferrer">AgentAbstain</a>, <a href="https://arxiv.org/abs/2607.08768v1" target="_blank" rel="noopener noreferrer">UniClawBench</a>, and <a href="https://arxiv.org/abs/2607.10079v2" target="_blank" rel="noopener noreferrer">MAG</a> all break agent performance into separable subskills such as belief tracking, memory lifecycle operations, abstention, proactive coordination, and multimodal action grounding. This makes claims more interpretable and supports targeted intervention. The downside is a growing fragmentation of metrics and benchmark protocols.</li>
+<li><strong>Operational and field-study evidence as first-class methodology:</strong> Papers such as <a href="https://arxiv.org/abs/2607.10856v1" target="_blank" rel="noopener noreferrer">Do Practitioners</a> and <a href="https://arxiv.org/abs/2607.11194v1" target="_blank" rel="noopener noreferrer">Inference Economics</a> rely on interviews, telemetry, and longitudinal evidence rather than only closed-benchmark experiments. That is important because many crucial agent costs live in review burden, comprehension debt, debugging spirals, and coordination work. The caveat is weaker experimental control, but the resulting evidence is often closer to real deployment constraints.</li>
+</ol>
+<h2><strong>Notable Papers to Read First</strong></h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2607.13884v1" target="_blank" rel="noopener noreferrer">Experience Memory</a> — Best first read for long-horizon recovery. It replaces brittle reflective retries with graph-structured edits learned from successful and failed trajectories, which is a more reusable notion of experience.</li>
+<li><a href="https://arxiv.org/abs/2607.13705v1" target="_blank" rel="noopener noreferrer">AgentCompass</a> — Best read if you want to understand the infrastructure trend. It is less about beating a leaderboard and more about making agent evaluation modular, reproducible, and failure-aware.</li>
+<li><a href="https://arxiv.org/abs/2607.13591v1" target="_blank" rel="noopener noreferrer">Memory Controlled</a> — Most representative memory paper of the week. Its main contribution is the framing that memory operations should be learned control choices rather than fixed heuristics.</li>
+<li><a href="https://arxiv.org/abs/2607.11388v1" target="_blank" rel="noopener noreferrer">StructAgent</a> — Strong long-horizon execution paper because it imposes unified, verifier-backed state transitions instead of relying on raw history. It is one of the clearest answers this week to the “how do we keep agents on track?” question.</li>
+<li><a href="https://arxiv.org/abs/2607.11098v3" target="_blank" rel="noopener noreferrer">AgentCheck</a> — Most practically useful debugging paper. It gives a concrete reproduce-intervene-confirm loop for MCP-based agents under tool faults, which many deployed agent stacks now need.</li>
+<li><a href="https://arxiv.org/abs/2607.10059v1" target="_blank" rel="noopener noreferrer">AgentAbstain</a> — Important safety read because it proves abstention is a separate capability and that strong task performers can still be poor at not acting when they should stop.</li>
+<li><a href="https://arxiv.org/abs/2607.08894v1" target="_blank" rel="noopener noreferrer">GATS</a> — Best planning paper for readers skeptical of vague “reasoning improves planning” claims. It shows that explicit search plus layered world models can outperform LLM-heavy planning loops at lower inference cost.</li>
+</ul>
+<h2><strong>What Is New in This Window</strong></h2>
+<ul>
+<li><strong>Memory is becoming policy-driven rather than retrieval-driven:</strong> Older agent-memory work often asked how to store more context. This week’s papers instead ask when to retrieve, what to edit, when to forget, and which component should own the memory (<a href="https://arxiv.org/abs/2607.13591v1" target="_blank" rel="noopener noreferrer">MemCon</a>, <a href="https://arxiv.org/abs/2607.13884v1" target="_blank" rel="noopener noreferrer">EMG</a>, <a href="https://arxiv.org/abs/2607.11126v1" target="_blank" rel="noopener noreferrer">ToolAtlas</a>, <a href="https://arxiv.org/abs/2607.09493v1" target="_blank" rel="noopener noreferrer">Shared Memory</a>).</li>
+<li><strong>Evaluation is moving from benchmark score accumulation to fault localization:</strong> Then: one number per task family. Now: hidden-state diagnosis, lifecycle memory probes, abstention pairs, cross-device coordination conditions, and failure attribution datasets (<a href="https://arxiv.org/abs/2607.13618v1" target="_blank" rel="noopener noreferrer">STOCKTAKE</a>, <a href="https://arxiv.org/abs/2607.12893v1" target="_blank" rel="noopener noreferrer">MemOps</a>, <a href="https://arxiv.org/abs/2607.10059v1" target="_blank" rel="noopener noreferrer">AgentAbstain</a>, <a href="https://arxiv.org/abs/2607.09996v1" target="_blank" rel="noopener noreferrer">Who&amp;When Pro</a>).</li>
+<li><strong>Harnesses and workflows are being treated as learnable artifacts:</strong> Then: prompts and orchestration were mostly hidden implementation details. Now: papers optimize harness patches, compile SOPs into executable programs, evolve evaluation metrics with skills, and represent workflows themselves as persistent knowledge (<a href="https://arxiv.org/abs/2607.13683v1" target="_blank" rel="noopener noreferrer">Self-Evolving Agent</a>, <a href="https://arxiv.org/abs/2607.11323v1" target="_blank" rel="noopener noreferrer">Compile, Then Page</a>, <a href="https://arxiv.org/abs/2607.12790v1" target="_blank" rel="noopener noreferrer">Who Grades</a>, <a href="https://arxiv.org/abs/2607.08740v1" target="_blank" rel="noopener noreferrer">Workflow Knowledge</a>).</li>
+<li><strong>Safety is becoming runtime- and authorization-aware:</strong> Then: safety often meant content filtering or refusal prompting. Now: papers focus on intervention routing, boundary isolation, commit-time freshness, prompt-injection-resistant policy gates, and abstention as a paired capability (<a href="https://arxiv.org/abs/2607.13594v1" target="_blank" rel="noopener noreferrer">Safety Sentry</a>, <a href="https://arxiv.org/abs/2607.12406v1" target="_blank" rel="noopener noreferrer">Isolation</a>, <a href="https://arxiv.org/abs/2607.10490v1" target="_blank" rel="noopener noreferrer">NetInjectBench</a>, <a href="https://arxiv.org/abs/2607.10487v1" target="_blank" rel="noopener noreferrer">Commit-Time Authorization</a>, <a href="https://arxiv.org/abs/2607.10059v1" target="_blank" rel="noopener noreferrer">AgentAbstain</a>).</li>
+<li><strong>Production-shape evidence is becoming harder to ignore:</strong> Then: a good benchmark curve could dominate the narrative. Now: practitioner interviews, deployment economics, tool-fault replay, and end-to-end business optimization tasks are showing where systems actually fail in repeated use (<a href="https://arxiv.org/abs/2607.10856v1" target="_blank" rel="noopener noreferrer">SE Agents Study</a>, <a href="https://arxiv.org/abs/2607.11194v1" target="_blank" rel="noopener noreferrer">Inference Economics</a>, <a href="https://arxiv.org/abs/2607.11098v3" target="_blank" rel="noopener noreferrer">AgentCheck</a>, <a href="https://arxiv.org/abs/2607.10764v1" target="_blank" rel="noopener noreferrer">Opti-Agent-Bench</a>).</li>
+</ul>
+<h2><strong>Challenges and Future Directions</strong></h2>
+<ol>
+<li><strong>Reliable long-horizon control remains the central bottleneck.</strong> Many papers propose better memory, planning, or workflow structure, yet benchmarks like DevicesWorld, MAG, UniClawBench, and LongMedBench still show low end-to-end success under realistic conditions. The near-term direction is likely more verifier-backed state updates and narrower execution scopes rather than unconstrained autonomy.</li>
+<li><strong>The field still lacks standard interfaces between agent layers.</strong> Model, harness, tool provider, memory subsystem, and environment are all being optimized independently, but papers repeatedly show that failures occur at the boundaries between them. Tool-side memory, commit-time authorization, and boundary isolation are promising precisely because they target interfaces rather than isolated components.</li>
+<li><strong>Safety needs stronger runtime observability.</strong> Richer policies such as execute-ask-refuse or abstention-aware control are only useful if the runtime exposes authority freshness, provenance, state dependencies, and failure triggers. Many current agent harnesses still do not emit enough information for these controls to be reliable.</li>
+<li><strong>Evaluation fragmentation is becoming a real cost.</strong> More diagnostic benchmarks are valuable, but it is increasingly difficult to compare systems across memory, planning, safety, coding, and browser tasks. The likely next step is shared infrastructure and reporting standards rather than yet another disconnected benchmark suite.</li>
+<li><strong>Persistent agent learning needs lifecycle governance.</strong> Behavioral rule stores, evolving harness archives, dynamic skill libraries, and shared memory layers all promise continual improvement. They also create new risks: stale procedures, contradictory rules, retrieval overload, and opaque provenance. Expect more work on admission, pruning, rollback, and auditability.</li>
+<li><strong>Search and orchestration improvements must remain grounded in evidence.</strong> Recursive multi-agent systems and richer planners can improve coverage, but they can also amplify low-quality expansions or confidently wrong decompositions. The strongest papers this week are careful to pair better orchestration with explicit world models, verifier checks, or evidence-grounded state transitions.</li>
+</ol>
+<h2><strong>Concluding Overview</strong></h2>
+<p>The most important shift in this July 9-15, 2026 window is conceptual: agent research is increasingly about building dependable execution systems, not merely producing more impressive trajectories. Memory is being treated as control, evaluation as diagnosis, safety as boundary management, and workflows as durable system artifacts. That is why the standout papers are often not the ones claiming the biggest raw win, but the ones that make agent behavior easier to inspect, verify, and improve over repeated use.</p>
+<p>For a practical reading sequence, start with <a href="https://arxiv.org/abs/2607.13884v1" target="_blank" rel="noopener noreferrer">Experience Memory</a>, <a href="https://arxiv.org/abs/2607.13591v1" target="_blank" rel="noopener noreferrer">Memory Controlled</a>, <a href="https://arxiv.org/abs/2607.13705v1" target="_blank" rel="noopener noreferrer">AgentCompass</a>, <a href="https://arxiv.org/abs/2607.11388v1" target="_blank" rel="noopener noreferrer">StructAgent</a>, <a href="https://arxiv.org/abs/2607.11098v3" target="_blank" rel="noopener noreferrer">AgentCheck</a>, and <a href="https://arxiv.org/abs/2607.10059v1" target="_blank" rel="noopener noreferrer">AgentAbstain</a>. Together they capture the week’s deepest pattern: agent capability improvements only become trustworthy when the surrounding system makes memory, progress, intervention, and verification explicit.</p>
+<hr/>
+<h2><strong>Run Metadata</strong></h2>
+<ul>
+<li><strong>Topic</strong>: AI Agent</li>
+<li><strong>Generated On</strong>: 2026-07-16</li>
+<li><strong>Time Window</strong>: Last 7 days</li>
+<li><strong>Report Style</strong>: technical learning digest</li>
+<li><strong>Publication Range</strong>: 2026-07-09 to 2026-07-15</li>
+<li><strong>arXiv Query</strong>: <code>(cat:cs.CL OR cat:cs.AI OR cat:cs.LG) AND ((ti:&quot;llm&quot; OR abs:&quot;llm&quot; OR ti:&quot;large language model&quot; OR abs:&quot;large language model&quot; OR ti:&quot;large language models&quot; OR abs:&quot;large language models&quot; OR ti:&quot;language model&quot; OR abs:&quot;language model&quot;) AND (ti:&quot;agent&quot; OR abs:&quot;agent&quot; OR ti:&quot;agents&quot; OR abs:&quot;agents&quot; OR ti:&quot;agentic&quot; OR abs:&quot;agentic&quot; OR ti:&quot;tool use&quot; OR abs:&quot;tool use&quot; OR ti:&quot;tool-use&quot; OR abs:&quot;tool-use&quot; OR ti:&quot;function calling&quot; OR abs:&quot;function calling&quot; OR ti:&quot;planning&quot; OR abs:&quot;planning&quot; OR ti:&quot;multi-agent&quot; OR abs:&quot;multi-agent&quot; OR ti:&quot;multi agent&quot; OR abs:&quot;multi agent&quot; OR ti:&quot;memory&quot; OR abs:&quot;memory&quot; OR ti:&quot;long-horizon&quot; OR abs:&quot;long-horizon&quot; OR ti:&quot;web agent&quot; OR abs:&quot;web agent&quot; OR ti:&quot;software engineering agent&quot; OR abs:&quot;software engineering agent&quot; OR ti:&quot;coding agent&quot; OR abs:&quot;coding agent&quot; OR ti:&quot;workflow&quot; OR abs:&quot;workflow&quot;))</code></li>
+</ul>
+    </section>
+
+    <footer class="report-footer">
+      <p>Source metadata from arXiv. Follow paper links for primary details.</p>
+    </footer>
+  </article>
+</body>
+</html>
