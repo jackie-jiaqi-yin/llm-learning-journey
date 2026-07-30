@@ -6,6 +6,7 @@ Use this index to follow how research on large language model agents changes ove
 
 <!-- arxiv-topic: agent -->
 <!-- arxiv-runs:start -->
+- [2026-07-29](reports/agent/2026-07-29.html)
 - [2026-07-22](reports/agent/2026-07-22.html)
 - [2026-07-15](reports/agent/2026-07-15.html)
 - [2026-07-08](reports/agent/2026-07-08.html)
