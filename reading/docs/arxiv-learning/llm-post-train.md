@@ -6,6 +6,7 @@ Use this index to follow how post-training methods for large language models evo
 
 <!-- arxiv-topic: llm-post-train -->
 <!-- arxiv-runs:start -->
+- [2026-07-29](reports/llm-post-train/2026-07-29.html)
 - [2026-07-22](reports/llm-post-train/2026-07-22.html)
 - [2026-07-15](reports/llm-post-train/2026-07-15.html)
 - [2026-07-08](reports/llm-post-train/2026-07-08.html)
