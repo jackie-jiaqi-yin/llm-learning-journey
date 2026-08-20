@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agent: Latest arXiv Summary</title>
+  <style>:root {
+  color-scheme: light;
+  --ink: #17202a;
+  --muted: #5a6673;
+  --faint: #7b8794;
+  --line: #d8d1c4;
+  --paper: #fffdf8;
+  --page: #f4f1eb;
+  --blue: #254b6d;
+  --blue-soft: #e7eef5;
+  --green: #376b5d;
+  --gold: #b8842f;
+  --rust: #9f4638;
+  --shadow: 0 24px 64px rgba(53, 47, 39, 0.14);
+}
+
+@page {
+  size: A4;
+  margin: 17mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(37, 75, 109, 0.09), transparent 32%),
+    linear-gradient(180deg, #f9f8f4 0%, var(--page) 100%);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.65;
+}
+
+body {
+  padding: 32px 20px;
+}
+
+.report-shell {
+  max-width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.report-header {
+  position: relative;
+  padding: 34px 42px 30px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(184, 132, 47, 0.18), transparent 34%),
+    linear-gradient(135deg, #fffdf8 0%, #f3eee4 100%);
+}
+
+.report-header::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6px;
+  content: "";
+  background: linear-gradient(90deg, var(--blue), var(--green), var(--gold), var(--rust));
+}
+
+.masthead {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.kicker,
+.generated-at span {
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: var(--blue);
+}
+
+.source-note {
+  max-width: 520px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.generated-at {
+  min-width: 164px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--faint);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  text-align: right;
+}
+
+.generated-at span {
+  color: var(--faint);
+}
+
+.generated-at strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.report-header h1 {
+  max-width: 820px;
+  margin: 0;
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.report-body {
+  counter-reset: section;
+  padding: 34px 44px 40px;
+}
+
+.report-body h1,
+.report-body h2,
+.report-body h3,
+.report-body h4 {
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  line-height: 1.22;
+  page-break-after: avoid;
+}
+
+.report-body h1 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+  font-size: 28px;
+}
+
+.report-body h2 {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  margin: 34px 0 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 23px;
+  counter-increment: section;
+}
+
+.report-body h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body h2::before {
+  content: counter(section, decimal-leading-zero);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.report-body h2 strong,
+.report-body h3 strong,
+.report-body h4 strong {
+  font-weight: inherit;
+}
+
+.report-body h3 {
+  margin: 24px 0 8px;
+  color: var(--blue);
+  font-size: 18px;
+}
+
+.report-body h4 {
+  margin: 20px 0 8px;
+  color: var(--green);
+  font-size: 16px;
+}
+
+.report-body p,
+.report-body li,
+.report-body td,
+.report-body th {
+  font-size: 15.5px;
+}
+
+.report-body p {
+  max-width: 78ch;
+  margin: 0 0 14px;
+}
+
+.report-body ul,
+.report-body ol {
+  max-width: 82ch;
+  margin: 10px 0 18px;
+  padding-left: 24px;
+}
+
+.report-body li {
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.report-body li::marker {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.report-body ol li::marker {
+  color: var(--gold);
+}
+
+.report-body a {
+  color: #125f8f;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(18, 95, 143, 0.3);
+}
+
+.report-body a:hover {
+  color: #0f766e;
+  border-bottom-color: rgba(15, 118, 110, 0.45);
+}
+
+.report-body strong {
+  color: #111827;
+}
+
+.report-body code {
+  padding: 2px 5px;
+  border: 1px solid #dbe3eb;
+  border-radius: 5px;
+  background: #f3f6f9;
+  color: #263445;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+}
+
+.report-body pre {
+  margin: 14px 0 20px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid #d9e2ea;
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.report-body pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.report-body blockquote {
+  max-width: 82ch;
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--rust);
+  border-radius: 0 8px 8px 0;
+  background: #fff5ed;
+  color: #5f3a31;
+}
+
+.report-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.report-body hr {
+  height: 1px;
+  margin: 28px 0;
+  border: 0;
+  background: var(--line);
+}
+
+.report-body hr + h2 {
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body table {
+  display: block;
+  width: 100%;
+  margin: 18px 0 24px;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid #d8e1e8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.report-body thead,
+.report-body tbody,
+.report-body tr {
+  width: 100%;
+}
+
+.report-body th,
+.report-body td {
+  padding: 9px 11px;
+  border-bottom: 1px solid #d8e1e8;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-body th {
+  background: var(--blue-soft);
+  color: #122e45;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-body tr:nth-child(even) td {
+  background: #fbfcfd;
+}
+
+.report-body tr:last-child td {
+  border-bottom: 0;
+}
+
+.report-footer {
+  border-top: 1px solid var(--line);
+  padding: 16px 42px 20px;
+  background: #f8f4ec;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-footer p {
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 14px;
+  }
+
+  .report-shell {
+    border-radius: 8px;
+  }
+
+  .report-header {
+    padding: 24px 20px 22px;
+  }
+
+  .masthead {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .generated-at {
+    margin-top: 14px;
+    text-align: left;
+  }
+
+  .report-header h1 {
+    font-size: 26px;
+  }
+
+  .report-body {
+    padding: 24px 20px 28px;
+  }
+
+  .report-body h2 {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    font-size: 20px;
+  }
+
+  .report-footer {
+    padding: 14px 20px 18px;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .report-shell {
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .report-header {
+    padding: 0 0 18px;
+  }
+
+  .report-body {
+    padding: 24px 0 0;
+  }
+
+  .report-footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+/* arxiv-report-nav-style:start */
+.report-nav {
+  max-width: 1020px;
+  margin: 0 auto 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+}
+
+.report-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.9);
+  color: #254b6d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(53, 47, 39, 0.08);
+}
+
+.report-nav__link:hover {
+  border-color: rgba(55, 107, 93, 0.4);
+  color: #376b5d;
+}
+
+.report-nav__link--primary {
+  background: #254b6d;
+  color: #ffffff;
+}
+
+.report-nav__link--primary:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 800px) {
+  .report-nav {
+    margin-bottom: 10px;
+  }
+
+  .report-nav__link {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+@media print {
+  .report-nav {
+    display: none;
+  }
+}
+/* arxiv-report-nav-style:end */
+</style>
+</head>
+<body>
+<!-- arxiv-report-nav:start -->
+  <nav class="report-nav" aria-label="Report navigation">
+    <a class="report-nav__link report-nav__link--primary" href="../../agent/">&larr; Back to Agent</a>
+    <a class="report-nav__link" href="../../">All arXiv digests</a>
+  </nav>
+<!-- arxiv-report-nav:end -->
+  <article class="report-shell">
+    <header class="report-header">
+      <div class="masthead">
+        <div>
+          <div class="kicker">ArXiv Education Brief</div>
+          <p class="source-note">Recent-paper synthesis for fast technical orientation.</p>
+        </div>
+        <p class="generated-at">
+          <span>Generated</span>
+          <strong>2026-08-20 07:36</strong>
+        </p>
+      </div>
+      <h1>AI Agent: Latest arXiv Summary</h1>
+    </header>
+
+    <section class="report-body" aria-label="Report content">
+      <h2><strong>Paper Catalog</strong></h2>
+<p><strong>Date Range</strong>: 2026-08-14 to 2026-08-19</p>
+<p><strong>Total Papers Analyzed</strong>: 200</p>
+<hr/>
+<h2><strong>Key Research Themes</strong></h2>
+<ol>
+<li><strong>The harness is becoming the unit of agent learning.</strong> A large share of this week&#x27;s work moves optimization beyond isolated model responses and into the environment that supplies tasks, tools, state, and feedback. <a href="https://arxiv.org/abs/2608.19197v1" target="_blank" rel="noopener noreferrer">SPADE</a> makes this explicit: one model designs executable, stateful environments while another role learns inside them, with regret used to keep tasks near the capability frontier. <a href="https://arxiv.org/abs/2608.17528v1" target="_blank" rel="noopener noreferrer">Agent Lightning</a>, <a href="https://arxiv.org/abs/2608.17393v1" target="_blank" rel="noopener noreferrer">LEGO-RL</a>, and <a href="https://arxiv.org/abs/2608.17289v1" target="_blank" rel="noopener noreferrer">PlanPO</a> likewise preserve multi-turn interaction and plan structure during reinforcement learning instead of flattening trajectories into independent examples. <a href="https://arxiv.org/abs/2608.15071v1" target="_blank" rel="noopener noreferrer">Evo-Harness</a> pushes the idea further by compiling context into reusable harness skills. The benefit is ecological validity: agents learn from the same interfaces and feedback loops they will encounter at deployment. The risk is equally important—agents can overfit bugs, permissions, or reward loopholes in a particular harness, so environment versioning and verifier audits become part of model evaluation.</li>
+</ol>
+<ol>
+<li><strong>Memory is shifting from a retrieval feature to governed, editable infrastructure.</strong> Recent memory systems focus less on storing larger histories and more on preserving the right relationships, revisions, and evidence. <a href="https://arxiv.org/abs/2608.18952v1" target="_blank" rel="noopener noreferrer">rEDMRec</a> distills expensive reasoning into typed, editable experience channels; <a href="https://arxiv.org/abs/2608.17911v1" target="_blank" rel="noopener noreferrer">CABLE</a> adds sparse antecedent links specifically chosen to complement semantic retrieval; and <a href="https://arxiv.org/abs/2608.17534v1" target="_blank" rel="noopener noreferrer">ArborMem</a> organizes interaction states as navigable forests. <a href="https://arxiv.org/abs/2608.17050v2" target="_blank" rel="noopener noreferrer">Cross-Model Memory</a> recognizes that a memory useful to one model may require a target-side reader adaptation for another. Most consequentially, <a href="https://arxiv.org/abs/2608.17756v2" target="_blank" rel="noopener noreferrer">D2ACCI</a> treats memory changes as operational releases governed by paired tests, protected slices, stage-level traces, and accept/feature-flag/reject gates. Together these papers imply that good memory is not merely high recall: it is provenance-aware, revisable, transferable, diagnosable, and resistant to regression. Practitioners should evaluate ingestion, consolidation, retrieval, filtering, and generation separately because a strong end-to-end average can conceal a dangerous failure in any one stage.</li>
+</ol>
+<ol>
+<li><strong>Observability is moving from transcripts to evidence-bearing state transitions.</strong> Long-running agents can create code, data, files, and external side effects faster than humans can audit a prose trace. <a href="https://arxiv.org/abs/2608.18398v1" target="_blank" rel="noopener noreferrer">LEDGER</a> responds with claim-to-evidence trace graphs, while <a href="https://arxiv.org/abs/2608.16178v1" target="_blank" rel="noopener noreferrer">Agent-Native Telemetry</a> centers verifiable state deltas and <a href="https://arxiv.org/abs/2608.16156v1" target="_blank" rel="noopener noreferrer">TRCA</a> assigns rubric credit at individual transitions. <a href="https://arxiv.org/abs/2608.17834v1" target="_blank" rel="noopener noreferrer">AdaLens</a> adds an interactive storyline that exposes evolving plans, branches, intermediate findings, and data-column involvement so an operator can intervene before a low-value direction consumes the run. This is a deeper change than adding verbose logs: the system must link claims to artifacts and actions to before/after state. Such telemetry supports debugging, training, authorization, and user trust at once. Its boundary condition is trace integrity—an incomplete or agent-authored explanation may faithfully document a flawed rationale without proving the external result.</li>
+</ol>
+<ol>
+<li><strong>Agent safety is expanding to composition, delegation, latent channels, and indirect resources.</strong> Prompt injection remains relevant, but this week&#x27;s threat models encompass the whole agent system. <a href="https://arxiv.org/abs/2608.16246v1" target="_blank" rel="noopener noreferrer">CompoSkill</a> shows how skills that individually pass scanners can form a harmful chain; <a href="https://arxiv.org/abs/2608.15888v1" target="_blank" rel="noopener noreferrer">Bounded Agents</a> and <a href="https://arxiv.org/abs/2608.16402v1" target="_blank" rel="noopener noreferrer">A Policy Algebra</a> address trust across delegation; and <a href="https://arxiv.org/abs/2608.18351v1" target="_blank" rel="noopener noreferrer">Task-Conditioned Least-Privilege</a> targets authority that is unnecessary even when a task succeeds. <a href="https://arxiv.org/abs/2608.15108v1" target="_blank" rel="noopener noreferrer">Beyond Direct Access</a> broadens the asset model to budgets, identities, communication channels, and organizational workflows, while <a href="https://arxiv.org/abs/2608.19161v1" target="_blank" rel="noopener noreferrer">Beyond Transcript</a> studies covert coordination through latent multi-agent communication. <a href="https://arxiv.org/abs/2608.17597v1" target="_blank" rel="noopener noreferrer">HarnessRisk</a> and <a href="https://arxiv.org/abs/2608.17659v1" target="_blank" rel="noopener noreferrer">MobileWorldSafety</a> accordingly evaluate lifecycle and environment-level attacks. The operational lesson is that component scanning is insufficient: security controls must follow authority and information across composed skills, agents, tools, memories, and state representations.</li>
+</ol>
+<ol>
+<li><strong>Reliability now includes damage, recovery, and real workflow completion.</strong> <a href="https://arxiv.org/abs/2608.17800v1" target="_blank" rel="noopener noreferrer">StartupBench</a> grounds tasks in market-validated products and reports that even the strongest evaluated model completes only about 30% of end-to-end workflows. <a href="https://arxiv.org/abs/2608.15286v1" target="_blank" rel="noopener noreferrer">No Task</a> explains why one-shot audits can still look reassuring: repeated runs reveal stochastic, severity-weighted database damage that final-answer metrics miss. <a href="https://arxiv.org/abs/2608.14380v1" target="_blank" rel="noopener noreferrer">AgentRewind</a> treats early-error propagation as a recoverability problem, adding mechanisms to return both context and environment to a safe point. <a href="https://arxiv.org/abs/2608.14905v2" target="_blank" rel="noopener noreferrer">Do Agents</a> similarly diagnoses whole-stage scientific workflows rather than celebrating partial progress. These papers replace the binary question “did it solve the task?” with a lifecycle: what changed, what was damaged, can the failure be localized, and can the system safely resume? This framing is particularly important for software, data, research, and infrastructure agents whose intermediate actions matter even when the final deliverable appears correct.</li>
+</ol>
+<h2><strong>Methodological Approaches</strong></h2>
+<ol>
+<li><strong>Adaptive executable curricula.</strong> SPADE&#x27;s environment designer writes reset/step interfaces, rewards, and verifiers, then receives a regret signal based on the learner&#x27;s performance gap with and without privileged hints. This creates tasks that remain feasible but challenging as the learner improves. Similar evolutionary systems revise, recombine, or select experimental trajectories from validation evidence. The strength is open-ended coverage without continual human task authoring. The failure mode is objective corruption: a generated environment may be syntactically valid yet reward shortcuts, omit important cases, or drift away from deployment reality.</li>
+</ol>
+<ol>
+<li><strong>Structured procedural and episodic memory.</strong> Typed memory channels, antecedent graphs, forests, hypergraphs, and hierarchical context scopes encode more than textual similarity. <a href="https://arxiv.org/abs/2608.16114v1" target="_blank" rel="noopener noreferrer">HyperSkill</a> represents skill relationships explicitly, and <a href="https://arxiv.org/abs/2608.16071v1" target="_blank" rel="noopener noreferrer">Skill2Query</a> uses skill structure to create retrieval queries. <a href="https://arxiv.org/abs/2608.15703v1" target="_blank" rel="noopener noreferrer">HyMem</a> isolates information across levels to control long-horizon context interference. These structures enable targeted reuse and lower online reasoning cost. Their failure modes are stale procedures, unsafe skill composition, and over-isolation that hides evidence needed across scopes.</li>
+</ol>
+<ol>
+<li><strong>Generate, verify, and deterministically lower.</strong> <a href="https://arxiv.org/abs/2608.16742v1" target="_blank" rel="noopener noreferrer">TDD-Agent</a> uses tests as executable feedback, <a href="https://arxiv.org/abs/2608.16663v1" target="_blank" rel="noopener noreferrer">Bounded Semantic</a> compiles constrained plans into enterprise SQL, and <a href="https://arxiv.org/abs/2608.17220v1" target="_blank" rel="noopener noreferrer">PACE</a> attests contract execution against policy. The shared pattern lets an LLM propose flexible intent while deterministic components validate structure or effects. This is stronger than relying on an LLM judge alone and produces artifacts that humans can inspect. However, a compiler or test suite proves only the properties it encodes; semantically wrong plans can still pass incomplete checks.</li>
+</ol>
+<ol>
+<li><strong>Adversarial oversight and debate.</strong> <a href="https://arxiv.org/abs/2608.17776v1" target="_blank" rel="noopener noreferrer">Debate Training</a> trains a generator and critic against a weaker judge and shows that debate can preserve task performance where ordinary RLAIF learns to exploit the judge. <a href="https://arxiv.org/abs/2608.19002v1" target="_blank" rel="noopener noreferrer">Theory Post-hoc</a> contrasts LLM judging with formal argumentation properties such as reproducibility and groundedness. The approach is attractive because opposing agents can surface weaknesses that a single pass misses. Yet balance matters: unconstrained critics can themselves optimize against the judge, and limits that prevent hacking may also suppress useful explanation.</li>
+</ol>
+<ol>
+<li><strong>Transition-level credit, telemetry, and rollback.</strong> Outcome rewards are sparse and often tell developers too little about where a trajectory failed. Transition-wise rubrics and state-delta telemetry attach evidence to individual decisions; checkpoint-and-rewind mechanisms then use that evidence to recover rather than merely retry from scratch. These methods make failures actionable and can protect completed work from later mistakes. They demand environment instrumentation, trustworthy checkpoints, and explicit semantics for irreversible actions. A database can be restored; an email, trade, or disclosed secret may not be, so rollback must be paired with pre-action authorization.</li>
+</ol>
+<h2><strong>Notable Papers to Read First</strong></h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2608.19197v1" target="_blank" rel="noopener noreferrer">SPADE</a> is the clearest capability paper in the set: it makes environment generation an adaptive part of agent training and reports gains across reasoning and tool-use benchmarks. Read it first to understand the move toward open-ended curricula, while keeping verifier gaming in mind.</li>
+<li><a href="https://arxiv.org/abs/2608.17800v1" target="_blank" rel="noopener noreferrer">StartupBench</a> is the best external-validity check. Its market-derived, deliverable-oriented workflows show how far partial benchmark competence remains from reliable end-to-end work.</li>
+<li><a href="https://arxiv.org/abs/2608.17756v2" target="_blank" rel="noopener noreferrer">D2ACCI</a> offers a practical governance model for persistent agent memory. Its paired evidence, protected slices, feature flags, and diagnostic traces generalize well beyond memory systems.</li>
+<li><a href="https://arxiv.org/abs/2608.16246v1" target="_blank" rel="noopener noreferrer">CompoSkill</a> captures a security issue that modular agent builders can easily miss: safe-looking skills can become unsafe in sequence. It should inform both skill marketplaces and internal tool registries.</li>
+<li><a href="https://arxiv.org/abs/2608.15286v1" target="_blank" rel="noopener noreferrer">No Task</a> is the strongest argument against one-shot safety evaluation. Repeated-run, state-diff-based damage measurement offers a concrete alternative when the environment can expose ground truth.</li>
+<li><a href="https://arxiv.org/abs/2608.14380v1" target="_blank" rel="noopener noreferrer">AgentRewind</a> makes recoverability a first-class capability for long-horizon execution. Read it when designing agents that mutate persistent state, and distinguish recoverable local actions from irreversible external ones.</li>
+</ul>
+<h2><strong>What Is New in This Window</strong></h2>
+<ul>
+<li><strong>Then, agent training usually assumed a fixed task distribution; now the curriculum and harness themselves evolve.</strong> <a href="https://arxiv.org/abs/2608.19197v1" target="_blank" rel="noopener noreferrer">SPADE</a>, <a href="https://arxiv.org/abs/2608.17528v1" target="_blank" rel="noopener noreferrer">Agent Lightning</a>, and <a href="https://arxiv.org/abs/2608.15071v1" target="_blank" rel="noopener noreferrer">Evo-Harness</a> make environment design, real interaction structure, and harness skills part of the learning loop. The research question is shifting from “how should the model respond?” to “what executable experiences should the whole system generate and retain?”</li>
+</ul>
+<ul>
+<li><strong>Then, memory benchmarks emphasized answer-level recall; now memory changes are treated like governed software releases.</strong> <a href="https://arxiv.org/abs/2608.17756v2" target="_blank" rel="noopener noreferrer">D2ACCI</a> introduces diagnostic gates and regression evidence, while <a href="https://arxiv.org/abs/2608.17911v1" target="_blank" rel="noopener noreferrer">CABLE</a> deliberately adds associations that semantic retrieval misses. This makes provenance, deletion, transfer, and stage-local failure analysis central design requirements.</li>
+</ul>
+<ul>
+<li><strong>Then, safety evaluation centered on visible prompts and outputs; now it follows hidden communication, composed skills, delegation, and resource control.</strong> <a href="https://arxiv.org/abs/2608.19161v1" target="_blank" rel="noopener noreferrer">Beyond Transcript</a>, <a href="https://arxiv.org/abs/2608.16246v1" target="_blank" rel="noopener noreferrer">CompoSkill</a>, and <a href="https://arxiv.org/abs/2608.15108v1" target="_blank" rel="noopener noreferrer">Beyond Direct Access</a> demonstrate distinct blind spots in transcript-only or component-only defenses. Security boundaries increasingly align with causal authority rather than text interfaces.</li>
+</ul>
+<ul>
+<li><strong>Then, benchmarks sampled a task once and scored the final answer; now evaluation measures repeated-run damage, operational completion, and recoverability.</strong> <a href="https://arxiv.org/abs/2608.17800v1" target="_blank" rel="noopener noreferrer">StartupBench</a>, <a href="https://arxiv.org/abs/2608.15286v1" target="_blank" rel="noopener noreferrer">AgentRelBench</a>, and <a href="https://arxiv.org/abs/2608.14380v1" target="_blank" rel="noopener noreferrer">AgentRewind</a> collectively push evaluation toward the conditions that matter in production.</li>
+</ul>
+<h2><strong>Challenges and Future Directions</strong></h2>
+<ol>
+<li><strong>Verifier integrity is the bottleneck for self-improvement.</strong> Adaptive curricula and evolving evaluators can scale experience, but a learner will exploit systematic omissions. Near-term work should adversarially test generated environments, separate task generation from acceptance, and retain replay suites that detect regressions across curriculum versions.</li>
+<li><strong>Persistent memory needs lifecycle semantics.</strong> The evidence from D2ACCI, CABLE, and cross-model transfer shows that “write and retrieve” is inadequate. Systems need provenance, conflict handling, expiry, deletion, model-specific readers, protected user preferences, and rollback when consolidation degrades behavior.</li>
+<li><strong>Compositional security remains under-specified.</strong> Skill scans, per-tool permissions, and agent-level policies do not automatically remain safe when composed. A practical next step is to combine static dependency analysis with runtime consequence checks, delegation-depth limits, and capability revocation tied to observed state deltas.</li>
+<li><strong>Recovery must account for irreversible actions.</strong> AgentRewind makes rollback concrete, but many external effects cannot be undone. Future harnesses should distinguish transactional tools from irreversible ones, checkpoint before authority escalation, and require stronger evidence or human confirmation as reversibility decreases.</li>
+<li><strong>Evaluation must balance realism, repeatability, cost, and harm.</strong> Market-derived workflows are realistic, repeated-run damage estimates expose stochastic risk, and full telemetry aids diagnosis—but all are expensive. Adaptive sampling such as <a href="https://arxiv.org/abs/2608.14425v1" target="_blank" rel="noopener noreferrer">Knowing When to Stop</a>, reusable environment snapshots, and standardized damage taxonomies could make stronger audits affordable.</li>
+<li><strong>Collaboration routing is not solved.</strong> <a href="https://arxiv.org/abs/2608.14927v1" target="_blank" rel="noopener noreferrer">Cost-Aware Protocol</a> finds that models can predict failure risk better than they can predict which collaboration protocol will justify its cost. Near-term systems should treat multi-agent debate or delegation as a conditional intervention, learn causal protocol value from controlled comparisons, and expose the compute and latency budget to the router.</li>
+</ol>
+<h2><strong>Concluding Overview</strong></h2>
+<p>This week&#x27;s papers portray an agent not as an LLM with a loop, but as a governed system of environments, tools, memories, skills, policies, telemetry, and recovery mechanisms. Capability work is becoming more adaptive: executable curricula and harness-native reinforcement learning let agents improve on long, stateful tasks. At the same time, evaluation is becoming more operational, measuring complete deliverables, repeated-run damage, and stage-level evidence. Memory is emerging as durable infrastructure that must be versioned, tested, and repaired rather than an unstructured transcript store. Security research is following authority across skill composition, delegation, environment text, latent communication, and indirect resources. Observability is also becoming causal: useful traces connect claims to evidence and actions to state changes. These shifts are mutually reinforcing because adaptive agents need stronger controls precisely when they acquire persistent state and broader authority. The field&#x27;s hardest problem is no longer producing an impressive trajectory; it is sustaining useful behavior while keeping objectives, evidence, permissions, and recovery legible. Practitioners should resist treating any single benchmark score as deployment readiness. Instead, they should pair realistic end-to-end tasks with repeated trials, protected regressions, state-delta audits, and explicit rollback boundaries. They should also treat multi-agent protocols as costly interventions rather than default sources of wisdom. The most promising architectures separate generative flexibility from deterministic verification and consequence-aware authorization. What learners should watch next is whether these controls remain effective as curricula, skills, and memories evolve together.</p>
+<p>Read <a href="https://arxiv.org/abs/2608.19197v1" target="_blank" rel="noopener noreferrer">SPADE</a> first for the capability trajectory, then <a href="https://arxiv.org/abs/2608.17800v1" target="_blank" rel="noopener noreferrer">StartupBench</a> to calibrate that promise against real workflows. Follow with <a href="https://arxiv.org/abs/2608.17756v2" target="_blank" rel="noopener noreferrer">D2ACCI</a>, <a href="https://arxiv.org/abs/2608.16246v1" target="_blank" rel="noopener noreferrer">CompoSkill</a>, and <a href="https://arxiv.org/abs/2608.14380v1" target="_blank" rel="noopener noreferrer">AgentRewind</a> for the memory, security, and recovery disciplines needed to deploy long-horizon agents responsibly.</p>
+<hr/>
+<h2><strong>Run Metadata</strong></h2>
+<ul>
+<li><strong>Topic</strong>: AI Agent</li>
+<li><strong>Generated On</strong>: 2026-08-20</li>
+<li><strong>Time Window</strong>: Last 7 days</li>
+<li><strong>Report Style</strong>: technical learning digest</li>
+<li><strong>Publication Range</strong>: 2026-08-14 to 2026-08-19</li>
+<li><strong>arXiv Query</strong>: <code>(cat:cs.CL OR cat:cs.AI OR cat:cs.LG) AND ((ti:&quot;llm&quot; OR abs:&quot;llm&quot; OR ti:&quot;large language model&quot; OR abs:&quot;large language model&quot; OR ti:&quot;large language models&quot; OR abs:&quot;large language models&quot; OR ti:&quot;language model&quot; OR abs:&quot;language model&quot;) AND (ti:&quot;agent&quot; OR abs:&quot;agent&quot; OR ti:&quot;agents&quot; OR abs:&quot;agents&quot; OR ti:&quot;agentic&quot; OR abs:&quot;agentic&quot; OR ti:&quot;tool use&quot; OR abs:&quot;tool use&quot; OR ti:&quot;tool-use&quot; OR abs:&quot;tool-use&quot; OR ti:&quot;function calling&quot; OR abs:&quot;function calling&quot; OR ti:&quot;planning&quot; OR abs:&quot;planning&quot; OR ti:&quot;multi-agent&quot; OR abs:&quot;multi-agent&quot; OR ti:&quot;multi agent&quot; OR abs:&quot;multi agent&quot; OR ti:&quot;memory&quot; OR abs:&quot;memory&quot; OR ti:&quot;long-horizon&quot; OR abs:&quot;long-horizon&quot; OR ti:&quot;web agent&quot; OR abs:&quot;web agent&quot; OR ti:&quot;software engineering agent&quot; OR abs:&quot;software engineering agent&quot; OR ti:&quot;coding agent&quot; OR abs:&quot;coding agent&quot; OR ti:&quot;workflow&quot; OR abs:&quot;workflow&quot;))</code></li>
+</ul>
+    </section>
+
+    <footer class="report-footer">
+      <p>Source metadata from arXiv. Follow paper links for primary details.</p>
+    </footer>
+  </article>
+</body>
+</html>
