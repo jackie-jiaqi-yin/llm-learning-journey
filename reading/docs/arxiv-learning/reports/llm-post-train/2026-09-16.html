@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLM Post-Train: Latest arXiv Summary</title>
+  <style>:root {
+  color-scheme: light;
+  --ink: #17202a;
+  --muted: #5a6673;
+  --faint: #7b8794;
+  --line: #d8d1c4;
+  --paper: #fffdf8;
+  --page: #f4f1eb;
+  --blue: #254b6d;
+  --blue-soft: #e7eef5;
+  --green: #376b5d;
+  --gold: #b8842f;
+  --rust: #9f4638;
+  --shadow: 0 24px 64px rgba(53, 47, 39, 0.14);
+}
+
+@page {
+  size: A4;
+  margin: 17mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(37, 75, 109, 0.09), transparent 32%),
+    linear-gradient(180deg, #f9f8f4 0%, var(--page) 100%);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.65;
+}
+
+body {
+  padding: 32px 20px;
+}
+
+.report-shell {
+  max-width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.report-header {
+  position: relative;
+  padding: 34px 42px 30px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(184, 132, 47, 0.18), transparent 34%),
+    linear-gradient(135deg, #fffdf8 0%, #f3eee4 100%);
+}
+
+.report-header::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6px;
+  content: "";
+  background: linear-gradient(90deg, var(--blue), var(--green), var(--gold), var(--rust));
+}
+
+.masthead {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.kicker,
+.generated-at span {
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: var(--blue);
+}
+
+.source-note {
+  max-width: 520px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.generated-at {
+  min-width: 164px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--faint);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  text-align: right;
+}
+
+.generated-at span {
+  color: var(--faint);
+}
+
+.generated-at strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.report-header h1 {
+  max-width: 820px;
+  margin: 0;
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.report-body {
+  counter-reset: section;
+  padding: 34px 44px 40px;
+}
+
+.report-body h1,
+.report-body h2,
+.report-body h3,
+.report-body h4 {
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  line-height: 1.22;
+  page-break-after: avoid;
+}
+
+.report-body h1 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+  font-size: 28px;
+}
+
+.report-body h2 {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  margin: 34px 0 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 23px;
+  counter-increment: section;
+}
+
+.report-body h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body h2::before {
+  content: counter(section, decimal-leading-zero);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.report-body h2 strong,
+.report-body h3 strong,
+.report-body h4 strong {
+  font-weight: inherit;
+}
+
+.report-body h3 {
+  margin: 24px 0 8px;
+  color: var(--blue);
+  font-size: 18px;
+}
+
+.report-body h4 {
+  margin: 20px 0 8px;
+  color: var(--green);
+  font-size: 16px;
+}
+
+.report-body p,
+.report-body li,
+.report-body td,
+.report-body th {
+  font-size: 15.5px;
+}
+
+.report-body p {
+  max-width: 78ch;
+  margin: 0 0 14px;
+}
+
+.report-body ul,
+.report-body ol {
+  max-width: 82ch;
+  margin: 10px 0 18px;
+  padding-left: 24px;
+}
+
+.report-body li {
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.report-body li::marker {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.report-body ol li::marker {
+  color: var(--gold);
+}
+
+.report-body a {
+  color: #125f8f;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(18, 95, 143, 0.3);
+}
+
+.report-body a:hover {
+  color: #0f766e;
+  border-bottom-color: rgba(15, 118, 110, 0.45);
+}
+
+.report-body strong {
+  color: #111827;
+}
+
+.report-body code {
+  padding: 2px 5px;
+  border: 1px solid #dbe3eb;
+  border-radius: 5px;
+  background: #f3f6f9;
+  color: #263445;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+}
+
+.report-body pre {
+  margin: 14px 0 20px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid #d9e2ea;
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.report-body pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.report-body blockquote {
+  max-width: 82ch;
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--rust);
+  border-radius: 0 8px 8px 0;
+  background: #fff5ed;
+  color: #5f3a31;
+}
+
+.report-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.report-body hr {
+  height: 1px;
+  margin: 28px 0;
+  border: 0;
+  background: var(--line);
+}
+
+.report-body hr + h2 {
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body table {
+  display: block;
+  width: 100%;
+  margin: 18px 0 24px;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid #d8e1e8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.report-body thead,
+.report-body tbody,
+.report-body tr {
+  width: 100%;
+}
+
+.report-body th,
+.report-body td {
+  padding: 9px 11px;
+  border-bottom: 1px solid #d8e1e8;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-body th {
+  background: var(--blue-soft);
+  color: #122e45;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-body tr:nth-child(even) td {
+  background: #fbfcfd;
+}
+
+.report-body tr:last-child td {
+  border-bottom: 0;
+}
+
+.report-footer {
+  border-top: 1px solid var(--line);
+  padding: 16px 42px 20px;
+  background: #f8f4ec;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-footer p {
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 14px;
+  }
+
+  .report-shell {
+    border-radius: 8px;
+  }
+
+  .report-header {
+    padding: 24px 20px 22px;
+  }
+
+  .masthead {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .generated-at {
+    margin-top: 14px;
+    text-align: left;
+  }
+
+  .report-header h1 {
+    font-size: 26px;
+  }
+
+  .report-body {
+    padding: 24px 20px 28px;
+  }
+
+  .report-body h2 {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    font-size: 20px;
+  }
+
+  .report-footer {
+    padding: 14px 20px 18px;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .report-shell {
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .report-header {
+    padding: 0 0 18px;
+  }
+
+  .report-body {
+    padding: 24px 0 0;
+  }
+
+  .report-footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+/* arxiv-report-nav-style:start */
+.report-nav {
+  max-width: 1020px;
+  margin: 0 auto 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+}
+
+.report-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.9);
+  color: #254b6d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(53, 47, 39, 0.08);
+}
+
+.report-nav__link:hover {
+  border-color: rgba(55, 107, 93, 0.4);
+  color: #376b5d;
+}
+
+.report-nav__link--primary {
+  background: #254b6d;
+  color: #ffffff;
+}
+
+.report-nav__link--primary:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 800px) {
+  .report-nav {
+    margin-bottom: 10px;
+  }
+
+  .report-nav__link {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+@media print {
+  .report-nav {
+    display: none;
+  }
+}
+/* arxiv-report-nav-style:end */
+</style>
+</head>
+<body>
+<!-- arxiv-report-nav:start -->
+  <nav class="report-nav" aria-label="Report navigation">
+    <a class="report-nav__link report-nav__link--primary" href="../../llm-post-train/">&larr; Back to LLM Post-Train</a>
+    <a class="report-nav__link" href="../../">All arXiv digests</a>
+  </nav>
+<!-- arxiv-report-nav:end -->
+  <article class="report-shell">
+    <header class="report-header">
+      <div class="masthead">
+        <div>
+          <div class="kicker">ArXiv Education Brief</div>
+          <p class="source-note">Recent-paper synthesis for fast technical orientation.</p>
+        </div>
+        <p class="generated-at">
+          <span>Generated</span>
+          <strong>2026-09-16 20:47</strong>
+        </p>
+      </div>
+      <h1>LLM Post-Train: Latest arXiv Summary</h1>
+    </header>
+
+    <section class="report-body" aria-label="Report content">
+      <h2><strong>Paper Catalog</strong></h2>
+<p><strong>Date Range</strong>: 2026-09-10 to 2026-09-16</p>
+<p><strong>Total Papers Analyzed</strong>: 66</p>
+<hr/>
+<h2><strong>Key Research Themes</strong></h2>
+<ol>
+<li><strong>Learning-signal allocation replaces uniform training:</strong> A central shift in this window is from spending equal compute on all prompts, trajectories, and tokens toward identifying where learning is possible and consequential. <a href="https://arxiv.org/abs/2609.13443" target="_blank" rel="noopener noreferrer">Never Give Up</a> reports a “Matthew effect” in reasoning RL, where easy problems improve while hard ones remain starved of useful exploration; it dynamically reallocates compute toward the hard frontier. <a href="https://arxiv.org/abs/2609.13997" target="_blank" rel="noopener noreferrer">Unlocking Unsolvable</a> uses partial teacher traces and backward curriculum withdrawal to obtain signal from problems whose unguided rollouts all fail, while <a href="https://arxiv.org/abs/2609.15051" target="_blank" rel="noopener noreferrer">Exploration-Guided Prompt</a> rewrites low-utility prompts into learnable versions based on on-policy statistics. For supervised tuning, <a href="https://arxiv.org/abs/2609.12584" target="_blank" rel="noopener noreferrer">CluSTER</a> pursues the same principle through gradient-space clustering and balanced data-parallel allocation. Practitioners should treat prompt mix and rollout budgets as active components of the algorithm, but must distinguish genuinely frontier examples from noisy or impossible ones.</li>
+</ol>
+<ol>
+<li><strong>Preference optimization becomes context-aware and temporally aware:</strong> Standard DPO assumes that a chosen response should move up and a rejected response down, yet production feedback rarely satisfies such a clean model. <a href="https://arxiv.org/abs/2609.16340" target="_blank" rel="noopener noreferrer">StalePO</a> handles post-edits produced for an older system that a newer policy may already beat, <a href="https://arxiv.org/abs/2609.16532" target="_blank" rel="noopener noreferrer">Style-Debiased DPO</a> separates factual correction from stylistic artifacts, and <a href="https://arxiv.org/abs/2609.19144" target="_blank" rel="noopener noreferrer">ComPO</a> uses comparison-oracle directions rather than directly differentiating a conventional preference loss. <a href="https://arxiv.org/abs/2609.14739" target="_blank" rel="noopener noreferrer">Building Legal</a> further shows that length balancing and contextual preference construction materially change reward-model behavior. The practical lesson is that preference pairs encode provenance, age, style, and evidence conditions; ignoring those variables can optimize the wrong behavior with high confidence.</li>
+</ol>
+<ol>
+<li><strong>Agent post-training is moving below the trajectory level:</strong> A single terminal reward is too coarse for agents whose success depends on dozens of tool calls and branching decisions. <a href="https://arxiv.org/abs/2609.12424" target="_blank" rel="noopener noreferrer">Granularity-Adaptive Credit</a> chooses between step- and episode-level advantage according to the state, while <a href="https://arxiv.org/abs/2609.18417" target="_blank" rel="noopener noreferrer">Dependency-Aware Trajectory</a> builds round-level dependency graphs to remove redundant interactions before fine-tuning. <a href="https://arxiv.org/abs/2609.18779" target="_blank" rel="noopener noreferrer">CERA-MoA</a> jointly updates a router and specialist agents so routing reflects changing capabilities, and <a href="https://arxiv.org/abs/2609.12533" target="_blank" rel="noopener noreferrer">Earth-Agent-Pro</a> records evidence dependencies in structured memory for execution repair. These methods matter because agent data are expensive and heterogeneous: learning which action mattered can improve both training efficiency and deployment latency. Their boundary condition is annotation reliability—incorrect dependency graphs, anchor states, or routing estimates can turn “precise” supervision into precise miscredit.</li>
+</ol>
+<ol>
+<li><strong>Reasoning optimization now includes brevity, diversity, and access to latent paths:</strong> Accuracy-only objectives often produce overthinking, mode collapse, or costly rollout generation. <a href="https://arxiv.org/abs/2609.17019" target="_blank" rel="noopener noreferrer">SKIP</a> creates step-wise preferences using self-knowledge probes to stop reasoning without sacrificing correctness, while <a href="https://arxiv.org/abs/2609.11739" target="_blank" rel="noopener noreferrer">LOCUS</a> selects low-rank update subspaces that reduce output-token cost under a utility constraint. In the opposite direction, <a href="https://arxiv.org/abs/2609.14896" target="_blank" rel="noopener noreferrer">MoDA</a> protects diverse high-quality modes through role-conditioned online RL, and <a href="https://arxiv.org/abs/2609.12243" target="_blank" rel="noopener noreferrer">CCPS</a> preserves diverse reasoning lineages during inference-time sampling. <a href="https://arxiv.org/abs/2609.12317" target="_blank" rel="noopener noreferrer">Decision-Flow Sampling</a> asks whether search can recover good trajectories already present in the base distribution without any RL. Together, these works encourage comparing post-training against strong inference-time search and measuring the full utility-cost-diversity envelope.</li>
+</ol>
+<ol>
+<li><strong>Domain post-training is becoming an end-to-end data system:</strong> Strong specialization increasingly combines curated source material, synthetic transformation, staged objectives, and domain-specific evaluation. <a href="https://arxiv.org/abs/2609.18496" target="_blank" rel="noopener noreferrer">MiST</a> turns a compact expert-vetted cybersecurity seed into synthetic mid-training data before downstream training; <a href="https://arxiv.org/abs/2609.15022" target="_blank" rel="noopener noreferrer">SALUTE</a> packages defense corpus, instruction, preference, and benchmark resources; and <a href="https://arxiv.org/abs/2609.13916" target="_blank" rel="noopener noreferrer">North Small</a> combines difficulty sampling, SFT, DPO, and online RL across translation tasks. <a href="https://arxiv.org/abs/2609.12471" target="_blank" rel="noopener noreferrer">AMDKernelVault</a> similarly pairs large execution-verified kernel corpora with SFT and agentic training. These pipelines show that the method label—SFT, DPO, or RL—is less informative than the provenance and staging of the full system. Evaluation must therefore test retained generality, contamination, and real workflow performance rather than only a narrow domain benchmark.</li>
+</ol>
+<h2><strong>Methodological Approaches</strong></h2>
+<ol>
+<li><strong>Adaptive curricula from rollout statistics or teachers:</strong> Methods estimate whether a prompt is saturated, learnable, or beyond the current policy and then resample, scaffold, or reveal partial solutions. NGU uses success history to shift compute; teacher-guided RLVR constructs a graded curriculum by progressively removing hints; exploration-potential scaffolding rewrites prompts while preserving intent. These approaches can turn otherwise wasted rollouts into gradients and improve data efficiency. Their failure mode is proxy gaming: noisy, ambiguous, or distribution-shifted examples may absorb budget because they appear “hard,” and teacher traces can narrow the student to the teacher’s reasoning style.</li>
+</ol>
+<ol>
+<li><strong>Temporally structured credit and distillation:</strong> <a href="https://arxiv.org/abs/2609.16937" target="_blank" rel="noopener noreferrer">Gamma-OPD</a> interprets token-level on-policy distillation as an approximation to sequence-level reverse-KL credit and discounts future contribution to trade fidelity against variance. GACA varies credit granularity by state, and <a href="https://arxiv.org/abs/2609.16076" target="_blank" rel="noopener noreferrer">MIMIC</a> derives dense process supervision from instrumented program execution. Dependency-DAG refinement performs a data-side version of the same idea by retaining load-bearing interaction rounds. The strength is more localized supervision; the weakness is dependence on a valid temporal or causal decomposition, which is often unavailable for open-ended dialogue.</li>
+</ol>
+<ol>
+<li><strong>Preference objectives matched to imperfect feedback:</strong> ComPO, StalePO, and style-debiased DPO each modify the mapping from a comparison to a policy update. Instead of assuming every chosen response deserves a likelihood increase, they account for narrow margins, stale edits, or confounding presentation. Contextual reward modeling adds grounding and abstention to the preference target, which is particularly important in legal and retrieval settings. These techniques make existing feedback more usable, but are not interchangeable: each encodes a different model of label error and should be validated against the actual collection process.</li>
+</ol>
+<ol>
+<li><strong>Staged specialization with verified synthetic data:</strong> MiST uses expert seeds and synthetic expansion, SALUTE builds aligned corpus-to-benchmark assets, and AMDKernelVault compiles and executes generated kernels before using them for training. <a href="https://arxiv.org/abs/2609.12353" target="_blank" rel="noopener noreferrer">SynthSentry</a> addresses the opposite problem by detecting unknown synthetic contamination before training through distributional signals. Verification and provenance can make synthetic scale valuable rather than self-reinforcing. Still, executable validation is available only in some domains, while statistical contamination detectors may confuse legitimate low-diversity technical text with model-generated material.</li>
+</ol>
+<ol>
+<li><strong>Training-free search and test-time adaptation:</strong> Decision-Flow Sampling back-propagates terminal utility through a hierarchical reasoning tree, CCPS uses diversity-preserving sequential Monte Carlo, and <a href="https://arxiv.org/abs/2609.11393" target="_blank" rel="noopener noreferrer">Stability-Aware Test-Time</a> favors confident predictions that remain stable under perturbation. These methods are important controls for claims that RL creates new reasoning capabilities. They avoid persistent weight changes and can adapt per query, but shift costs into inference and depend on verifiers, utility functions, or stability assumptions that can themselves be wrong.</li>
+</ol>
+<ol>
+<li><strong>Internal representations for efficient reliability control:</strong> <a href="https://arxiv.org/abs/2609.11498" target="_blank" rel="noopener noreferrer">ActMap</a> compresses every-layer, every-token generation activations into a fixed representation for single-pass uncertainty prediction. <a href="https://arxiv.org/abs/2609.17686" target="_blank" rel="noopener noreferrer">Missing I</a> argues that several reliability failures converge on calibrated abstention, and legal reward modeling operationalizes abstention under insufficient evidence. Internal signals may reduce repeated sampling and latency. However, white-box access, model-specific calibration, and deployment shift limit portability; high confidence or smooth activations alone are not evidence of truth.</li>
+</ol>
+<h2><strong>Notable Papers to Read First</strong></h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2609.13443" target="_blank" rel="noopener noreferrer">NGU</a> identifies why conventional reasoning RL preferentially improves already-easy problems and proposes dynamic compute reallocation. Read it first for a crisp diagnosis of rollout-budget waste; then check whether its definition of difficulty matches your task’s noise profile.</li>
+<li><a href="https://arxiv.org/abs/2609.12424" target="_blank" rel="noopener noreferrer">GACA</a> makes credit resolution state-dependent for long-horizon agent RL instead of applying one trajectory reward everywhere. It is a useful bridge from GRPO-style simplicity toward finer causal supervision, though it still relies on meaningful state grouping.</li>
+<li><a href="https://arxiv.org/abs/2609.16937" target="_blank" rel="noopener noreferrer">Gamma-OPD</a> unifies stable token-local and high-fidelity sequence-level on-policy distillation through discounted temporal credit. It is especially helpful for understanding why objective granularity and variance are inseparable design choices.</li>
+<li><a href="https://arxiv.org/abs/2609.16340" target="_blank" rel="noopener noreferrer">StalePO</a> tackles the common production case where human edits were collected against an obsolete model. Its practical value is the warning that blindly treating old edits as preferred outputs can degrade a stronger policy.</li>
+<li><a href="https://arxiv.org/abs/2609.18417" target="_blank" rel="noopener noreferrer">Trajectory Refinement</a> turns agent interactions into dependency DAGs and trains on leaner, load-bearing trajectories. The paper is worth reading for its interpretable data-editing perspective, with the caveat that apparently redundant verification may matter off distribution.</li>
+<li><a href="https://arxiv.org/abs/2609.12317" target="_blank" rel="noopener noreferrer">DF-Sample</a> tests whether high-reward reasoning paths can be recovered through training-free search rather than RL. It provides a valuable baseline and conceptual check before paying the cost and accepting the behavioral persistence of parameter updates.</li>
+</ul>
+<h2><strong>What Is New in This Window</strong></h2>
+<ul>
+<li><strong>Then, post-training efficiency largely meant faster kernels or fewer examples; now it increasingly means allocating learning signal according to frontier difficulty.</strong> NGU, teacher-guided RLVR, prompt scaffolding, and CluSTER all manipulate where compute is spent, while GrowMTP learns speculative decoding machinery from RL rollouts themselves. This makes resource allocation part of the learning algorithm rather than an implementation afterthought.</li>
+<li><strong>Then, preference pairs were often treated as timeless binary truth; now papers explicitly model their provenance and failure modes.</strong> StalePO recognizes obsolete post-edits, style-debiased DPO separates factuality from presentation, and legal contextual preferences encode evidence sufficiency and abstention. The shift is toward feedback-aware objectives whose update rules depend on how labels were produced.</li>
+<li><strong>Then, agent RL commonly broadcast a terminal score across a trajectory; now state, turn, dependency, and routing structure are entering the supervision loop.</strong> GACA, dependency-aware refinement, turn-level density ratios, and CERA-MoA each expose a different hidden structure. This should improve sample efficiency, but it also creates new annotation and estimator failure surfaces.</li>
+<li><strong>Then, RL was the default explanation for reasoning gains; now training-free search is being used as a serious counterfactual.</strong> DF-Sample and CCPS attempt to expose good latent trajectories by structured sampling, while stability-aware adaptation changes behavior at test time. This comparison can clarify whether training learns new competence, reshapes probability mass, or merely makes useful paths easier to access.</li>
+</ul>
+<h2><strong>Challenges and Future Directions</strong></h2>
+<ol>
+<li><strong>Separating difficulty from bad data:</strong> Adaptive curricula can overinvest in mislabeled, ambiguous, or impossible prompts because all three produce low success. The new allocation methods show large upside when hard examples are learnable, but give less certainty about noisy frontiers. Near-term systems should combine success statistics with disagreement, provenance, and explicit “unlearnable” or abstention categories.</li>
+<li><strong>Validating fine-grained credit:</strong> Step-level rewards and dependency graphs look precise, yet precision is harmful if the decomposition is wrong. GACA and trajectory refinement demonstrate the value of local structure, while agent memory and routing work show how many causal pathways exist. Researchers should test credit assignments with counterfactual removal or replay, not only final benchmark gains.</li>
+<li><strong>Preventing feedback-objective mismatch:</strong> Stale, stylistically confounded, or context-free preferences can move a policy away from current quality. The preference papers in this window provide targeted repairs but no single general solution. A practical next step is to log feedback provenance and evaluate likelihood movement separately for factual content, style, grounding, and abstention.</li>
+<li><strong>Measuring utility beyond accuracy:</strong> SKIP and LOCUS optimize brevity, MoDA and CCPS preserve diversity, and domain systems add latency, throughput, safety, or grounding constraints. Aggregate accuracy hides these tradeoffs and can reward verbose or collapsed policies. Future benchmarks should publish utility-cost curves and per-risk slices rather than a single mean.</li>
+<li><strong>Controlling synthetic-data recursion and domain narrowing:</strong> Synthetic expansion enables MiST-scale specialization, and executable validation makes AMDKernelVault credible, but SynthSentry warns that hidden synthetic contamination can erode distributional tails. Teams need corpus lineage, held-out human data, and tests for general-capability retention. Domains without executable validators particularly need multiple independent quality signals.</li>
+</ol>
+<h2><strong>Concluding Overview</strong></h2>
+<p>This week’s work depicts post-training less as a single optimizer and more as a resource-and-evidence management system. The strongest recurring idea is to spend compute where the policy can learn: difficult but tractable prompts, pivotal states, informative turns, and underrepresented data clusters. Preference optimization is also becoming more realistic about feedback, recognizing that chosen responses may be stale, stylistically biased, or meaningful only relative to retrieved evidence. Agent training is moving from trajectory-wide scalar rewards toward state-, turn-, and dependency-aware supervision. At the same time, efficiency targets have expanded from training cost to rollout speed, response length, and diversity preservation. Domain leaders combine mid-training, SFT, preference learning, RL, synthetic data, and bespoke evaluation rather than relying on one stage. This increases capability but also makes provenance and ablation more important. Training-free search and test-time adaptation now provide stronger baselines for determining what RL actually adds. Reliability work is converging on calibrated abstention and internal uncertainty signals, though transfer across models and domains remains unresolved. For practitioners, the immediate opportunity is not to adopt every new objective but to diagnose which resource is being wasted: prompts, rollouts, feedback, trajectory steps, output tokens, or human evaluation. The immediate risk is replacing a coarse but honest objective with a fine-grained proxy that is confidently wrong. Read <a href="https://arxiv.org/abs/2609.13443" target="_blank" rel="noopener noreferrer">NGU</a> first for allocation, then <a href="https://arxiv.org/abs/2609.12424" target="_blank" rel="noopener noreferrer">GACA</a> and <a href="https://arxiv.org/abs/2609.16937" target="_blank" rel="noopener noreferrer">Gamma-OPD</a> for credit assignment. Follow with <a href="https://arxiv.org/abs/2609.16340" target="_blank" rel="noopener noreferrer">StalePO</a>, <a href="https://arxiv.org/abs/2609.18417" target="_blank" rel="noopener noreferrer">Trajectory Refinement</a>, and <a href="https://arxiv.org/abs/2609.12317" target="_blank" rel="noopener noreferrer">DF-Sample</a> to connect imperfect feedback, agent data, and the training-versus-search question.</p>
+<hr/>
+<h2><strong>Run Metadata</strong></h2>
+<ul>
+<li><strong>Topic</strong>: LLM Post-Train</li>
+<li><strong>Generated On</strong>: 2026-09-16</li>
+<li><strong>Time Window</strong>: Last 7 days</li>
+<li><strong>Report Style</strong>: technical learning digest</li>
+<li><strong>Publication Range</strong>: 2026-09-10 to 2026-09-16</li>
+<li><strong>arXiv Query</strong>: <code>(cat:cs.CL OR cat:cs.AI OR cat:cs.LG) AND ((ti:&quot;llm&quot; OR abs:&quot;llm&quot; OR ti:&quot;large language model&quot; OR abs:&quot;large language model&quot; OR ti:&quot;large language models&quot; OR abs:&quot;large language models&quot;) AND (ti:&quot;post-training&quot; OR abs:&quot;post-training&quot; OR ti:&quot;post training&quot; OR abs:&quot;post training&quot; OR ti:&quot;instruction tuning&quot; OR abs:&quot;instruction tuning&quot; OR ti:&quot;supervised fine-tuning&quot; OR abs:&quot;supervised fine-tuning&quot; OR ti:&quot;sft&quot; OR abs:&quot;sft&quot; OR ti:&quot;preference optimization&quot; OR abs:&quot;preference optimization&quot; OR ti:&quot;direct preference optimization&quot; OR abs:&quot;direct preference optimization&quot; OR ti:&quot;dpo&quot; OR abs:&quot;dpo&quot; OR ti:&quot;rlhf&quot; OR abs:&quot;rlhf&quot; OR ti:&quot;rlaif&quot; OR abs:&quot;rlaif&quot; OR ti:&quot;grpo&quot; OR abs:&quot;grpo&quot; OR ti:&quot;reward model&quot; OR abs:&quot;reward model&quot; OR ti:&quot;reward modeling&quot; OR abs:&quot;reward modeling&quot;))</code></li>
+</ul>
+    </section>
+
+    <footer class="report-footer">
+      <p>Source metadata from arXiv. Follow paper links for primary details.</p>
+    </footer>
+  </article>
+</body>
+</html>
