@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLM Post-Train: Latest arXiv Summary</title>
+  <style>:root {
+  color-scheme: light;
+  --ink: #17202a;
+  --muted: #5a6673;
+  --faint: #7b8794;
+  --line: #d8d1c4;
+  --paper: #fffdf8;
+  --page: #f4f1eb;
+  --blue: #254b6d;
+  --blue-soft: #e7eef5;
+  --green: #376b5d;
+  --gold: #b8842f;
+  --rust: #9f4638;
+  --shadow: 0 24px 64px rgba(53, 47, 39, 0.14);
+}
+
+@page {
+  size: A4;
+  margin: 17mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(37, 75, 109, 0.09), transparent 32%),
+    linear-gradient(180deg, #f9f8f4 0%, var(--page) 100%);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.65;
+}
+
+body {
+  padding: 32px 20px;
+}
+
+.report-shell {
+  max-width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.report-header {
+  position: relative;
+  padding: 34px 42px 30px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(184, 132, 47, 0.18), transparent 34%),
+    linear-gradient(135deg, #fffdf8 0%, #f3eee4 100%);
+}
+
+.report-header::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6px;
+  content: "";
+  background: linear-gradient(90deg, var(--blue), var(--green), var(--gold), var(--rust));
+}
+
+.masthead {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.kicker,
+.generated-at span {
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: var(--blue);
+}
+
+.source-note {
+  max-width: 520px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.generated-at {
+  min-width: 164px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--faint);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  text-align: right;
+}
+
+.generated-at span {
+  color: var(--faint);
+}
+
+.generated-at strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.report-header h1 {
+  max-width: 820px;
+  margin: 0;
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.report-body {
+  counter-reset: section;
+  padding: 34px 44px 40px;
+}
+
+.report-body h1,
+.report-body h2,
+.report-body h3,
+.report-body h4 {
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  line-height: 1.22;
+  page-break-after: avoid;
+}
+
+.report-body h1 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+  font-size: 28px;
+}
+
+.report-body h2 {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  margin: 34px 0 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 23px;
+  counter-increment: section;
+}
+
+.report-body h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body h2::before {
+  content: counter(section, decimal-leading-zero);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.report-body h2 strong,
+.report-body h3 strong,
+.report-body h4 strong {
+  font-weight: inherit;
+}
+
+.report-body h3 {
+  margin: 24px 0 8px;
+  color: var(--blue);
+  font-size: 18px;
+}
+
+.report-body h4 {
+  margin: 20px 0 8px;
+  color: var(--green);
+  font-size: 16px;
+}
+
+.report-body p,
+.report-body li,
+.report-body td,
+.report-body th {
+  font-size: 15.5px;
+}
+
+.report-body p {
+  max-width: 78ch;
+  margin: 0 0 14px;
+}
+
+.report-body ul,
+.report-body ol {
+  max-width: 82ch;
+  margin: 10px 0 18px;
+  padding-left: 24px;
+}
+
+.report-body li {
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.report-body li::marker {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.report-body ol li::marker {
+  color: var(--gold);
+}
+
+.report-body a {
+  color: #125f8f;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(18, 95, 143, 0.3);
+}
+
+.report-body a:hover {
+  color: #0f766e;
+  border-bottom-color: rgba(15, 118, 110, 0.45);
+}
+
+.report-body strong {
+  color: #111827;
+}
+
+.report-body code {
+  padding: 2px 5px;
+  border: 1px solid #dbe3eb;
+  border-radius: 5px;
+  background: #f3f6f9;
+  color: #263445;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+}
+
+.report-body pre {
+  margin: 14px 0 20px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid #d9e2ea;
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.report-body pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.report-body blockquote {
+  max-width: 82ch;
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--rust);
+  border-radius: 0 8px 8px 0;
+  background: #fff5ed;
+  color: #5f3a31;
+}
+
+.report-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.report-body hr {
+  height: 1px;
+  margin: 28px 0;
+  border: 0;
+  background: var(--line);
+}
+
+.report-body hr + h2 {
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body table {
+  display: block;
+  width: 100%;
+  margin: 18px 0 24px;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid #d8e1e8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.report-body thead,
+.report-body tbody,
+.report-body tr {
+  width: 100%;
+}
+
+.report-body th,
+.report-body td {
+  padding: 9px 11px;
+  border-bottom: 1px solid #d8e1e8;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-body th {
+  background: var(--blue-soft);
+  color: #122e45;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-body tr:nth-child(even) td {
+  background: #fbfcfd;
+}
+
+.report-body tr:last-child td {
+  border-bottom: 0;
+}
+
+.report-footer {
+  border-top: 1px solid var(--line);
+  padding: 16px 42px 20px;
+  background: #f8f4ec;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-footer p {
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 14px;
+  }
+
+  .report-shell {
+    border-radius: 8px;
+  }
+
+  .report-header {
+    padding: 24px 20px 22px;
+  }
+
+  .masthead {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .generated-at {
+    margin-top: 14px;
+    text-align: left;
+  }
+
+  .report-header h1 {
+    font-size: 26px;
+  }
+
+  .report-body {
+    padding: 24px 20px 28px;
+  }
+
+  .report-body h2 {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    font-size: 20px;
+  }
+
+  .report-footer {
+    padding: 14px 20px 18px;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .report-shell {
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .report-header {
+    padding: 0 0 18px;
+  }
+
+  .report-body {
+    padding: 24px 0 0;
+  }
+
+  .report-footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+/* arxiv-report-nav-style:start */
+.report-nav {
+  max-width: 1020px;
+  margin: 0 auto 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+}
+
+.report-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.9);
+  color: #254b6d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(53, 47, 39, 0.08);
+}
+
+.report-nav__link:hover {
+  border-color: rgba(55, 107, 93, 0.4);
+  color: #376b5d;
+}
+
+.report-nav__link--primary {
+  background: #254b6d;
+  color: #ffffff;
+}
+
+.report-nav__link--primary:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 800px) {
+  .report-nav {
+    margin-bottom: 10px;
+  }
+
+  .report-nav__link {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+@media print {
+  .report-nav {
+    display: none;
+  }
+}
+/* arxiv-report-nav-style:end */
+</style>
+</head>
+<body>
+<!-- arxiv-report-nav:start -->
+  <nav class="report-nav" aria-label="Report navigation">
+    <a class="report-nav__link report-nav__link--primary" href="../../llm-post-train/">&larr; Back to LLM Post-Train</a>
+    <a class="report-nav__link" href="../../">All arXiv digests</a>
+  </nav>
+<!-- arxiv-report-nav:end -->
+  <article class="report-shell">
+    <header class="report-header">
+      <div class="masthead">
+        <div>
+          <div class="kicker">ArXiv Education Brief</div>
+          <p class="source-note">Recent-paper synthesis for fast technical orientation.</p>
+        </div>
+        <p class="generated-at">
+          <span>Generated</span>
+          <strong>2026-10-15 05:24</strong>
+        </p>
+      </div>
+      <h1>LLM Post-Train: Latest arXiv Summary</h1>
+    </header>
+
+    <section class="report-body" aria-label="Report content">
+      <h2><strong>Paper Catalog</strong></h2>
+<p><strong>Date Range</strong>: 2026-10-08 to 2026-10-14</p>
+<p><strong>Total Papers Analyzed</strong>: 126</p>
+<hr/>
+<h2><strong>Key Research Themes</strong></h2>
+<ol>
+<li><strong>Long-horizon agents are forcing post-training to model trajectories, not just answers:</strong> The strongest agent papers treat interaction histories as structured processes in which early mistakes alter later states, interfaces change, and successful endings can conceal poor local behavior. <a href="https://arxiv.org/abs/2610.13020v1" target="_blank" rel="noopener noreferrer">Trajectory-Aware Policy</a> derives a correction for state-distribution shift accumulated across long rollouts, while <a href="https://arxiv.org/abs/2610.12828v1" target="_blank" rel="noopener noreferrer">TreeHCA</a> revisits consequential histories and backs outcomes through a tree of alternative continuations. <a href="https://arxiv.org/abs/2610.20576v1" target="_blank" rel="noopener noreferrer">Cross-Interface Policy</a> adds semantic invariance across renamed or reformatted actions, and <a href="https://arxiv.org/abs/2610.17953v1" target="_blank" rel="noopener noreferrer">Agent-Reflex</a> teaches recovery from noisy tool feedback and user corrections. Together, these works move the objective from “finish the benchmark task” toward “remain competent, calibrated, and recoverable throughout the interaction.” This matters for deployed agents because their harnesses, tools, and observations rarely match a fixed training interface exactly.</li>
+</ol>
+<ol>
+<li><strong>Credit assignment is becoming finer-grained and explicitly structural:</strong> Standard GRPO-style training often broadcasts one outcome advantage across every token or action, reinforcing weak intermediate decisions that happened to occur in a successful trace. <a href="https://arxiv.org/abs/2610.18442v1" target="_blank" rel="noopener noreferrer">Copying Not</a> demonstrates this failure in long-form RAG and assigns credit only to supported, genuinely authored sentences. <a href="https://arxiv.org/abs/2610.18683v1" target="_blank" rel="noopener noreferrer">ProAS</a> uses an evolving agentic reference graph to mask unreasonable incentives and redistribute penalties toward pivotal deviations, while <a href="https://arxiv.org/abs/2610.13152v1" target="_blank" rel="noopener noreferrer">Quality Not</a> filters successful coding traces by convergence and intent-action structure before SFT. <a href="https://arxiv.org/abs/2610.18256v1" target="_blank" rel="noopener noreferrer">Teach Me</a> complements sparse RLVR rewards with cross-instance, on-policy self-distillation. The practical implication is that the unit of supervision—sentence, turn, branch, or state transition—can matter as much as the choice between SFT, DPO, or RL.</li>
+</ol>
+<ol>
+<li><strong>Data selection and post-training recipes are becoming adaptive optimization problems:</strong> Several papers reject the assumption that more examples or a fixed recipe space is automatically better. <a href="https://arxiv.org/abs/2610.18572v1" target="_blank" rel="noopener noreferrer">Structured Recipe</a> lets an LLM design a task-adapted space of data, composition, and training choices before multi-objective trial selection. <a href="https://arxiv.org/abs/2610.12995v1" target="_blank" rel="noopener noreferrer">Should SFT</a> weights demonstrated tokens by task-conditioned information gain, distinguishing useful novelty from harmful mismatch. <a href="https://arxiv.org/abs/2610.12933v1" target="_blank" rel="noopener noreferrer">More Training</a> contracts reasoning supervision using teacher uncertainty and the learner&#x27;s evolving state, while <a href="https://arxiv.org/abs/2610.12345v1" target="_blank" rel="noopener noreferrer">Overcoming Prior</a> directs instructions toward rare concepts poorly supported by pretraining. Yet <a href="https://arxiv.org/abs/2610.12190v1" target="_blank" rel="noopener noreferrer">DataSense-Bench</a> finds that frontier agents still struggle to predict which subsets will improve a downstream model, warning that automated curation needs feedback from actual training outcomes rather than plausible proxy analysis.</li>
+</ol>
+<ol>
+<li><strong>Reward and judge reliability is now treated as an empirical science:</strong> This window contains unusually direct evidence that good-looking optimization signals may not correspond to the desired behavior. <a href="https://arxiv.org/abs/2610.20570v1" target="_blank" rel="noopener noreferrer">Manaca-1B-Instruct-2</a> reports DPO runs whose reward margins saturate while free generation remains unchanged, and identifies safety items on which an LLM judge silently refuses to score. <a href="https://arxiv.org/abs/2610.18415v1" target="_blank" rel="noopener noreferrer">Do Factuality</a> cannot fully reproduce five alignment methods and finds common rewards favor format, length, or brevity over factual relevance. <a href="https://arxiv.org/abs/2610.11281v1" target="_blank" rel="noopener noreferrer">Post-Train Surrogate</a> targets rare reward-model failures through envelope sampling rather than calibrating only on ordinary on-policy outputs. These results make held-out judges, effective-sample-size reporting, human or executable audits, and negative-result disclosure essential parts of the post-training method—not optional evaluation polish.</li>
+</ol>
+<ol>
+<li><strong>Capability retention, modularity, and efficiency are converging:</strong> Post-training is increasingly designed around what must not be lost and what must remain affordable at inference. <a href="https://arxiv.org/abs/2610.11132v1" target="_blank" rel="noopener noreferrer">SFT-as-Context</a> composes a parent model with its fine-tuned descendant at inference time, importing specialist behavior while preserving parent capabilities. <a href="https://arxiv.org/abs/2610.12855v1" target="_blank" rel="noopener noreferrer">Representation Geometry</a> constrains self-distillation to retain hidden-state cluster structure, and <a href="https://arxiv.org/abs/2610.17726v1" target="_blank" rel="noopener noreferrer">TSRL</a> activates expert supervision only at failure states to limit forgetting. Systems work such as <a href="https://arxiv.org/abs/2610.19928v1" target="_blank" rel="noopener noreferrer">MemDuet</a>, <a href="https://arxiv.org/abs/2610.20303v1" target="_blank" rel="noopener noreferrer">SpectrumQuant</a>, and <a href="https://arxiv.org/abs/2610.18516v1" target="_blank" rel="noopener noreferrer">CACTUS</a> couples training choices with memory, quantization, pruning, and rollout cost. The field is moving toward post-training stacks that jointly optimize behavior, retention, and serving constraints rather than treating deployment compression as a separate final step.</li>
+</ol>
+<h2><strong>Methodological Approaches</strong></h2>
+<ol>
+<li><strong>Divergence- and trajectory-aware policy optimization:</strong> <a href="https://arxiv.org/abs/2610.13015v1" target="_blank" rel="noopener noreferrer">Generalized Proximal</a> organizes PPO-family methods along divergence and estimator axes, showing how different geometries alter resistance to policy shifts. TAPO adds trajectory-level state-distribution correction, geometric-mean variance reduction, and length-aware clipping. These formulations provide more principled control than heuristic token clipping and are especially relevant as rollouts lengthen. Their boundary condition is estimator stability: richer corrections can introduce variance, sensitivity, and implementation complexity that benchmark averages may hide.</li>
+</ol>
+<ol>
+<li><strong>Branching exploration, intervention, and recovery:</strong> <a href="https://arxiv.org/abs/2610.13438v2" target="_blank" rel="noopener noreferrer">Rollout-Time Intervention</a> uses evaluator rubrics during generation to repair trajectories beyond the current policy&#x27;s capability, then filters examples with excessive distributional shift. TreeHCA explores alternative branches from informative histories, while <a href="https://arxiv.org/abs/2610.13058v1" target="_blank" rel="noopener noreferrer">ReTRAIL</a> rewinds the environment but carries forward knowledge from abandoned paths. These methods attack sparse rewards by manufacturing useful counterfactual experience. The risk is off-policy bias: interventions or rewind actions available during training may create solutions the deployed policy cannot reproduce without careful correction.</li>
+</ol>
+<ol>
+<li><strong>Information-guided SFT and selective supervision:</strong> CIG-SFT measures how much the task input reduces uncertainty about each demonstrated token and derives a weighted objective from a KL-regularized projection. Progressive Contraction uses Monte Carlo reasoning trees to estimate process uncertainty, then routes optimization according to the student&#x27;s learning state; PASS allocates examples to concepts with high prior barriers. <a href="https://arxiv.org/abs/2610.17726v1" target="_blank" rel="noopener noreferrer">Trigger-based Supervised</a> uses RL as the backbone and activates SFT only in hard states. These approaches save compute and reduce destructive imitation, but biased uncertainty, barrier, or failure detectors can systematically starve rare yet important behaviors of supervision.</li>
+</ol>
+<ol>
+<li><strong>On-policy, reflective, and cross-architecture distillation:</strong> <a href="https://arxiv.org/abs/2610.18256v1" target="_blank" rel="noopener noreferrer">LEAD</a> builds lookahead teachers through virtual updates on other rollouts and modulates GRPO according to agreement between RL and distillation signals. <a href="https://arxiv.org/abs/2610.17397v1" target="_blank" rel="noopener noreferrer">JustOPD</a> aligns diffusion-language-model training with an autoregressive teacher&#x27;s decoding order while retaining flexible inference order. <a href="https://arxiv.org/abs/2610.11366v1" target="_blank" rel="noopener noreferrer">SpatialOPSD</a> turns verified tool traces into privileged information, with repetition-aware regularization to limit leakage. On-policy data keeps the teacher focused on states the learner visits, but teacher mistakes, privileged-information leakage, and disagreement between dense imitation and sparse task rewards remain central failure modes.</li>
+</ol>
+<ol>
+<li><strong>Process verifiers, structural filters, and grounded simulators:</strong> <a href="https://arxiv.org/abs/2610.13356v2" target="_blank" rel="noopener noreferrer">SWE-Critix</a> trains a verifier to classify and explain long coding-agent trajectories, whereas TQS uses linear-time structural features and no LLM judge. <a href="https://arxiv.org/abs/2610.17306v1" target="_blank" rel="noopener noreferrer">Calibrating LLM</a> fits a human decision simulator and optimizes explanations for observed decision quality rather than preference. <a href="https://arxiv.org/abs/2610.17246v1" target="_blank" rel="noopener noreferrer">LLM-to-Flow Distillation</a> uses an LLM to create intermediate scientific goals and preferences for a domain generator. These methods make difficult objectives trainable, but learned verifiers and simulators must be audited for distribution shift and policy exploitation; executable or human checks remain the strongest anchors when available.</li>
+</ol>
+<h2><strong>Notable Papers to Read First</strong></h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2610.13020v1" target="_blank" rel="noopener noreferrer">TAPO</a> explains why token- or sequence-level policy controls can fail as local mismatch compounds across long trajectories, then derives a trajectory-aware correction. Read it first for the optimization problem that connects many of this week&#x27;s agent papers; the main caveat is that the reported gains still need broader stability replication.</li>
+<li><a href="https://arxiv.org/abs/2610.12995v1" target="_blank" rel="noopener noreferrer">CIG-SFT</a> asks what each demonstration token teaches given both the task input and the already-observed solution prefix. It is a crisp, rollout-free example of replacing uniform imitation with learning-value-aware SFT, though its estimates inherit the frozen reference model&#x27;s biases.</li>
+<li><a href="https://arxiv.org/abs/2610.18442v1" target="_blank" rel="noopener noreferrer">ASC</a> shows that a seemingly sensible faithfulness reward can be hacked by copying and fixes the issue at the sentence-credit level. It is the clearest practical lesson in this catalog on why reward granularity must match the behavior being optimized.</li>
+<li><a href="https://arxiv.org/abs/2610.18572v1" target="_blank" rel="noopener noreferrer">SRO</a> turns coupled choices over data, mixtures, processing, and training configuration into an explicit task-adapted search space. It is especially useful for teams automating post-training experiments, although its advantage depends on evaluator quality and a sufficient trial budget.</li>
+<li><a href="https://arxiv.org/abs/2610.20570v1" target="_blank" rel="noopener noreferrer">Manaca</a> combines a reproducible low-resource safety-alignment release with negative DPO results, controlled mixture scans, statistical comparisons, and a judge-failure audit. Read it as a methodology paper as much as a model report; its specific safety frontier may not transfer unchanged beyond Brazilian Portuguese.</li>
+<li><a href="https://arxiv.org/abs/2610.11281v1" target="_blank" rel="noopener noreferrer">Envelope Sampling</a> focuses scarce ground-truth labels on regions where a surrogate reward can cause worst-case regret. It provides a principled response to reward hacking, with the important assumption that the true and recalibrated rewards lie within the proposed uncertainty set.</li>
+</ul>
+<h2><strong>What Is New in This Window</strong></h2>
+<ul>
+<li><strong>Then: optimize terminal success; now: model the full trajectory.</strong> TAPO, TreeHCA, CIPR, and Agent-Reflex explicitly address accumulated state shift, pivotal branches, interface changes, and noisy recovery. The unit of robustness has expanded from the final answer to the policy&#x27;s behavior across the whole interaction.</li>
+</ul>
+<ul>
+<li><strong>Then: give every token or example comparable weight; now: estimate learning value.</strong> CIG-SFT, Progressive Contraction, PASS, ASC, and ProAS decide what to teach based on task information, uncertainty, prior support, authorship, or structural consequence. This suggests a near-term path to better models through less but better targeted optimization.</li>
+</ul>
+<ul>
+<li><strong>Then: select from fixed recipes; now: redesign the recipe and reuse experience.</strong> SRO makes the search space task-adaptive, while <a href="https://arxiv.org/abs/2610.17379v1" target="_blank" rel="noopener noreferrer">EPOCH</a> converts reflection from heuristic search into DPO and self-distillation data. Post-training automation is beginning to accumulate reusable, explicit knowledge rather than a sequence of opaque trial edits.</li>
+</ul>
+<ul>
+<li><strong>Then: trust reward improvements and benchmark judges; now: audit the measurement pipeline.</strong> Manaca, the factuality reproduction study, DataSense-Bench, and Envelope Sampling expose silent judge failures, proxy optimization, weak training-outcome prediction, and rare surrogate errors. The week&#x27;s most transferable contribution may be the insistence that a reward curve is not a behavioral result.</li>
+</ul>
+<ul>
+<li><strong>Then: overwrite a model to specialize it; now: preserve and compose competence.</strong> SFT-as-Context, RGR, EFRE, TSRL, and cross-interface regularization explore ways to add behavior without erasing general capability or binding it to one interface. This makes retention testing and modular deployment central evaluation dimensions.</li>
+</ul>
+<h2><strong>Challenges and Future Directions</strong></h2>
+<ol>
+<li><strong>Validate rewards against the real objective:</strong> Format, copying, verbosity, and judge refusal can masquerade as progress. Near-term work should report reward-behavior correlations, effective sample sizes, held-out evaluators, and small human or executable audits before scaling optimization.</li>
+<li><strong>Control off-policy bias in assisted exploration:</strong> Intervention, branching, rewind, and teacher-guided rollouts solve reward sparsity by altering the sampling policy. Better low-variance corrections and ablations that remove privileged training-time capabilities are needed to show that the learned policy—not the intervention scaffold—owns the gain.</li>
+<li><strong>Predict training-data value causally:</strong> DataSense-Bench shows that plausible agent analyses do not reliably rank downstream subsets. Automated data design should close the loop with controlled training experiments and preserve uncertainty rather than confidently optimizing proxy features.</li>
+<li><strong>Measure retention across broad capability surfaces:</strong> Average target scores can rise while individual skills, languages, or value behaviors degrade. Representation geometry, triggered supervision, modular repertoires, and parent-specialist composition should be compared using longitudinal retention and interference matrices.</li>
+<li><strong>Make long-horizon learning affordable:</strong> Sophisticated branching and verification multiply rollout cost. Early failure prediction, adaptive reasoning, selective supervision, and efficient memory should be evaluated jointly with wall-clock, energy, and serving constraints—not only sample counts.</li>
+<li><strong>Stress-test transfer across interfaces and populations:</strong> Low-resource language results, cross-lingual steering, quantization studies, and interface perturbations show that aggregate English benchmarks conceal uneven behavior. Future post-training should define semantic invariances explicitly and verify them across languages, harnesses, compression levels, and user groups.</li>
+</ol>
+<h2><strong>Concluding Overview</strong></h2>
+<p>This window shows LLM post-training maturing from a small menu of SFT, DPO, and GRPO recipes into a structured discipline of data design, credit assignment, exploration, evaluation, and deployment. The most consistent trend is finer resolution: researchers are identifying which token carries task information, which sentence is truly grounded, which turn causes failure, and which branch deserves credit. Long-horizon agents amplify the need for this structure because local errors change the future state distribution and terminal rewards blur causality. At the same time, the catalog contains strong warnings that sophisticated optimization cannot rescue a weak reward or unreliable judge. Reproducibility studies and negative results show that better proxy scores may mean shorter answers, copied text, format compliance, or silent evaluator attrition rather than better behavior.</p>
+<p>The practical takeaway is to design the measurement and data pipeline before choosing the optimizer. Teams should use executable signals where possible, audit learned judges on held-out and adversarial cases, and preserve evidence about process quality rather than retaining only successful outcomes. SFT remains highly competitive when supervision is information-aware and selective. RL becomes most valuable when it is paired with structured exploration, granular credit, and explicit controls for state-distribution shift. Distillation is similarly strongest when it follows the learner&#x27;s states and guards against privileged-information leakage. Capability retention and serving cost should be measured throughout the workflow, because post-training gains that erase general skills or require unsustainable inference are incomplete gains.</p>
+<p>For an efficient reading order, begin with TAPO to understand long-horizon policy shift, then CIG-SFT to see how learning-value-aware supervision changes the SFT baseline. Read ASC next for the clearest reward-hacking and credit-assignment case, followed by SRO for automated recipe design. Finish with Manaca and Envelope Sampling: they provide the evaluation discipline and surrogate-risk perspective needed to interpret every other claimed improvement in the catalog.</p>
+<hr/>
+<h2><strong>Run Metadata</strong></h2>
+<ul>
+<li><strong>Topic</strong>: LLM Post-Train</li>
+<li><strong>Generated On</strong>: 2026-10-15</li>
+<li><strong>Time Window</strong>: Last 7 days</li>
+<li><strong>Report Style</strong>: technical learning digest</li>
+<li><strong>Publication Range</strong>: 2026-10-08 to 2026-10-14</li>
+<li><strong>arXiv Query</strong>: <code>(cat:cs.CL OR cat:cs.AI OR cat:cs.LG) AND ((ti:&quot;llm&quot; OR abs:&quot;llm&quot; OR ti:&quot;large language model&quot; OR abs:&quot;large language model&quot; OR ti:&quot;large language models&quot; OR abs:&quot;large language models&quot;) AND (ti:&quot;post-training&quot; OR abs:&quot;post-training&quot; OR ti:&quot;post training&quot; OR abs:&quot;post training&quot; OR ti:&quot;instruction tuning&quot; OR abs:&quot;instruction tuning&quot; OR ti:&quot;supervised fine-tuning&quot; OR abs:&quot;supervised fine-tuning&quot; OR ti:&quot;sft&quot; OR abs:&quot;sft&quot; OR ti:&quot;preference optimization&quot; OR abs:&quot;preference optimization&quot; OR ti:&quot;direct preference optimization&quot; OR abs:&quot;direct preference optimization&quot; OR ti:&quot;dpo&quot; OR abs:&quot;dpo&quot; OR ti:&quot;rlhf&quot; OR abs:&quot;rlhf&quot; OR ti:&quot;rlaif&quot; OR abs:&quot;rlaif&quot; OR ti:&quot;grpo&quot; OR abs:&quot;grpo&quot; OR ti:&quot;reward model&quot; OR abs:&quot;reward model&quot; OR ti:&quot;reward modeling&quot; OR abs:&quot;reward modeling&quot;))</code></li>
+</ul>
+    </section>
+
+    <footer class="report-footer">
+      <p>Source metadata from arXiv. Follow paper links for primary details.</p>
+    </footer>
+  </article>
+</body>
+</html>
