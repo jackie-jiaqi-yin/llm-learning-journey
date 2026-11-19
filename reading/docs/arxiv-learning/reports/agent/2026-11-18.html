@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agent: Latest arXiv Summary</title>
+  <style>:root {
+  color-scheme: light;
+  --ink: #17202a;
+  --muted: #5a6673;
+  --faint: #7b8794;
+  --line: #d8d1c4;
+  --paper: #fffdf8;
+  --page: #f4f1eb;
+  --blue: #254b6d;
+  --blue-soft: #e7eef5;
+  --green: #376b5d;
+  --gold: #b8842f;
+  --rust: #9f4638;
+  --shadow: 0 24px 64px rgba(53, 47, 39, 0.14);
+}
+
+@page {
+  size: A4;
+  margin: 17mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(37, 75, 109, 0.09), transparent 32%),
+    linear-gradient(180deg, #f9f8f4 0%, var(--page) 100%);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.65;
+}
+
+body {
+  padding: 32px 20px;
+}
+
+.report-shell {
+  max-width: 1020px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.report-header {
+  position: relative;
+  padding: 34px 42px 30px;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(184, 132, 47, 0.18), transparent 34%),
+    linear-gradient(135deg, #fffdf8 0%, #f3eee4 100%);
+}
+
+.report-header::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6px;
+  content: "";
+  background: linear-gradient(90deg, var(--blue), var(--green), var(--gold), var(--rust));
+}
+
+.masthead {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.kicker,
+.generated-at span {
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  color: var(--blue);
+}
+
+.source-note {
+  max-width: 520px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.generated-at {
+  min-width: 164px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--faint);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  text-align: right;
+}
+
+.generated-at span {
+  color: var(--faint);
+}
+
+.generated-at strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.report-header h1 {
+  max-width: 820px;
+  margin: 0;
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.report-body {
+  counter-reset: section;
+  padding: 34px 44px 40px;
+}
+
+.report-body h1,
+.report-body h2,
+.report-body h3,
+.report-body h4 {
+  color: #142536;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  line-height: 1.22;
+  page-break-after: avoid;
+}
+
+.report-body h1 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+  font-size: 28px;
+}
+
+.report-body h2 {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  margin: 34px 0 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 23px;
+  counter-increment: section;
+}
+
+.report-body h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body h2::before {
+  content: counter(section, decimal-leading-zero);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.report-body h2 strong,
+.report-body h3 strong,
+.report-body h4 strong {
+  font-weight: inherit;
+}
+
+.report-body h3 {
+  margin: 24px 0 8px;
+  color: var(--blue);
+  font-size: 18px;
+}
+
+.report-body h4 {
+  margin: 20px 0 8px;
+  color: var(--green);
+  font-size: 16px;
+}
+
+.report-body p,
+.report-body li,
+.report-body td,
+.report-body th {
+  font-size: 15.5px;
+}
+
+.report-body p {
+  max-width: 78ch;
+  margin: 0 0 14px;
+}
+
+.report-body ul,
+.report-body ol {
+  max-width: 82ch;
+  margin: 10px 0 18px;
+  padding-left: 24px;
+}
+
+.report-body li {
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.report-body li::marker {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.report-body ol li::marker {
+  color: var(--gold);
+}
+
+.report-body a {
+  color: #125f8f;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(18, 95, 143, 0.3);
+}
+
+.report-body a:hover {
+  color: #0f766e;
+  border-bottom-color: rgba(15, 118, 110, 0.45);
+}
+
+.report-body strong {
+  color: #111827;
+}
+
+.report-body code {
+  padding: 2px 5px;
+  border: 1px solid #dbe3eb;
+  border-radius: 5px;
+  background: #f3f6f9;
+  color: #263445;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+}
+
+.report-body pre {
+  margin: 14px 0 20px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid #d9e2ea;
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.report-body pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.report-body blockquote {
+  max-width: 82ch;
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--rust);
+  border-radius: 0 8px 8px 0;
+  background: #fff5ed;
+  color: #5f3a31;
+}
+
+.report-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.report-body hr {
+  height: 1px;
+  margin: 28px 0;
+  border: 0;
+  background: var(--line);
+}
+
+.report-body hr + h2 {
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-body table {
+  display: block;
+  width: 100%;
+  margin: 18px 0 24px;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid #d8e1e8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.report-body thead,
+.report-body tbody,
+.report-body tr {
+  width: 100%;
+}
+
+.report-body th,
+.report-body td {
+  padding: 9px 11px;
+  border-bottom: 1px solid #d8e1e8;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-body th {
+  background: var(--blue-soft);
+  color: #122e45;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-body tr:nth-child(even) td {
+  background: #fbfcfd;
+}
+
+.report-body tr:last-child td {
+  border-bottom: 0;
+}
+
+.report-footer {
+  border-top: 1px solid var(--line);
+  padding: 16px 42px 20px;
+  background: #f8f4ec;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+}
+
+.report-footer p {
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 14px;
+  }
+
+  .report-shell {
+    border-radius: 8px;
+  }
+
+  .report-header {
+    padding: 24px 20px 22px;
+  }
+
+  .masthead {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .generated-at {
+    margin-top: 14px;
+    text-align: left;
+  }
+
+  .report-header h1 {
+    font-size: 26px;
+  }
+
+  .report-body {
+    padding: 24px 20px 28px;
+  }
+
+  .report-body h2 {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    font-size: 20px;
+  }
+
+  .report-footer {
+    padding: 14px 20px 18px;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .report-shell {
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .report-header {
+    padding: 0 0 18px;
+  }
+
+  .report-body {
+    padding: 24px 0 0;
+  }
+
+  .report-footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+/* arxiv-report-nav-style:start */
+.report-nav {
+  max-width: 1020px;
+  margin: 0 auto 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+}
+
+.report-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(37, 75, 109, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.9);
+  color: #254b6d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(53, 47, 39, 0.08);
+}
+
+.report-nav__link:hover {
+  border-color: rgba(55, 107, 93, 0.4);
+  color: #376b5d;
+}
+
+.report-nav__link--primary {
+  background: #254b6d;
+  color: #ffffff;
+}
+
+.report-nav__link--primary:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 800px) {
+  .report-nav {
+    margin-bottom: 10px;
+  }
+
+  .report-nav__link {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+@media print {
+  .report-nav {
+    display: none;
+  }
+}
+/* arxiv-report-nav-style:end */
+</style>
+</head>
+<body>
+<!-- arxiv-report-nav:start -->
+  <nav class="report-nav" aria-label="Report navigation">
+    <a class="report-nav__link report-nav__link--primary" href="../../agent/">&larr; Back to Agent</a>
+    <a class="report-nav__link" href="../../">All arXiv digests</a>
+  </nav>
+<!-- arxiv-report-nav:end -->
+  <article class="report-shell">
+    <header class="report-header">
+      <div class="masthead">
+        <div>
+          <div class="kicker">ArXiv Education Brief</div>
+          <p class="source-note">Recent-paper synthesis for fast technical orientation.</p>
+        </div>
+        <p class="generated-at">
+          <span>Generated</span>
+          <strong>2026-11-18 20:29</strong>
+        </p>
+      </div>
+      <h1>AI Agent: Latest arXiv Summary</h1>
+    </header>
+
+    <section class="report-body" aria-label="Report content">
+      <h2><strong>Paper Catalog</strong></h2>
+<p><strong>Date Range</strong>: 2026-11-15 to 2026-11-18</p>
+<p><strong>Total Papers Analyzed</strong>: 200</p>
+<hr/>
+<h2><strong>Key Research Themes</strong></h2>
+<ol>
+<li><strong>Traceable agency:</strong> This window treats an agent less as a chat interface and more as a process whose intermediate decisions should be inspectable. The research-ideation system in <a href="https://arxiv.org/abs/2611.24887v1" target="_blank" rel="noopener noreferrer">Ground Iterate</a> records literature grounding and conceptual operations, while <a href="https://arxiv.org/abs/2611.24113v1" target="_blank" rel="noopener noreferrer">SCAFFOLD</a> focuses on transporting warranted evidence between reusable skills. In production-like settings, <a href="https://arxiv.org/abs/2611.22880v1" target="_blank" rel="noopener noreferrer">TRACE-MAS</a> makes collaboration failures diagnosable rather than silently accepting a group answer. The practical implication is that traces are becoming part of the product contract: they enable debugging and audit, but only if they correspond to actual tool state rather than post-hoc narration.</li>
+</ol>
+<ol>
+<li><strong>Memory as a governed resource:</strong> A large fraction of the catalog asks what to retain, retrieve, transform, or discard over long tasks. <a href="https://arxiv.org/abs/2611.22102v1" target="_blank" rel="noopener noreferrer">EvoDisco</a> evolves operations such as abstraction, refinement, bridging, and reframing; <a href="https://arxiv.org/abs/2611.22539v1" target="_blank" rel="noopener noreferrer">JET</a> instead limits exploration in repository question answering; and <a href="https://arxiv.org/abs/2611.24327v1" target="_blank" rel="noopener noreferrer">Semantic Context</a> carries evidence on demand between task stages. The shift is away from indiscriminate transcript growth toward utility- and provenance-aware state. That matters because both reliability and serving cost now depend on memory selection.</li>
+</ol>
+<ol>
+<li><strong>Long-horizon control with local feedback:</strong> Several papers attack the sparse-reward problem by creating denser, structured signals. <a href="https://arxiv.org/abs/2611.24697v1" target="_blank" rel="noopener noreferrer">Depth Before Breadth</a> expands a capability region backward from solvable states and decomposes advantages for reaching versus completing them. <a href="https://arxiv.org/abs/2611.20569v1" target="_blank" rel="noopener noreferrer">ToolGraph</a> turns dependencies among tools into a goal-conditioned value signal, and <a href="https://arxiv.org/abs/2611.20808v1" target="_blank" rel="noopener noreferrer">GainCtrl</a> predicts whether additional execution is likely to help. Together they suggest that planning is becoming a question of estimating recoverability and marginal value, not simply generating a longer chain of thought.</li>
+</ol>
+<ol>
+<li><strong>Reliability through executable checks:</strong> The strongest systems in this window use programmatic validators, artefacts, or explicit abstention instead of sole reliance on an LLM judge. <a href="https://arxiv.org/abs/2611.20983v1" target="_blank" rel="noopener noreferrer">GRACE</a> selects among executable dataframe-code candidates with guardrails and retries; <a href="https://arxiv.org/abs/2611.20924v1" target="_blank" rel="noopener noreferrer">Navital Gym</a> grades workflow tasks deterministically; and <a href="https://arxiv.org/abs/2611.20844v1" target="_blank" rel="noopener noreferrer">DetourBench</a> distinguishes near-completion from wasted trajectories with exact residual work. This is an important methodological correction: end-state success alone hides unsafe, inefficient, or unrecoverable behavior.</li>
+</ol>
+<ol>
+<li><strong>Security and operational safety:</strong> Agent safety is moving closer to tool identity, action recovery, and hostile inputs. <a href="https://arxiv.org/abs/2611.24362v1" target="_blank" rel="noopener noreferrer">PIPETTE</a> targets prompt injection, <a href="https://arxiv.org/abs/2611.21557v1" target="_blank" rel="noopener noreferrer">Tool Names</a> studies provider misbinding in MCP-style settings, and <a href="https://arxiv.org/abs/2611.22643v1" target="_blank" rel="noopener noreferrer">Idempotency Not</a> shows why repeating a tool action may not repair a fault. The implication is clear: safe tool use needs identity binding, state-aware rollback or compensation, and adversarial evaluation—not just a better system prompt.</li>
+</ol>
+<h2><strong>Methodological Approaches</strong></h2>
+<ol>
+<li><strong>Curriculum and value decomposition:</strong> Rather than optimize only terminal reward, <a href="https://arxiv.org/abs/2611.24697v1" target="_blank" rel="noopener noreferrer">Depth Before Breadth</a> identifies intermediate states from which completion is reliable and trains separate signals for reaching and exploiting them. This makes long-horizon exploration more tractable on embodied and web tasks. Its boundary condition is dependence on successful reference trajectories and a meaningful notion of solvability; poor demonstrations can teach the wrong frontier.</li>
+</ol>
+<ol>
+<li><strong>Validator-mediated ensembles:</strong> <a href="https://arxiv.org/abs/2611.20983v1" target="_blank" rel="noopener noreferrer">GRACE</a> runs diverse candidates, judges their executed artefacts, and permits rejection before retrying. Similar workflow systems use checkers, simulation results, or formal constraints as a feedback channel. This approach turns “self-correction” into an observable loop, but validators can become the bottleneck when they are incomplete or gameable.</li>
+</ol>
+<ol>
+<li><strong>Utility-aware memory operations:</strong> <a href="https://arxiv.org/abs/2611.22102v1" target="_blank" rel="noopener noreferrer">EvoDisco</a>, <a href="https://arxiv.org/abs/2611.22410v1" target="_blank" rel="noopener noreferrer">LMMR</a>, and <a href="https://arxiv.org/abs/2611.21262v1" target="_blank" rel="noopener noreferrer">MemDoctor</a> retrieve at multiple granularities and repair memory at identifiable stages. Their benefit is selective context rather than raw capacity. The failure mode is a false sense of consistency: a compact memory can amplify an early mistaken summary unless provenance and contradiction checks are retained.</li>
+</ol>
+<ol>
+<li><strong>Trajectory-sensitive benchmarks:</strong> <a href="https://arxiv.org/abs/2611.20844v1" target="_blank" rel="noopener noreferrer">DetourBench</a> provides an exact action lower bound, while <a href="https://arxiv.org/abs/2611.20761v1" target="_blank" rel="noopener noreferrer">Instrumenting Failure</a> scores decision nodes rather than only endings. These methods can separate wandering, premature stopping, and irreversible mistakes. Their tradeoff is environmental design: exact oracles are easiest in constrained worlds and may not cover open-ended desktop or web work.</li>
+</ol>
+<ol>
+<li><strong>Structured tool models and contracts:</strong> <a href="https://arxiv.org/abs/2611.20569v1" target="_blank" rel="noopener noreferrer">ToolGraph</a> compiles dependencies among tool calls; <a href="https://arxiv.org/abs/2611.24140v1" target="_blank" rel="noopener noreferrer">Intent Contracts</a> constrains actions around declared outcomes; and <a href="https://arxiv.org/abs/2611.20601v1" target="_blank" rel="noopener noreferrer">Invariant-Aware Harness</a> protects against silent API failures. These approaches move correctness into interfaces and harnesses. They still require the structures to be updated as tools evolve and arguments remain state-dependent.</li>
+</ol>
+<h2><strong>Notable Papers to Read First</strong></h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2611.20844v1" target="_blank" rel="noopener noreferrer">DetourBench</a> is the clearest entry point for evaluation: it measures optimality and residual work, not only whether an agent eventually succeeds. Read it to sharpen how you inspect trajectories; its finite-world assumptions are deliberate but restrictive.</li>
+<li><a href="https://arxiv.org/abs/2611.24697v1" target="_blank" rel="noopener noreferrer">Depth Before Breadth</a> offers a concrete learning recipe for sparse long-horizon tasks through reverse-to-forward curricula and paired advantages. It is especially useful for readers working on web or environment agents, though its reported gains should be validated outside its selected benchmarks.</li>
+<li><a href="https://arxiv.org/abs/2611.22102v1" target="_blank" rel="noopener noreferrer">EvoDisco</a> gives a useful vocabulary for memory as active transformation rather than a vector-store add-on. Read it alongside simpler retrieval baselines before assuming an evolved memory policy is necessary.</li>
+<li><a href="https://arxiv.org/abs/2611.20569v1" target="_blank" rel="noopener noreferrer">ToolGraph</a> connects tool catalogs, dependency structure, and test-time scaling. Its central lesson is that graph structure must be conditioned on concrete state and arguments to be useful.</li>
+<li><a href="https://arxiv.org/abs/2611.24362v1" target="_blank" rel="noopener noreferrer">PIPETTE</a> is a practical security read because it frames prompt injection as a testable agent-workflow problem. It belongs in any evaluation plan that includes browsing or third-party tool content.</li>
+<li><a href="https://arxiv.org/abs/2611.20983v1" target="_blank" rel="noopener noreferrer">GRACE</a> is a compact production pattern: parallel candidate execution, guardrail selection, abstention, and adaptive retry. Its relevance is highest where executed outputs admit strong checks.</li>
+</ul>
+<h2><strong>What Is New in This Window</strong></h2>
+<ul>
+<li><strong>Then: outcome-only evaluation; now: recoverability and detour accounting.</strong> <a href="https://arxiv.org/abs/2611.20844v1" target="_blank" rel="noopener noreferrer">DetourBench</a> and related instrumentation papers treat path quality as a first-class result. This makes it possible to tell a harmless shortfall from a costly or irreversible failure.</li>
+<li><strong>Then: more context as a default; now: selective, repairable context.</strong> Work on <a href="https://arxiv.org/abs/2611.22102v1" target="_blank" rel="noopener noreferrer">EvoDisco</a>, handoff, and cache-aware coding-agent operation frames memory as a budgeted control problem. The new emphasis is not merely retrieval relevance but whether retained state supports the next verified action.</li>
+<li><strong>Then: multi-agent agreement as confidence; now: executable selection and diagnosis.</strong> <a href="https://arxiv.org/abs/2611.20983v1" target="_blank" rel="noopener noreferrer">GRACE</a> and <a href="https://arxiv.org/abs/2611.22880v1" target="_blank" rel="noopener noreferrer">TRACE-MAS</a> favor validation, rejection, and targeted repair over voting. This is a healthier direction when agents can share the same misconception.</li>
+<li><strong>Then: prompt safety as filtering; now: systems safety at the tool boundary.</strong> Prompt-injection testing, provider binding, and recovery studies focus on the action path where an otherwise capable model can cause damage. These papers make safety harnesses and deterministic policies more central to deployment.</li>
+</ul>
+<h2><strong>Challenges and Future Directions</strong></h2>
+<ol>
+<li><strong>Trace faithfulness:</strong> Logs and rationales are useful only if they track genuine observations and tool effects. Future work should pair traces with replay, signed artefacts, and counterfactual tests rather than reward verbosity.</li>
+<li><strong>Memory conflict and provenance:</strong> Long-running and multi-agent systems need to represent contradictory sources, ownership, and expiry. Retrieval improvements alone do not establish truth; governed memory should expose where a claim came from and when it was superseded.</li>
+<li><strong>Open-world evaluation:</strong> Deterministic environments make progress measurable, but live browsers, APIs, and organizations have ambiguity and drift. The next benchmarks should retain executable checks while adding changing state, partial observability, and safe abstention.</li>
+<li><strong>Recovery semantics:</strong> A retry is not a transaction. Agents need explicit preconditions, idempotency keys, compensation actions, and human escalation paths for tool calls that may have partially succeeded.</li>
+<li><strong>Cost, energy, and latency:</strong> <a href="https://arxiv.org/abs/2611.20873v1" target="_blank" rel="noopener noreferrer">Re-Reading Not</a> warns that agent costs include cached context and delegated work, not just output tokens. Evaluation should report wall-clock, tool, context, and recovery costs alongside task success.</li>
+</ol>
+<h2><strong>Concluding Overview</strong></h2>
+<p>This 200-paper window shows AI-agent research becoming more systems-minded. Training work is finding ways to make long-horizon credit assignment local and actionable. Memory work is replacing the idea of a single ever-growing context with retrieval, transformation, and governance policies. Evaluation is improving when it measures the path to a result, residual work, and the ability to abstain or repair. Multi-agent systems increasingly need evidence-bearing handoffs and validators because agreement is not correctness. Tool use is also acquiring a stronger operational vocabulary: interfaces, dependencies, identity, invariants, and recovery semantics. Safety research is correspondingly moving from generic prompt defenses toward adversarial workflows and action boundaries. For practitioners, the immediate lesson is to invest in executable checks and observability before multiplying agent roles. For researchers, the unresolved test is whether these benefits transfer from carefully designed environments to evolving real services. Start with DetourBench to recalibrate evaluation, then Depth Before Breadth for learning, EvoDisco for memory, ToolGraph for tool planning, and PIPETTE for security. Together they form a practical map of the field&#x27;s move from plausible agent demos to inspectable, recoverable systems.</p>
+<hr/>
+<h2><strong>Run Metadata</strong></h2>
+<ul>
+<li><strong>Topic</strong>: AI Agent</li>
+<li><strong>Generated On</strong>: 2026-11-18</li>
+<li><strong>Time Window</strong>: Last 7 days</li>
+<li><strong>Report Style</strong>: technical learning digest</li>
+<li><strong>Publication Range</strong>: 2026-11-15 to 2026-11-18</li>
+<li><strong>arXiv Query</strong>: <code>(cat:cs.CL OR cat:cs.AI OR cat:cs.LG) AND ((ti:&quot;llm&quot; OR abs:&quot;llm&quot; OR ti:&quot;large language model&quot; OR abs:&quot;large language model&quot; OR ti:&quot;large language models&quot; OR abs:&quot;large language models&quot; OR ti:&quot;language model&quot; OR abs:&quot;language model&quot;) AND (ti:&quot;agent&quot; OR abs:&quot;agent&quot; OR ti:&quot;agents&quot; OR abs:&quot;agents&quot; OR ti:&quot;agentic&quot; OR abs:&quot;agentic&quot; OR ti:&quot;tool use&quot; OR abs:&quot;tool use&quot; OR ti:&quot;tool-use&quot; OR abs:&quot;tool-use&quot; OR ti:&quot;function calling&quot; OR abs:&quot;function calling&quot; OR ti:&quot;planning&quot; OR abs:&quot;planning&quot; OR ti:&quot;multi-agent&quot; OR abs:&quot;multi-agent&quot; OR ti:&quot;multi agent&quot; OR abs:&quot;multi agent&quot; OR ti:&quot;memory&quot; OR abs:&quot;memory&quot; OR ti:&quot;long-horizon&quot; OR abs:&quot;long-horizon&quot; OR ti:&quot;web agent&quot; OR abs:&quot;web agent&quot; OR ti:&quot;software engineering agent&quot; OR abs:&quot;software engineering agent&quot; OR ti:&quot;coding agent&quot; OR abs:&quot;coding agent&quot; OR ti:&quot;workflow&quot; OR abs:&quot;workflow&quot;))</code></li>
+</ul>
+    </section>
+
+    <footer class="report-footer">
+      <p>Source metadata from arXiv. Follow paper links for primary details.</p>
+    </footer>
+  </article>
+</body>
+</html>
